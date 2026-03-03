@@ -1,0 +1,12 @@
+:root{
+    --primary-colour: #478fcs;
+    --body-text-font: atma;
+}
+
+body{
+    background-color: var(--primary-colour); /* using the variable */
+}
+
+p {
+    font-family: var(--body-text-font, sans-serif); /* sans-serif is the fallback value */
+}
