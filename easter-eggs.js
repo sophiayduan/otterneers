@@ -1,0 +1,4 @@
+console.log("hello world");
+var string = "hello world";
+console.log(string);
+var lutriText = "Companion — Each nonland card in your starting deck has a different name. (If this card is your chosen companion, you may put it into your hand from outside the game for {3} as a sorcery.)\nFlash\nWhen Lutri enters, if you cast it, copy target instant or sorcery spell you control. You may choose new targets for the copy.";
