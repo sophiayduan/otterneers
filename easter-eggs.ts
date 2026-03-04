@@ -1,10 +1,9 @@
-console.log("hello world");
-
-let string: string = "hello world";
+console.log("JavaScript has loaded");
 
 const lutriText: string = "Companion — Each nonland card in your starting deck has a different name. (If this card is your chosen companion, you may put it into your hand from outside the game for {3} as a sorcery.)\nFlash\nWhen Lutri enters, if you cast it, copy target instant or sorcery spell you control. You may choose new targets for the copy.";
 
-const otterHeartAscii: string = "-------------------------------=%@@*=---------------------------------------------------------------\n" +
+const otterHeartAscii: string =
+    "-------------------------------=%@@*=---------------------------------------------------------------\n" +
     "----##%%%###+=----------------+%:+##@%@@@%%%%@@@%*=-------------------------------------------------\n" +
     "-------------=+#@@%#=:--------%*..#%*#************#@@%=---------------------------------------------\n" +
     "---------------------+@@%=--+%@*%%#***+*************+*#@@+------------------------------------------\n" +
@@ -78,4 +77,16 @@ const site_heading = document.getElementById("site-heading");
 
 site_heading.addEventListener("click", function () {
     console.log(otterHeartAscii);
+});
+
+document.addEventListener("keyup", function (event) {
+   if (event.defaultPrevented){
+       return;
+   }
+
+   switch (event.key) {
+
+   }
+
+   
 });
