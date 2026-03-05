@@ -81,11 +81,12 @@ document.addEventListener("keyup", function (event) {
     switch (event.key) {
     }
 });
+//konami code stuff
 var konamiCodeKeys = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
 var konamiCodeNum = 0;
 function konamiCode(event) {
     if (event.key === konamiCodeKeys[konamiCodeNum]) {
-        if (event.key === "a") {
+        if (event.key === konamiCodeKeys[konamiCodeKeys.length - 1]) {
             console.log("Konami Code test complete");
             konamiCodeNum = 0;
         }
