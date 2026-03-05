@@ -67,15 +67,34 @@ var otterHeartAscii = "-------------------------------=%@@*=--------------------
     "  \\____/  |_|     |_|  |______|_|  \\_\\______|_|     \\__,_|_| |_| |_|\\__,_/___|_|_| |_|\\__, (_)\n" +
     "                                                                                       __/ |  \n" +
     "                                                                                      |___/   \n";
-console.log(otterHeartAscii);
+//console.log(otterHeartAscii);
 var site_heading = document.getElementById("site-heading");
 site_heading.addEventListener("click", function () {
     console.log(otterHeartAscii);
 });
 document.addEventListener("keyup", function (event) {
+    console.log("stuff and things, key up, etc.");
     if (event.defaultPrevented) {
         return;
     }
+    konamiCode(event);
     switch (event.key) {
     }
 });
+var konamiCodeKeys = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+var konamiCodeNum = 0;
+function konamiCode(event) {
+    if (event.key === konamiCodeKeys[konamiCodeNum]) {
+        if (event.key === "a") {
+            console.log("Konami Code test complete");
+            konamiCodeNum = 0;
+        }
+        else {
+            console.log("Konami Code test" + konamiCodeNum);
+            konamiCodeNum++;
+        }
+    }
+    else {
+        konamiCodeNum = 0;
+    }
+}

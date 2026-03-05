@@ -71,7 +71,7 @@ const otterHeartAscii: string =
     "                                                                                       __/ |  \n" +
     "                                                                                      |___/   \n";
 
-console.log(otterHeartAscii);
+//console.log(otterHeartAscii);
 
 const site_heading = document.getElementById("site-heading");
 
@@ -80,9 +80,12 @@ site_heading.addEventListener("click", function () {
 });
 
 document.addEventListener("keyup", function (event) {
+    console.log("stuff and things, key up, etc.");
    if (event.defaultPrevented){
        return;
    }
+
+   konamiCode(event);
 
    switch (event.key) {
 
@@ -90,3 +93,20 @@ document.addEventListener("keyup", function (event) {
 
    
 });
+
+const konamiCodeKeys:readonly string[] = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+let konamiCodeNum:number = 0;
+
+function konamiCode(event: KeyboardEvent) {
+    if (event.key === konamiCodeKeys[konamiCodeNum]) {
+        if (event.key === "a"){
+            console.log("Konami Code test complete");
+            konamiCodeNum = 0;
+        } else {
+            console.log("Konami Code test" + konamiCodeNum);
+            konamiCodeNum++;
+        }
+    } else {
+        konamiCodeNum = 0;
+    }
+}
