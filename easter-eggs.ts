@@ -1,7 +1,38 @@
 console.log("JavaScript has loaded");
 
+const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg"];
+const foundEasterEggs: string[] = [];
+
+//give rocks functions
+function giveRocks(easterEggNum: number) {
+    const egg = easterEggs[easterEggNum];
+
+    if (egg === undefined) {
+        return;
+    }
+
+    let alreadyHas: boolean;
+    if (foundEasterEggs.indexOf(egg) === -1) {
+        alreadyHas = false;
+    } else {
+        for (let i; i < foundEasterEggs.length; i++) {
+            if (foundEasterEggs[i] === egg) {
+                alreadyHas = true;
+            }
+        }
+
+    }
+
+    if (alreadyHas) {
+        return;
+    }
+
+    foundEasterEggs.push(egg);
+}
+
 const lutriText: string = "Companion — Each nonland card in your starting deck has a different name. (If this card is your chosen companion, you may put it into your hand from outside the game for {3} as a sorcery.)\nFlash\nWhen Lutri enters, if you cast it, copy target instant or sorcery spell you control. You may choose new targets for the copy.";
 
+//easter egg 1, otter heart ascii
 const otterHeartAscii: string =
     "-------------------------------=%@@*=---------------------------------------------------------------\n" +
     "----##%%%###+=----------------+%:+##@%@@@%%%%@@@%*=-------------------------------------------------\n" +
@@ -73,37 +104,39 @@ const otterHeartAscii: string =
 
 //console.log(otterHeartAscii);
 
-const site_heading = document.getElementById("site-heading");
+const site_heading: HTMLElement = document.getElementById("site-heading");
 
 site_heading.addEventListener("click", function () {
     console.log(otterHeartAscii);
+
+    //give player rocks!
+    giveRocks(0);
 });
 
 document.addEventListener("keyup", function (event) {
     console.log("stuff and things, key up, etc.");
-   if (event.defaultPrevented){
-       return;
-   }
+    if (event.defaultPrevented) {
+        return;
+    }
 
-   konamiCode(event);
+    konamiCode(event);
 
-   switch (event.key) {
+    switch (event.key) {
 
-   }
-
-   
+    }
 });
 
 
 //konami code stuff
-const konamiCodeKeys:readonly string[] = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
-let konamiCodeNum:number = 0;
+const konamiCodeKeys: readonly string[] = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+let konamiCodeNum: number = 0;
 
 function konamiCode(event: KeyboardEvent) {
     if (event.key === konamiCodeKeys[konamiCodeNum]) {
         if (event.key === konamiCodeKeys[konamiCodeKeys.length - 1]) {
             console.log("Konami Code test complete");
             konamiCodeNum = 0;
+            giveRocks(1);
         } else {
             console.log("Konami Code test" + konamiCodeNum);
             konamiCodeNum++;
@@ -112,3 +145,13 @@ function konamiCode(event: KeyboardEvent) {
         konamiCodeNum = 0;
     }
 }
+
+//triple-click on a thing
+const bird: HTMLElement = document.getElementById("bird"); //notbaly a bird doesn't exist right now
+bird.addEventListener("click", function (event: MouseEvent) {
+    //console.log(`Click count: ${event.detail}`);
+
+    if (event.detail === 3) {
+        giveRocks(2);
+    }
+})
