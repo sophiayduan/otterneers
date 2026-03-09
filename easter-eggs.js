@@ -1,27 +1,19 @@
 console.log("JavaScript has loaded");
-var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg"];
+var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "accessed-404"];
 var foundEasterEggs = [];
 //give rocks functions
 function giveRocks(easterEggNum) {
     var egg = easterEggs[easterEggNum];
+    foundEasterEggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
     if (egg === undefined) {
         return;
     }
-    var alreadyHas;
-    if (foundEasterEggs.indexOf(egg) === -1) {
-        alreadyHas = false;
-    }
-    else {
-        for (var i = void 0; i < foundEasterEggs.length; i++) {
-            if (foundEasterEggs[i] === egg) {
-                alreadyHas = true;
-            }
-        }
-    }
+    var alreadyHas = foundEasterEggs.indexOf(egg) !== -1;
     if (alreadyHas) {
         return;
     }
     foundEasterEggs.push(egg);
+    sessionStorage.setItem("easter-eggs", JSON.stringify(foundEasterEggs));
 }
 var lutriText = "Companion — Each nonland card in your starting deck has a different name. (If this card is your chosen companion, you may put it into your hand from outside the game for {3} as a sorcery.)\nFlash\nWhen Lutri enters, if you cast it, copy target instant or sorcery spell you control. You may choose new targets for the copy.";
 //easter egg 1, otter heart ascii
@@ -135,3 +127,7 @@ bird.addEventListener("click", function (event) {
         giveRocks(2);
     }
 });
+document.oncontextmenu = function () {
+    //showCustomMenu();
+    return false;
+};

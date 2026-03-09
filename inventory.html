@@ -1,0 +1,14 @@
+<h1>Found Easter Eggs</h1>
+<ul id="eggList"></ul>
+
+<script>
+    const eggList = document.getElementById("eggList");
+
+    const eggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
+
+    eggs.forEach(egg => {
+        const li = document.createElement("li");
+        li.textContent = egg;
+        eggList.appendChild(li);
+    });
+</script>
