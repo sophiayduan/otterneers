@@ -1,5 +1,5 @@
 console.log("JavaScript has loaded");
-var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "accessed-404"];
+var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found"];
 var foundEasterEggs = [];
 //give rocks functions
 function giveRocks(easterEggNum) {
