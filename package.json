@@ -1,0 +1,24 @@
+{
+  "name": "otterneers",
+  "version": "1.0.0",
+  "description": "[figma](https://www.figma.com/design/13PkBfyHL2sQdROXN9B9Jl/OTTERNEERS?node-id=2002-2&t=Kj2oeaWoDjfAx3X3-1)",
+  "main": "easter-eggs.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sophiayduan/otterneers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sophiayduan/otterneers/issues"
+  },
+  "homepage": "https://github.com/sophiayduan/otterneers#readme"
+}
