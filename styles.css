@@ -6,7 +6,19 @@
     --clr-brown: #A77C41;
     --clr-blue: #314AC4;
     --body-text-font: atma;
-
+    --lb: #459DE5;
+    --db: #314AC4;
+    --lg: #89BD9E;
+    --dg: #1c3a28;
+    --g: #396f4e;
+    --lo: #A48964;
+    --lw: #FFFDF6;
+    --rock-light-1: #625f79;
+    --rock-light-2: #53505e;
+    --rock-1: #484465;
+    --rock-2: #434054;
+    --rock-dark-1: #36363b;
+    --rock-dark-2: #1d203f;
 }
 
 .blood {
@@ -54,4 +66,333 @@ p {
 
 h1, h2, h3, h4, h5, h6 {
     margin:0;
+}
+
+.ocean {
+    position: absolute;
+    top: 50%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(var(--lw), var(--db));
+    overflow: hidden;
+    box-shadow: inset 0 1px 4px -3px white;
+}
+
+/*Clouds CSS*/
+.cloud-2-0{
+    width: 80vmin;
+    height: 6vmin;
+    border-radius: 50%;
+    box-shadow: 30vmin 0.5vmin 0 -1vmin currentcolor,-25vmin 0 0 -0.6vmin currentcolor;
+    opacity: 0.4;
+    z-index:2;
+    position: absolute;
+    top: 14vmin;
+    left: 35vmin;
+}
+
+.cloud-2-1{
+    top: 20vmin;
+    left: 20vmin;
+    width: 30vmin;
+    height: 2vmin;
+    border-radius: 75%;
+    opacity: 0.3;
+    z-index:3;
+}
+.cloud-2-2{
+    top: 18vmin;
+    left: 35vmin;
+    width: 50vmin;
+    height: 4vmin;
+    border-radius: 75%;
+    opacity: 0.2;
+    z-index:4;
+}
+.cloud-2-3{
+    top: 10vmin;
+    left: 10vmin;
+    width: 60vmin;
+    height: 4vmin;
+    border-radius: 75%;
+    opacity: 0.2;
+    z-index:5;
+}
+.cloud-2-4{
+    top: 11vmin;
+    left: 73vmin;
+    width: 1.3vmin;
+    height: 1.5vmin;
+    border-radius: 100%;
+    opacity: 0.15;
+    z-index:6;
+}
+
+.c2{
+    animation: clouds-r 70s alternate;
+    filter: blur(2px);
+    background: currentcolor;
+    color: var(--lw);
+    position: absolute;
+}
+
+.cloud-3-0{
+    top: 24vmin;
+    right: 20vmin;
+    width: 80vmin;
+    height: 6vmin;
+    border-radius: 50%;
+    box-shadow: 30vmin 0.5vmin 0 -1vmin currentcolor,-25vmin 0 0 -0.6vmin currentcolor;
+    opacity: 0.4;
+}
+
+.c3{
+    animation: clouds-l 40s alternate;
+    opacity: 0.3;
+    filter: blur(3px);
+    background: currentcolor;
+    color: var(--lw);
+    position: absolute;
+}
+
+@keyframes clouds-r {
+  0% {
+    transform: translate3d(-140vmin, 0, 0);
+  }
+  100% {
+    transform: translate3d(140vmin, 0, 0);
+  }
+}
+
+@keyframes clouds-l {
+  0% {
+    transform: translate3d(120vmin, 0, 0); 
+  }
+  100% {
+    transform: translate3d(-120vmin, 0, 0);
+  }
+}
+
+/*Ripple Splash CSS*/
+.splash {
+    position: absolute;
+    width: 8vmin;
+    height: 3vmin;
+    border: 2px solid var(--lw);
+    box-shadow: 0 0 2px var(--lw);
+    border-radius: 50%;
+    bottom: 5vmin;
+    left: 70%;
+    animation: splash 9s infinite;
+    transform: scale(0);
+}
+
+.splash-4 {
+  bottom: 15vh;
+  left: -3vmin;
+  height: 10vmin;
+  width: 30vmin;
+}
+
+.splash-stone {
+  left: auto;
+  bottom: 15vmin;
+  right: -2vmin;
+}
+
+@keyframes splash { 
+    50%, 100% { 
+        transform: scale(1);
+         opacity: 0;
+    } 
+}
+
+.delay-1 {
+  animation-delay: 1s;
+}
+.delay-2 {
+  animation-delay: 2s;
+}
+.delay-3 {
+  animation-delay: 3s;
+}
+.delay-4 {
+  animation-delay: 4s;
+}
+.delay-5 {
+  animation-delay: 5s;
+}
+.delay-6 {
+  animation-delay: 6s;
+}
+
+.boat-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw; 
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.boat {
+    width: 80vw; 
+    max-width: 100%;
+    height: auto; 
+}
+
+/*Foreground CSS*/
+.foreground{
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+
+.rock-1{
+    position: absolute;
+    clip-path: polygon(
+        10% 80%,25% 40%, 45% 20%,70% 35%,90% 70%,75% 95%,35% 100%
+    );
+}
+
+.rock-2{
+  position: absolute;
+    clip-path: polygon(15% 90%, 30% 40%, 60% 15%, 85% 60%, 70% 100%
+    );
+
+}
+
+.rock-right-light{
+  background-image: linear-gradient(var(--rock-light-1), var(--rock-light-2));
+  width: 50vmin;
+  height: 35vmin;
+  bottom: -8vmin;
+  right: 10vmin;
+}
+.rock-right{
+  background-image: linear-gradient(var(--rock-1), var(--rock-2));
+  width: 40vmin;
+  height: 20vmin;
+  bottom: -1vmin;
+  right: -5vmin;
+}
+
+.rock-right-dark{
+  background-image: linear-gradient(var(--rock-dark-1), var(--rock-dark-2));
+  width: 20vmin;
+  height: 15vmin;
+  bottom: -3vmin;
+  right: 18vmin;
+}
+
+.rock-left-dark{
+  background-image: linear-gradient(var(--rock-dark-1), var(--rock-dark-2));
+  width: 35vmin;
+  height: 20vmin;
+  bottom: -5vmin;
+  left: 5vmin;
+}
+
+.grass{
+  background: currentColor;
+  transform-origin: bottom center;
+  position: absolute;
+  animation: sway 15s infinite;
+}
+.grass-left-light{
+  height: 20vmin;
+  width: 0.5vmin;
+  bottom: -10vmin;
+  left: 10vmin;
+  color: var(--lg);
+  animation: sway-l 15s infinite;
+}
+
+.grass-left-dark{
+  height: 25vmin;
+  width: 0.6vmin;
+  bottom: -10vmin;
+  left: 8vmin;
+  color: var(--dg);
+  animation: sway-r 30s infinite;
+}
+
+.grass-left{
+  height: 15vmin;
+  width: 0.3vmin;
+  bottom: -10vmin;
+  left: 15vmin;
+  color: var(--g);
+  animation: sway-r 15s infinite;
+}
+
+.grass-right{
+  height: 15vmin;
+  width: 0.3vmin;
+  bottom: -10vmin;
+  right: 15vmin;
+  color: var(--g);
+  animation: sway-r 15s infinite;
+}
+
+.grass-right-light{
+  height: 20vmin;
+  width: 0.5vmin;
+  bottom: -10vmin;
+  right: 10vmin;
+  color: var(--lg);
+  animation: sway-l 15s infinite;
+}
+
+@keyframes sway-l{
+  0% {
+    transform: rotate(-5deg) translateY(0);
+  }
+  25% {
+    transform: rotate(3deg) translateY(-1vmin);
+  }
+  50% {
+    transform: rotate(0deg) translateY(-2vmin);
+  }
+  75% {
+    transform: rotate(-3deg) translateY(-1vmin);
+  }
+  100% {
+    transform: rotate(-5deg) translateY(0);
+  }
+}
+
+@keyframes sway-r{
+  0% {
+    transform: rotate(5deg) translateY(0);
+  }
+  25% {
+    transform: rotate(3deg) translateY(-1vmin);
+  }
+  50% {
+    transform: rotate(0deg) translateY(-2vmin);
+  }
+  75% {
+    transform: rotate(3deg) translateY(-1vmin);
+  }
+  100% {
+    transform: rotate(5deg) translateY(0);
+  }
+}
+
+.boat,.c2,.c3,.rock-r,.rock-l{
+  will-change: transform;
+}
+
+.c2-scroll,.c3-scroll,.grass-l-scroll,.grass-r-scroll {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
