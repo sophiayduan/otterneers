@@ -1,7 +1,30 @@
 console.log("JavaScript has loaded");
 
+const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser"];
+let foundEasterEggs: string[] = [];
+
+//give rocks functions
+function giveRocks(easterEggNum: number) {
+    const egg = easterEggs[easterEggNum];
+    foundEasterEggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
+
+    if (egg === undefined) {
+        return;
+    }
+
+    const alreadyHas: boolean = foundEasterEggs.indexOf(egg) !== -1;
+
+    if (alreadyHas) {
+        return;
+    }
+
+    foundEasterEggs.push(egg);
+    sessionStorage.setItem("easter-eggs", JSON.stringify(foundEasterEggs));
+}
+
 const lutriText: string = "Companion — Each nonland card in your starting deck has a different name. (If this card is your chosen companion, you may put it into your hand from outside the game for {3} as a sorcery.)\nFlash\nWhen Lutri enters, if you cast it, copy target instant or sorcery spell you control. You may choose new targets for the copy.";
 
+//easter egg 1, otter heart ascii
 const otterHeartAscii: string =
     "-------------------------------=%@@*=---------------------------------------------------------------\n" +
     "----##%%%###+=----------------+%:+##@%@@@%%%%@@@%*=-------------------------------------------------\n" +
@@ -71,22 +94,119 @@ const otterHeartAscii: string =
     "                                                                                       __/ |  \n" +
     "                                                                                      |___/   \n";
 
-console.log(otterHeartAscii);
+//console.log(otterHeartAscii);
 
-const site_heading = document.getElementById("site-heading");
+const site_heading: HTMLElement = document.getElementById("site-heading");
 
 site_heading.addEventListener("click", function () {
     console.log(otterHeartAscii);
+
+    //give player rocks!
+    giveRocks(0);
 });
 
 document.addEventListener("keyup", function (event) {
-   if (event.defaultPrevented){
-       return;
-   }
+    //console.log("stuff and things, key up, etc.");
+    if (event.defaultPrevented) {
+        return;
+    }
 
-   switch (event.key) {
+    konamiCode(event);
 
-   }
+    switch (event.key) {
 
-   
+    }
+});
+
+
+//konami code stuff
+const konamiCodeKeys: readonly string[] = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+let konamiCodeNum: number = 0;
+
+function konamiCode(event: KeyboardEvent) {
+    if (event.key === konamiCodeKeys[konamiCodeNum]) {
+        if (event.key === konamiCodeKeys[konamiCodeKeys.length - 1]) {
+            console.log("Konami Code test complete");
+            konamiCodeNum = 0;
+            giveRocks(1);
+        } else {
+            console.log("Konami Code test" + konamiCodeNum);
+            konamiCodeNum++;
+        }
+    } else {
+        konamiCodeNum = 0;
+    }
+}
+
+//easter egg 2
+//triple-click on a thing
+// const bird: HTMLElement = document.getElementById("bird"); //notbaly a bird doesn't exist right now
+// bird.addEventListener("click", function (event: MouseEvent) {
+//     //console.log(`Click count: ${event.detail}`);
+//
+//     if (event.detail === 3) {
+//         giveRocks(2);
+//     }
+// })
+
+//easter egg 3 is 404 not found
+
+//easter eggs 4 and 5
+//select text for a photo to pop up
+document.addEventListener('mouseup', function() {
+    console.log("fired");
+    const selection = document.getSelection();
+    const selectedText = selection ? selection.toString() : null;
+
+    //console.log(selectedText);
+    if ((selectedText)==="Lulu" || selectedText==="Lutri Lutri") {
+        // Add if you selected my name
+        //mainIntro.appendChild(profileImage);
+        const luluArray: readonly string[] = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg", "Lulu-sit.jpg"];
+        displayMascotImg(luluArray);
+        giveRocks(4);
+    } else if (selectedText==="Bria") {
+        const briaArray: readonly string[] = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg"];
+        displayMascotImg(briaArray);
+        giveRocks(4);
+    } else if (selectedText==="Lutri" || selectedText==="Lutri ") {
+        console.log("Lutri the spellchaser?");
+        const lutriArray: readonly string[] = ["lutri-the-spellchaser.webp", "lutri-the-spellchaser-alt.jpg"];
+        displayMascotImg(lutriArray);
+        giveRocks(5);
+    }
+});
+
+let isMascotImg: boolean = false;
+
+function displayMascotImg(imgSourceArray: readonly string[]){
+    isMascotImg = true;
+
+    const imgSource: string = "./images/" + imgSourceArray[Math.floor(Math.random() * imgSourceArray.length)];
+
+    const img= document.createElement("img");
+    img.src = imgSource;
+
+    img.classList.add("mascot-img");
+
+    //scale, random rotation, and random offset
+    const rotation: number = Math.random() * 360;
+
+    img.style.width = "60%";
+    img.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+
+    document.body.appendChild(img);
+}
+
+window.addEventListener("scroll", () => {
+    if (isMascotImg) {
+        isMascotImg = false;
+        const mascots = document.querySelectorAll(".mascot-img");
+
+        mascots.forEach(img => {
+            img.remove();
+        });
+    }
+
+
 });

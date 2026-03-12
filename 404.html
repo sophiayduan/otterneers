@@ -1,0 +1,15 @@
+<h1>404</h1>
+
+<script>
+    const egg = "404-found";
+    foundEasterEggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
+
+    const alreadyHas = foundEasterEggs.indexOf(egg) !== -1;
+
+    if (!alreadyHas) {
+        foundEasterEggs.push(egg);
+        sessionStorage.setItem("easter-eggs", JSON.stringify(foundEasterEggs));
+    }
+
+
+</script>
