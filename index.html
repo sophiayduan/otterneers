@@ -6,41 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sea Otters</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollTrigger.min.js"></script>
 </head>
 
-<body>
-    <h1 id="site-heading">Protecting Otters, Preserving Nature.</h1>
-
-    <p>International Otter Day is the last Wednesday of May. This year, it is May 27th</p>
-
-    <p>A group of sea otters is called a raft.</p>
-
-    <p></p>
-
-    <section class="contact-us">
-        <h2>Contact Us</h2>
-        <form>
-            <input type="text" name="name" id="contact-us-name" placeholder="Name"/>
-            <input type="email" name="email" id="contact-us-email" placeholder="name@email.com"/>
-            <textarea name="message" id="contact-us-message" placeholder="Message"></textarea>
-            <button type="submit">Submit</button>
-        </form>
-      
-    </section>
-
-    <div class="rocks-container">
-        <div class="rocks-left">
-            <img src="./images/large-moss-rock-left.PNG">
-        </div>
-        <div class="rocks-middle">
-            <img src="./images/medium-moss-rock-middle.PNG">
-        </div>
-        <div class="rocks-right">
-        </div>
+<body class="page">
+    <div id="trig">
+        <section id="hero" style="width:100%;min-height:100%;color:white;">
+            <div style="margin-top:10rem;display:flex;flex-direction:column;">
+                <h1 id="site-heading">OTTERS</h1>
+                <h3 id="cta">
+                    <span>Protecting Otters,</span>
+                    <span style="padding-left:10rem;">Preserving Nature.</span>
+                </h3>
+                
+            </div>
+            
+            <div class="rocks-container" style="width:100%;position:relative;min-height:100vh;">
+                <img style="width:60vw;height:auto; position:absolute;left:-15%;" src="public/rocks/large.png">
+                <img style="width:400px;height:auto;position:absolute;right:-25%;"src="public/rocks/large.png">
+                <img style="width:100vw; height:auto;position:absolute;left:-10%;bottom:0%;" src="public/rocks/large.png">
+                <img style="width:30vw;height:auto; position:absolute; left:50%;top:20%;" src="public/rocks/large.png">
+            </div>
+        </section>
     </div>
 
+    <!-- below is the same page as above -->
+    <div class="one_page">
+        <section id="hero" style="width:100%;min-height:100%;color:(--clr-primary);">
+        <div style="margin-top:10rem;display:flex;flex-direction:column;">
+            <h1 id="site-heading">OTTERS</h1>
+            <span id="cta" style="width:60%;height:auto;margin-inline: auto;">
+                <h2 style="text-align:left;">Protecting Otters,</h2>
+                <h2 style="text-align:right;white-space:nowrap;">Preserving Nature.</h2>
+            </span>
+        
+        </div>
+        
+        <div class="rocks-container" style="width:100%;position:relative;min-height:100vh;">
+            <img style="width:60vw;height:auto; position:absolute;left:-15%;" src="public/rocks/large.png">
+            <img style="width:400px;height:auto;position:absolute;right:-25%;"src="public/rocks/large.png">
+            <img style="width:100vw; height:auto;position:absolute;left:-10%;bottom:0%;" src="public/rocks/large-moss.png">
+            <img style="width:30vw;height:auto; position:absolute; left:50%;top:20%;" src="public/rocks/medium-moss.png">
+        </div>
+        </section>
+    </div>
+     
     <script src="easter-eggs.js" defer></script>
-    <script src="script.js" defer></script>
+    <script src="script.js" ></script>
+    <script>
+
+        
+    </script>
 </body>
 
 </html>
