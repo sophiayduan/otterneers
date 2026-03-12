@@ -1,5 +1,5 @@
 console.log("JavaScript has loaded");
-var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found"];
+var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser"];
 var foundEasterEggs = [];
 //give rocks functions
 function giveRocks(easterEggNum) {
@@ -92,7 +92,7 @@ site_heading.addEventListener("click", function () {
     giveRocks(0);
 });
 document.addEventListener("keyup", function (event) {
-    console.log("stuff and things, key up, etc.");
+    //console.log("stuff and things, key up, etc.");
     if (event.defaultPrevented) {
         return;
     }
@@ -119,15 +119,62 @@ function konamiCode(event) {
         konamiCodeNum = 0;
     }
 }
+//easter egg 2
 //triple-click on a thing
-var bird = document.getElementById("bird"); //notbaly a bird doesn't exist right now
-bird.addEventListener("click", function (event) {
-    //console.log(`Click count: ${event.detail}`);
-    if (event.detail === 3) {
-        giveRocks(2);
+// const bird: HTMLElement = document.getElementById("bird"); //notbaly a bird doesn't exist right now
+// bird.addEventListener("click", function (event: MouseEvent) {
+//     //console.log(`Click count: ${event.detail}`);
+//
+//     if (event.detail === 3) {
+//         giveRocks(2);
+//     }
+// })
+//easter egg 3 is 404 not found
+//easter eggs 4 and 5
+//select text for a photo to pop up
+document.addEventListener('mouseup', function () {
+    console.log("fired");
+    var selection = document.getSelection();
+    var selectedText = selection ? selection.toString() : null;
+    //console.log(selectedText);
+    if ((selectedText) === "Lulu" || selectedText === "Lutri Lutri") {
+        // Add if you selected my name
+        //mainIntro.appendChild(profileImage);
+        var luluArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg", "Lulu-sit.jpg"];
+        displayMascotImg(luluArray);
+        giveRocks(4);
+    }
+    else if (selectedText === "Bria") {
+        var briaArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg"];
+        displayMascotImg(briaArray);
+        giveRocks(4);
+    }
+    else if (selectedText === "Lutri" || selectedText === "Lutri ") {
+        console.log("Lutri the spellchaser?");
+        var lutriArray = ["lutri-the-spellchaser.webp", "lutri-the-spellchaser-alt.jpg"];
+        displayMascotImg(lutriArray);
+        giveRocks(5);
     }
 });
-document.oncontextmenu = function () {
-    //showCustomMenu();
-    return false;
-};
+var isMascotImg = false;
+function displayMascotImg(imgSourceArray) {
+    isMascotImg = true;
+    var imgSource = "./images/" + imgSourceArray[Math.floor(Math.random() * imgSourceArray.length)];
+    var img = document.createElement("img");
+    img.src = imgSource;
+    img.classList.add("mascot-img");
+    //scale, random rotation, and random offset
+    var rotation = Math.random() * 360;
+    img.style.width = "60%";
+    img.style.transform = "translate(-50%, -50%) rotate(".concat(rotation, "deg)");
+    document.body.appendChild(img);
+}
+window.addEventListener("scroll", function () {
+    if (isMascotImg) {
+        isMascotImg = false;
+        var mascots = document.querySelectorAll(".mascot-img");
+        mascots.forEach(function (img) {
+            img.remove();
+        });
+    }
+});
