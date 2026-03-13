@@ -1,6 +1,6 @@
 console.log("JavaScript has loaded");
 
-const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser"];
+const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out"];
 let foundEasterEggs: string[] = [];
 
 //give rocks functions
