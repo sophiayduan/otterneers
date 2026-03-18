@@ -24,3 +24,31 @@ p {
     top: 50%;
     left: 50%;
 }
+
+#fish-area {
+  position: relative;
+  height: 600px; 
+  overflow: hidden;
+}
+/*fish*/
+#water{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.fish{
+  position:absolute;
+  width:20px;
+  height:10px;
+  border-radius:50%;
+  pointer-events:none;
+}
+
+
+.group0 { background: orange; }
+.group1 { background: cyan; }
