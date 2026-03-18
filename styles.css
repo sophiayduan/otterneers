@@ -25,12 +25,13 @@ p {
     left: 50%;
 }
 
+/*fish*/
 #fish-area {
   position: relative;
   height: 600px; 
   overflow: hidden;
 }
-/*fish*/
+
 #water{
   position:fixed;
   top:0;
