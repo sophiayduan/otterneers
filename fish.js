@@ -11,7 +11,6 @@ document.addEventListener("mousemove", e=>{
 
 let fish = []
 
-//create fish
 for(let i=0;i<40;i++){
 
   let el = document.createElement("div")
@@ -38,7 +37,6 @@ function animate(){
 
   fish.forEach(f => {
 
-    //mouse
     let dx = f.x - mouse.x
     let dy = f.y - mouse.y
     let distance = Math.sqrt(dx*dx + dy*dy)
@@ -55,7 +53,6 @@ function animate(){
       f.calmTimer = 90
     }
 
-    //after panic they calm down
     if(f.scared){
       f.calmTimer--
       if(f.calmTimer <= 0){
@@ -92,7 +89,6 @@ function animate(){
             neighbors++
           }
 
-          //stop overlap
           if(other !== f && dist < 20){
             f.vx += (f.x - other.x) * 0.01
             f.vy += (f.y - other.y) * 0.01
@@ -102,7 +98,6 @@ function animate(){
 
       })
 
-      //move to center of group
       centerX /= count
       centerY /= count
 
@@ -125,7 +120,6 @@ function animate(){
     f.x += f.vx
     f.y += f.vy
 
-    //bounce off walls
     if(f.x < 0 || f.x > containerRect.width) f.vx *= -1
     if(f.y < 0 || f.y > containerRect.height) f.vy *= -1
 
