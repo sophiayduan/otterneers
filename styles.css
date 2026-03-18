@@ -54,7 +54,7 @@ p {
   position: absolute;
   left: -8px;
   top: 50%;
-  transform: translateY(50%); /* THIS fixes alignment */
+  transform: translateY(50%);
   rotate: 180deg;
   width: 0;
   height: 0;
