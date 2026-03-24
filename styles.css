@@ -17,11 +17,18 @@
     src: url('public/fonts/Comico-Regular.otf');
 }
 
+@font-face {
+    font-family: "Heavitas";
+    src: url('public/fonts/Heavitas.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 body {
   font-family: 'Geist', sans-serif;
-  color:var(--blue-clr);
-  background-color:#DFFDFF;
+  color:#0E29AA;
+  background-color:#459DE5;
 }
 
 #site-heading {
