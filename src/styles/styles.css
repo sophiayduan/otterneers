@@ -1,4 +1,23 @@
 @import "tailwindcss";
+
+@theme {
+  /* Primary */
+  --color-primary: #459DE5;
+
+  /* Secondary */
+  --color-cyan:    #1AE8E5;
+  --color-sage:    #89BD9E;
+  --color-tan:     #A89070;
+  --color-cobalt:  #314AC4;
+  --color-red:     #D81010;
+
+  /* Neutrals */
+  --color-dark:    #18171A;
+  --color-beige:   #FFFDF6;
+  --color-mauve:   #AF97BA;
+  --color-stone:   #6B6570;
+}
+
 :root {
     --primary-clr: #478fca;
 

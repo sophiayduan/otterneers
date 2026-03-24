@@ -10,10 +10,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 </head>
-<body class="overflow-x-hidden relative">
+<body class="relative" style="overflow-x:clip;">
 
-  <section id="hero-section" class="relative w-screen h-full flex flex-col items-start">
-    <div id="hero" class="relative w-screen min-h-[40vh] text-center flex flex-col text-left p-10">
+  <div id="sequence-container" style="height:600vh; position:relative; overflow:visible;">
+    <canvas id="frame-canvas" class="opacity-60" style="position: sticky; top: 0; width: 100%; height: 100vh; display: block; mix-blend-mode: soft-light;"></canvas>
+  </div>
+  <!-- margin top controls where we are in the animation -->
+  <section id="hero-section" class="relative w-screen h-full flex flex-col items-start" style="margin-top:-550vh;"> 
+    
+    <div id="hero" class="relative w-screen min-h-fit text-center flex flex-col text-left p-10">
+     
       <div class="relative w-fit">
         
         <canvas id="hero-title" class="relative" style="display:block;"></canvas>
@@ -21,10 +27,10 @@
           <path d="M44 24.6396C44 39.7246 44.0002 47.2678 48.6865 51.9541C53.3728 56.6401 60.9154 56.6396 76 56.6396H88V59H76C60.9151 59 53.3728 59.0002 48.6865 63.6865C44.0002 68.3728 44 75.9151 44 91V118H42.2402V91C42.2402 75.9152 42.2399 68.3728 37.5537 63.6865C32.8674 59.0003 25.325 59 10.2402 59H0L0 56.6396H10.2402C25.3248 56.6396 32.8674 56.6402 37.5537 51.9541C42.24 47.2678 42.2402 39.7246 42.2402 24.6396V0L44 0V24.6396Z" fill="#FFEBAD"/>
         </svg> -->
       </div>
-      <h3 class="tracking-[10%] font-semibold text-4xl relative pt-10">Protecting Otters, Preserving Nature.</h3>
-      <p class="mt-8 text-sm tracking-widest uppercase opacity-60 relative">Scroll to Discover</p>
+      <h3 class="tracking-[4%] font-semibold text-4xl relative pt-10">Protecting Otters, Preserving Nature.</h3>
+      <!-- <p class="mt-8 text-sm tracking-widest uppercase opacity-60 relative">Scroll to Discover</p> -->
     </div>
-    <div id="rock-scene" class="grid grid-cols-1 grid-rows-1 relative bg-[#459DE5] w-full min-h-[90vh] ">
+    <div id="rock-scene" class="grid grid-cols-1 grid-rows-1 relative w-full min-h-[90vh] -mt-10">
    
       <div class="col-start-1 row-start-1">
         <img style="" class="-translate-x-1/4 w-screen object-contain select-none pointer-events-none" src="rocks/dark.png" alt="">
@@ -38,43 +44,68 @@
         </div>
       </div>
 
-      <div id="sequence-container" class="col-start-1 row-start-1 relative h-full">
-            <canvas id="frame-canvas" class="opacity-60 -translate-y-60" style="position: sticky; top: 0; width: 100%; height: 100vh; display: block; mix-blend-mode: soft-light;"></canvas>
-      </div>
     </div>
     <canvas id="hero-particles" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
   </section>
   <section class="bg-[#040B11] w-full h-200 flex items-start justify-start p-10">
-    <span class="text-white text-5xl max-w-6xl">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam dolores, necessitatibus rerum sequi consequuntur similique laudantium, consectetur culpa quidem unde! </span>
+    <span class="text-beige text-5xl max-w-6xl">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam dolores, necessitatibus rerum sequi consequuntur similique laudantium, consectetur culpa quidem unde! </span>
   </section>
 
-  <section id="credits" class="hidden fixed top-0 left-0 bg-[#18171A]/70 w-screen h-screen flex flex-col items-center justify-center text-white">
+  <section id="credits" class="hidden fixed top-0 left-0 bg-[#18171A]/70 w-screen h-screen flex flex-col items-center justify-center text-beige">
     <span class="text-4xl font-extrabold py-4 " style="font-family: Heavitas">CREDITS</span>
     <span class="tracking-[4%] text-xl">The Otterneers -  Naomi, Zoey, Sia, Sophia</span>
     <span class="tracking-[4%] text-xl">&copy;  2026</span>
   </section>
+  <canvas id="light-rays" class="absolute top-0 right-0 pointer-events-none" style="width:100vw;height:100vh;"></canvas>
+ 
 
-
-
+<script type="module" src="src/scripts/light-rays.js"></script>
 <script type="module" src="src/scripts/particles.js"></script>
 <script type="module" src="src/scripts/title-shader.js"></script>
 <script type="module" src="src/scripts/script.js"></script>
+<script type="module" src="src/scripts/cursor.js"></script>
 
-  <div class="fixed inset-0 p-4 flex flex-col pointer-events-none">
-    <div class="ml-auto text-right space-y-1">
-      <ul class="flex gap-x-[6px]">
-        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
-        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
-        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
-        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
-        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
-        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
-        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
-        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
-      </ul>
-      <span>3/7</span>
+  <div class="fixed inset-0 p-6 pt-10 flex flex-col pointer-events-none">
+    <div class="mb-auto ml-auto w-10 h-10 cursor-pointer pointer-events-auto flex items-center justify-center"
+         onclick="document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()"
+         id="fullscreen-btn">
+      <svg id="fs-enter" width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M29 2H38V11" stroke="#314AC4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M38 29V38H29" stroke="#314AC4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11 38H2V29" stroke="#314AC4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 11V2H11" stroke="#314AC4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg id="fs-exit" width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="hidden">
+        <path d="M38 11H29V2" stroke="#314AC4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M29 39V30H38" stroke="#314AC4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 30H11V39" stroke="#314AC4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11 2V11H2" stroke="#314AC4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
-    <a href="" class="mt-auto ml-auto font-medium pointer-events-auto" onclick="event.preventDefault(); const c = document.getElementById('credits'); c.classList.toggle('hidden'); document.body.classList.toggle('overflow-hidden', !c.classList.contains('hidden'))">CREDITS</a>
+    <script>
+      document.addEventListener('fullscreenchange', () => {
+        const full = !!document.fullscreenElement;
+        document.getElementById('fs-enter').classList.toggle('hidden', full);
+        document.getElementById('fs-exit').classList.toggle('hidden', !full);
+      });
+    </script>
+    <div class="mt-auto flex w-full justify-between items-end">
+      <div class="">
+        <span class="text-beige">3/7</span>
+        <ul class="flex gap-x-[6px] w-fit my-1">
+          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
+          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
+          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
+          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
+          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
+          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
+          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
+          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
+        </ul>
+      </div>
+      <a href="" class="text-beige w-fit h-fit font-medium pointer-events-auto" onclick="event.preventDefault(); const c = document.getElementById('credits'); c.classList.toggle('hidden'); document.body.classList.toggle('overflow-hidden', !c.classList.contains('hidden'))">CREDITS</a>
+
+    </div>
   </div>
 </body>
 </html>

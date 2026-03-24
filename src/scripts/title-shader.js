@@ -111,7 +111,7 @@ import * as THREE from 'three';
     let hoverTarget = 0;
     let lastMoveTime = 0;
     const IDLE_MS   = 150;
-    const PROXIMITY = 80; // px outside canvas that starts activating the effect
+    const PROXIMITY = 140; // px outside canvas that starts activating the effect
 
     document.addEventListener('mousemove', e => {
       const r = canvas.getBoundingClientRect();

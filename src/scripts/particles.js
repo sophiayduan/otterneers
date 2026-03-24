@@ -24,19 +24,39 @@ import * as THREE from 'three';
   }
 
   const sprites = [
+    // teardrop
     makeSprite(ctx => {
-      const g = ctx.createRadialGradient(32,32,0,32,32,28);
-      g.addColorStop(0, 'rgba(255,253,246,1)');
-      g.addColorStop(0.4, 'rgba(255,253,246,0.6)');
-      g.addColorStop(1, 'rgba(255,253,246,0)');
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(32,32,28,0,Math.PI*2); ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(32, 14);
+      ctx.bezierCurveTo(48, 14, 52, 30, 48, 40);
+      ctx.bezierCurveTo(44, 50, 20, 50, 16, 40);
+      ctx.bezierCurveTo(12, 30, 16, 14, 32, 14);
+      ctx.fill();
     }),
+    // lopsided blob
     makeSprite(ctx => {
-      const g = ctx.createRadialGradient(32,32,0,32,32,22);
-      g.addColorStop(0, 'rgba(255,253,246,0.9)');
-      g.addColorStop(0.5, 'rgba(255,253,246,0.5)');
-      g.addColorStop(1, 'rgba(255,253,246,0)');
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(32,32,22,0,Math.PI*2); ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(32, 18);
+      ctx.bezierCurveTo(46, 16, 52, 28, 46, 38);
+      ctx.bezierCurveTo(40, 48, 22, 46, 16, 36);
+      ctx.bezierCurveTo(10, 26, 18, 20, 32, 18);
+      ctx.fill();
+    }),
+    // squished oval
+    makeSprite(ctx => {
+      ctx.beginPath();
+      ctx.ellipse(32, 32, 20, 13, 0.4, 0, Math.PI * 2);
+      ctx.fill();
+    }),
+    // kidney-ish
+    makeSprite(ctx => {
+      ctx.beginPath();
+      ctx.moveTo(22, 22);
+      ctx.bezierCurveTo(14, 18, 14, 38, 24, 42);
+      ctx.bezierCurveTo(32, 46, 50, 42, 50, 32);
+      ctx.bezierCurveTo(50, 22, 38, 16, 28, 20);
+      ctx.bezierCurveTo(26, 21, 24, 22, 22, 22);
+      ctx.fill();
     }),
   ];
 
@@ -67,8 +87,8 @@ import * as THREE from 'three';
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.BufferAttribute(buf, 3));
     const mat = new THREE.PointsMaterial({
-      size: 0.032, map: sprite, color: 0xFFFDF6,
-      transparent: true, opacity: 0.7,
+      size: 0.05, map: sprite, color: 0xFFFDF6, // attributes
+      transparent: true, opacity: 0.56,
       sizeAttenuation: true, depthWrite: false,
     });
     const pts = new THREE.Points(geo, mat);
