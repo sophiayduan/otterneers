@@ -1,3 +1,4 @@
+@import "tailwindcss";
 :root {
     --primary-clr: #478fca;
 
@@ -14,12 +15,12 @@
 
 @font-face {
     font-family: "Comico";
-    src: url('public/fonts/Comico-Regular.otf');
+    src: url('/fonts/Comico-Regular.otf');
 }
 
 @font-face {
     font-family: "Heavitas";
-    src: url('public/fonts/Heavitas.ttf') format('truetype');
+    src: url('/fonts/Heavitas.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
