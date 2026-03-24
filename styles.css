@@ -33,40 +33,26 @@ p {
 }
 
 #water{
-  position:fixed;
+  position:absolute;
   top:0;
   left:0;
-  width:100vw;
-  height:100vh;
+  width:100%;
+  height:100%;
   overflow:hidden;
   pointer-events:none;
 }
 
+.fish img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+
 .fish{
   position:absolute;
-  width:20px;
-  height:10px;
-  border-radius:50% 50% 50% 50%;
+  width:40px;   /* control size */
+  height:auto;
   pointer-events:none;
+  transform-origin: center center;
 }
 
-.fish::after {
-  content: '';
-  position: absolute;
-  left: -8px;
-  top: 50%;
-  transform: translateY(50%);
-  rotate: 180deg;
-  width: 0;
-  height: 0;
-
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-right: 10px solid orange;
-}
-
-.group0 { background: orange; }
-.group0::after { border-right-color: orange; }
-
-.group1 { background: cyan; }
-.group1::after { border-right-color: cyan; }

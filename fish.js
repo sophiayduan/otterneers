@@ -5,33 +5,29 @@ const containerRect = container.getBoundingClientRect()
 let mouse = {x:0, y:0}
 
 document.addEventListener("mousemove", e=>{
-  mouse.x = e.clientX
-  mouse.y = e.clientY
+  const rect = container.getBoundingClientRect()
+
+  mouse.x = e.clientX - rect.left
+  mouse.y = e.clientY - rect.top
 })
+
+const fishElements = document.querySelectorAll(".fish")
 
 let fish = []
 
-for(let i=0;i<40;i++){
-
-  let el = document.createElement("div")
-  el.classList.add("fish")
-
-  let group = i < 20 ? 0 : 1
-  el.classList.add("group"+group)
-
-  water.appendChild(el)
+fishElements.forEach(el => {
 
   fish.push({
     el,
     x: Math.random()*containerRect.width,
     y: Math.random()*containerRect.height,
-    vx: (Math.random()-0.5)*1,
-    vy: (Math.random()-0.5)*1,
-    group,
+    vx: (Math.random()-0.5)*2,
+    vy: (Math.random()-0.5)*2,
+    group: Math.random() > 0.5 ? 0 : 1,
     scared:false,
     calmTimer:0
   })
-}
+})
 
 function animate(){
 
