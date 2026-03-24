@@ -16,3 +16,32 @@ v2.1:POLISH
 
 
 Project deadline: March 18th
+
+Zoey:
+- Music implementation
+- Sound effect design
+- Easter eggs
+
+Naomi:
+- Clouds
+- GSAP page transitions
+- GSAP general animations
+- Drawing assets
+
+Sia:
+- Adding HTML content
+- Figma website design 
+- Drawing assets
+- Interactive fish
+
+Sophia:
+- Shaders 
+- Website loop
+
+misc todo:
+- set up vercel and deploy the site
+- compress all images + convert to webp 
+- make favicon
+- custom cursor (using multiply?)
+- aria friendly
+- custom scrollbar
