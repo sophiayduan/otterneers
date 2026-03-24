@@ -1,6 +1,5 @@
 const water = document.getElementById("water")
 const container = document.getElementById("fish-area")
-const containerRect = container.getBoundingClientRect()
 
 let mouse = {x:0, y:0}
 
@@ -14,6 +13,8 @@ document.addEventListener("mousemove", e=>{
 const fishElements = document.querySelectorAll(".fish")
 
 let fish = []
+
+const containerRect = container.getBoundingClientRect()
 
 fishElements.forEach(el => {
 

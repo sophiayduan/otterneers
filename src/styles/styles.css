@@ -1,0 +1,70 @@
+@import "tailwindcss";
+:root {
+    --primary-clr: #478fca;
+
+    --blue-clr: rgba(25, 51, 179, 100);
+    --neutral-clr: #FFFDF6;
+    
+}
+
+.dark {
+    --primary-clr:#DC0000;
+    --neutral-clr: #18171A;
+}
+
+
+@font-face {
+    font-family: "Comico";
+    src: url('public/fonts/Comico-Regular.otf');
+}
+
+@font-face {
+    font-family: "Heavitas";
+    src: url('public/fonts/Heavitas.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body {
+  font-family: 'Geist', sans-serif;
+  color:#0E29AA;
+  background-color:#459DE5;
+}
+
+#site-heading {
+    z-index:2;
+}
+
+#cta {
+    display:flex;
+    flex-direction:column; 
+    justify-content:center;
+    align-items:center;
+    width:400px;
+}
+
+h1 {
+    margin:0;
+    font-size:13rem;
+    padding:0;
+    line-height: 110%;
+}
+
+h3 {
+    margin:0;
+}
+
+
+
+/*Otter images*/
+.mascot-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    position: fixed;
+    pointer-events: none;
+    top: 50%;
+    left: 50%;
+}
