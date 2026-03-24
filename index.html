@@ -12,6 +12,53 @@
 </head>
 <body class="relative" style="overflow-x:clip;">
 
+<body>
+<div class="fixed h-screen w-screen z-100 p-4 flex flex-col">
+    <div class="ml-auto text-right space-y-1">
+        <ul class="flex gap-x-[6px]" id="easter-egg-dots">
+            <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+            <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+            <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+            <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+            <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+            <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+        </ul>
+        <!-- Amount found out of total vv -->
+        <span id="easter-eggs-counter">0/6</span>
+    </div>
+</div>
+<h1 id="site-heading">Protecting Otters, Preserving Nature.</h1>
+
+<p>International Otter Day is the last Wednesday of May. This year, it is May 27th</p>
+
+<p>A group of sea otters is called a raft.</p>
+
+<p></p>
+
+<section class="contact-us">
+    <h2>Contact Us</h2>
+    <form>
+        <input type="text" name="name" id="contact-us-name" placeholder="Name"/>
+        <input type="email" name="email" id="contact-us-email" placeholder="name@email.com"/>
+        <textarea name="message" id="contact-us-message" placeholder="Message"></textarea>
+        <button type="submit">Submit</button>
+    </form>
+
+</section>
+
+<div class="rocks-container">
+    <div class="rocks-left">
+        <img src="./images/large-moss-rock-left.PNG">
+    </div>
+    <div class="rocks-middle">
+        <img src="./images/medium-moss-rock-middle.PNG">
+    </div>
+    <div class="rocks-right">
+    </div>
+</div>
+
+<script src="easter-eggs.js" defer></script>
+<script src="script.js" defer></script>
   <div id="sequence-container" style="height:600vh; position:relative; overflow:visible;">
     <canvas id="frame-canvas" class="opacity-60" style="position: sticky; top: 0; width: 100%; height: 100vh; display: block; mix-blend-mode: soft-light;"></canvas>
   </div>
@@ -129,20 +176,6 @@
         document.getElementById('fs-exit').classList.toggle('hidden', !full);
       });
     </script>
-    <div class="mt-auto flex w-full justify-between items-end">
-      <div class="">
-        <span class="text-beige">3/7</span>
-        <ul class="flex gap-x-[6px] w-fit my-1">
-          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
-          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
-          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
-          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
-          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
-          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
-          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
-          <li class="w-4 h-full aspect-square rounded-full bg-beige"></li>
-        </ul>
-      </div>
       <a href="" class="text-beige w-fit h-fit font-medium pointer-events-auto" onclick="event.preventDefault(); const c = document.getElementById('credits'); c.classList.toggle('hidden'); document.body.classList.toggle('overflow-hidden', !c.classList.contains('hidden'))">CREDITS</a>
 
 </body>
