@@ -6,14 +6,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sea Otters</title>
   <link href="src/styles/styles.css" rel="stylesheet">
-  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body class="overflow-x-hidden relative">
 
-  <div class="fixed h-screen w-screen z-100 p-4 flex flex-col pointer-events-none">
+  <section id="hero-section" class="relative w-screen h-full flex flex-col items-start">
+    <div id="hero" class="relative w-screen min-h-[40vh] text-center flex flex-col text-left p-10">
+      <div class="relative w-fit">
+        
+        <canvas id="hero-title" class="relative" style="display:block;"></canvas>
+        <!-- <svg id="hero-star" class="absolute top-0 right-0 cursor-pointer" width="88" height="118" viewBox="0 0 88 118" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M44 24.6396C44 39.7246 44.0002 47.2678 48.6865 51.9541C53.3728 56.6401 60.9154 56.6396 76 56.6396H88V59H76C60.9151 59 53.3728 59.0002 48.6865 63.6865C44.0002 68.3728 44 75.9151 44 91V118H42.2402V91C42.2402 75.9152 42.2399 68.3728 37.5537 63.6865C32.8674 59.0003 25.325 59 10.2402 59H0L0 56.6396H10.2402C25.3248 56.6396 32.8674 56.6402 37.5537 51.9541C42.24 47.2678 42.2402 39.7246 42.2402 24.6396V0L44 0V24.6396Z" fill="#FFEBAD"/>
+        </svg> -->
+      </div>
+      <h3 class="tracking-[10%] font-semibold text-4xl relative pt-10">Protecting Otters, Preserving Nature.</h3>
+      <p class="mt-8 text-sm tracking-widest uppercase opacity-60 relative">Scroll to Discover</p>
+    </div>
+    <div id="rock-scene" class="grid grid-cols-1 grid-rows-1 relative bg-[#459DE5] w-full min-h-[90vh] ">
+   
+      <div class="col-start-1 row-start-1">
+        <img style="" class="-translate-x-1/4 w-screen object-contain select-none pointer-events-none" src="rocks/dark.png" alt="">
+        <img style="mix-blend-mode:multiply;" class="absolute bottom-40 -right-1/6 w-[50%] select-none pointer-events-none" src="rocks/medium-moss.png" alt="">
+
+        <img style="mix-blend-mode:multiply;"  class="absolute bottom-40 right-1/5 w-100 select-none pointer-events-none" src="rocks/2.png" alt="">
+    
+
+        <!-- <img " class="absolute bottom-1/2 left-50 w-90 select-none pointer-events-none" src="rocks/3.png" alt=""> -->
+          <div class="w-full absolute bottom-0" style="height: 50%; background: linear-gradient(to bottom, transparent 0%, #040B11 50%)">
+        </div>
+      </div>
+
+      <div id="sequence-container" class="col-start-1 row-start-1 relative h-full">
+            <canvas id="frame-canvas" class="opacity-60 -translate-y-60" style="position: sticky; top: 0; width: 100%; height: 100vh; display: block; mix-blend-mode: soft-light;"></canvas>
+      </div>
+    </div>
+    <canvas id="hero-particles" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
+  </section>
+  <section class="bg-[#040B11] w-full h-200 flex items-start justify-start p-10">
+    <span class="text-white text-5xl max-w-6xl">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam dolores, necessitatibus rerum sequi consequuntur similique laudantium, consectetur culpa quidem unde! </span>
+  </section>
+
+  <section id="credits" class="hidden fixed top-0 left-0 bg-[#18171A]/70 w-screen h-screen flex flex-col items-center justify-center text-white">
+    <span class="text-4xl font-extrabold py-4 " style="font-family: Heavitas">CREDITS</span>
+    <span class="tracking-[4%] text-xl">The Otterneers -  Naomi, Zoey, Sia, Sophia</span>
+    <span class="tracking-[4%] text-xl">&copy;  2026</span>
+  </section>
+
+
+
+<script type="module" src="src/scripts/particles.js"></script>
+<script type="module" src="src/scripts/title-shader.js"></script>
+<script type="module" src="src/scripts/script.js"></script>
+
+  <div class="fixed inset-0 p-4 flex flex-col pointer-events-none">
     <div class="ml-auto text-right space-y-1">
       <ul class="flex gap-x-[6px]">
         <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
@@ -29,328 +76,5 @@
     </div>
     <a href="" class="mt-auto ml-auto font-medium pointer-events-auto" onclick="event.preventDefault(); const c = document.getElementById('credits'); c.classList.toggle('hidden'); document.body.classList.toggle('overflow-hidden', !c.classList.contains('hidden'))">CREDITS</a>
   </div>
-
-  <section id="hero-section" class="relative w-screen h-full flex flex-col items-start">
-    <canvas id="hero-particles" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:30;"></canvas>
-    <div id="hero" class="relative w-screen min-h-[40vh] text-center flex flex-col text-left p-10">
-      <div class="relative w-fit">
-        
-        <canvas id="hero-title" class="relative" style="display:block;"></canvas>
-        <!-- <svg id="hero-star" class="absolute top-0 right-0 cursor-pointer" width="88" height="118" viewBox="0 0 88 118" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M44 24.6396C44 39.7246 44.0002 47.2678 48.6865 51.9541C53.3728 56.6401 60.9154 56.6396 76 56.6396H88V59H76C60.9151 59 53.3728 59.0002 48.6865 63.6865C44.0002 68.3728 44 75.9151 44 91V118H42.2402V91C42.2402 75.9152 42.2399 68.3728 37.5537 63.6865C32.8674 59.0003 25.325 59 10.2402 59H0L0 56.6396H10.2402C25.3248 56.6396 32.8674 56.6402 37.5537 51.9541C42.24 47.2678 42.2402 39.7246 42.2402 24.6396V0L44 0V24.6396Z" fill="#FFEBAD"/>
-        </svg> -->
-      </div>
-      <h3 class="tracking-[10%] font-semibold text-4xl relative pt-10">Protecting Otters, Preserving Nature.</h3>
-      <p class="mt-8 text-sm tracking-widest uppercase opacity-60 relative">Scroll to Discover</p>
-    </div>
-    <div id="rock-scene" class="grid grid-cols-1 grid-rows-1 relative bg-[#459DE5] w-full min-h-[90vh] ">
-   
-      <div class="col-start-1 row-start-1">
-        <img style="" class="-translate-x-1/4 w-screen object-contain select-none pointer-events-none" src="public/rocks/dark.png" alt="">
-        <img style="mix-blend-mode:multiply;" class="absolute bottom-40 -right-1/6 w-[50%] select-none pointer-events-none" src="public/rocks/medium-moss.png" alt="">
-
-        <img style="mix-blend-mode:multiply;"  class="absolute bottom-40 right-1/5 w-100 select-none pointer-events-none" src="public/rocks/2.png" alt="">
-    
-
-        <!-- <img " class="absolute bottom-1/2 left-50 w-90 select-none pointer-events-none" src="public/rocks/3.png" alt=""> -->
-          <div class="w-full absolute bottom-0" style="height: 50%; background: linear-gradient(to bottom, transparent 0%, #040B11 50%)">
-        </div>
-      </div>
-
-      <div id="sequence-container" class="col-start-1 row-start-1 relative h-full">
-            <canvas id="frame-canvas" class="opacity-60 -translate-y-60" style="position: sticky; top: 0; width: 100%; height: 100vh; display: block; mix-blend-mode: soft-light;"></canvas>
-      </div>
-    </div>
-    
-  </section>
-  <section class="bg-[#040B11] w-full h-200 flex items-start justify-start p-10">
-    <span class="text-white text-5xl max-w-6xl">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam dolores, necessitatibus rerum sequi consequuntur similique laudantium, consectetur culpa quidem unde! </span>
-  </section>
-
-  <section id="credits" class="hidden fixed top-0 left-0 bg-[#18171A]/70 w-screen h-screen flex flex-col items-center justify-center text-white">
-    <span class="text-4xl font-extrabold py-4 " style="font-family: Heavitas">CREDITS</span>
-    <span class="tracking-[4%] text-xl">The Otterneers -  Naomi, Zoey, Sia, Sophia</span>
-    <span class="tracking-[4%] text-xl">&copy;  2026</span>
-  </section>
-
-
-
-<script>
-(function () {
-  const hero   = document.getElementById('hero-section');
-  const canvas = document.getElementById('hero-particles');
-
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-
-  const scene = new THREE.Scene();
-  const group = new THREE.Group();
-  scene.add(group);
-
-  const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
-  camera.position.z = 4;
-
-  function makeSprite(drawFn) {
-    const c = document.createElement('canvas');
-    c.width = c.height = 64;
-    const ctx = c.getContext('2d');
-    ctx.fillStyle = '#FFFDF6';
-    drawFn(ctx);
-    return new THREE.CanvasTexture(c);
-  }
-
-  const sprites = [
-    makeSprite(ctx => {
-      const g = ctx.createRadialGradient(32,32,0,32,32,28);
-      g.addColorStop(0, 'rgba(255,253,246,1)');
-      g.addColorStop(0.4, 'rgba(255,253,246,0.6)');
-      g.addColorStop(1, 'rgba(255,253,246,0)');
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(32,32,28,0,Math.PI*2); ctx.fill();
-    }),
-    makeSprite(ctx => {
-      const g = ctx.createRadialGradient(32,32,0,32,32,22);
-      g.addColorStop(0, 'rgba(255,253,246,0.9)');
-      g.addColorStop(0.5, 'rgba(255,253,246,0.5)');
-      g.addColorStop(1, 'rgba(255,253,246,0)');
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(32,32,22,0,Math.PI*2); ctx.fill();
-    }),
-  ];
-
-  const COUNT = 200, RANGE = 10, ZMIN = -9, ZMAX = -2;
-  const positions  = new Float32Array(COUNT * 3);
-  const velocities = new Float32Array(COUNT * 3);
-
-  for (let i = 0; i < COUNT; i++) {
-    positions[i*3]   = (Math.random()-0.5) * RANGE;
-    positions[i*3+1] = (Math.random()-0.5) * RANGE;
-    positions[i*3+2] = Math.random() * (ZMAX - ZMIN) + ZMIN;
-    velocities[i*3]   = (Math.random()-0.5) * 0.004;
-    velocities[i*3+1] = (Math.random()-0.5) * 0.004;
-    velocities[i*3+2] = (Math.random()-0.5) * 0.001;
-  }
-
-  const perShape = Math.floor(COUNT / sprites.length);
-  const pointsObjects = sprites.map((sprite, si) => {
-    const start = si * perShape;
-    const end   = si === sprites.length - 1 ? COUNT : start + perShape;
-    const n = end - start;
-    const buf = new Float32Array(n * 3);
-    for (let i = 0; i < n; i++) {
-      buf[i*3]   = positions[(start+i)*3];
-      buf[i*3+1] = positions[(start+i)*3+1];
-      buf[i*3+2] = positions[(start+i)*3+2];
-    }
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(buf, 3));
-    const mat = new THREE.PointsMaterial({
-      size: 0.032, map: sprite, color: 0xFFFDF6,
-      transparent: true, opacity: 0.7,
-      sizeAttenuation: true, depthWrite: false,
-    });
-    const pts = new THREE.Points(geo, mat);
-    group.add(pts);
-    return { pts, start, end };
-  });
-
-  const mouse  = { x: 0, y: 0 };
-  const target = { x: 0, y: 0 };
-  window.addEventListener('mousemove', e => {
-    const rect = hero.getBoundingClientRect();
-    if (e.clientY > rect.bottom) return;
-    mouse.x =  ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
-    mouse.y = -((e.clientY - rect.top)  / rect.height - 0.5) * 2;
-  });
-
-  function resize() {
-    const w = hero.offsetWidth, h = hero.offsetHeight;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  (function animate() {
-    requestAnimationFrame(animate);
-    const half = RANGE / 2;
-    for (let i = 0; i < COUNT; i++) {
-      positions[i*3]   += velocities[i*3];
-      positions[i*3+1] += velocities[i*3+1];
-      positions[i*3+2] += velocities[i*3+2];
-      if (positions[i*3]   >  half) positions[i*3]   = -half;
-      if (positions[i*3]   < -half) positions[i*3]   =  half;
-      if (positions[i*3+1] >  half) positions[i*3+1] = -half;
-      if (positions[i*3+1] < -half) positions[i*3+1] =  half;
-      if (positions[i*3+2] > ZMAX)  positions[i*3+2] = ZMIN;
-      if (positions[i*3+2] < ZMIN)  positions[i*3+2] = ZMAX;
-    }
-    for (const { pts, start, end } of pointsObjects) {
-      const attr = pts.geometry.attributes.position;
-      const n = end - start;
-      for (let i = 0; i < n; i++) {
-        attr.array[i*3]   = positions[(start+i)*3];
-        attr.array[i*3+1] = positions[(start+i)*3+1];
-        attr.array[i*3+2] = positions[(start+i)*3+2];
-      }
-      attr.needsUpdate = true;
-    }
-    target.x += (mouse.x - target.x) * 0.04;
-    target.y += (mouse.y - target.y) * 0.04;
-    group.rotation.y = target.x * 0.1;
-    group.rotation.x = target.y * 0.06;
-    renderer.render(scene, camera);
-  })();
-})();
-</script>
-
-
-<script>
-(function () {
-  const canvas = document.getElementById('hero-title');
-
-  const svgImg = new Image();
-  svgImg.onload = function () {
-    const W = svgImg.naturalWidth;
-    const H = svgImg.naturalHeight;
-    const PAD = 300; // padding so edge distortion isn't clipped
-    const PW = W + PAD * 2;
-    const PH = H + PAD * 2;
-
-    // Pull canvas back by PAD so it stays visually aligned
-    canvas.style.margin = `-${PAD}px`;
-
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    renderer.setSize(PW, PH);
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-PW/2, PW/2, PH/2, -PH/2, -1, 1);
-
-    const texture = new THREE.Texture(svgImg);
-    texture.needsUpdate = true;
-
-    // UV offsets so texture is mapped only to the central W×H area of the PW×PH plane
-    const uPadU  = PAD / PW;
-    const uPadV  = PAD / PH;
-    const uScaleU = W / PW;
-    const uScaleV = H / PH;
-
-    const mat = new THREE.ShaderMaterial({
-      transparent: true,
-      uniforms: {
-        uTex:    { value: texture },
-        uMouse:  { value: new THREE.Vector2(0.5, 0.5) },
-        uHover:  { value: 0.0 },
-        uTime:   { value: 0.0 },
-        uPadUV:  { value: new THREE.Vector2(uPadU, uPadV) },
-        uScaleUV:{ value: new THREE.Vector2(uScaleU, uScaleV) },
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        precision highp float;
-        uniform sampler2D uTex;
-        uniform vec2 uMouse;
-        uniform float uHover;
-        uniform float uTime;
-        uniform vec2 uPadUV;
-        uniform vec2 uScaleUV;
-        varying vec2 vUv;
-
-        void main() {
-          // Remap from full-plane UV space to texture (content) UV space
-          vec2 uv = (vUv - uPadUV) / uScaleUV;
-
-          vec2 toMouse = uMouse - uv;
-          float dist = length(toMouse);
-          vec2 dir = normalize(toMouse + 0.0001);
-
-          // Elastic wave distortion
-          float wave = sin(dist * 14.0 - uTime * 4.0) * exp(-dist * 6.0);
-          uv += dir * wave * uHover * 0.18;
-
-          // Custom-colour chromatic split
-          float split = uHover * 0.04 * smoothstep(0.4, 0.0, dist);
-          float t     = uHover * smoothstep(0.4, 0.0, dist);
-
-          vec3 col1 = vec3(0.102, 0.910, 0.898); // #1AE8E5
-          vec3 col3 = vec3(0.686, 0.592, 0.729); // #AF97BA
-
-          vec2 uv1 = uv + dir * split;
-          vec2 uv2 = uv;
-          vec2 uv3 = uv - dir * split;
-
-          // Zero out samples that fall outside [0,1] — prevents edge-clamp streaks
-          float m1 = step(0.0,uv1.x)*step(uv1.x,1.0)*step(0.0,uv1.y)*step(uv1.y,1.0);
-          float m2 = step(0.0,uv2.x)*step(uv2.x,1.0)*step(0.0,uv2.y)*step(uv2.y,1.0);
-          float m3 = step(0.0,uv3.x)*step(uv3.x,1.0)*step(0.0,uv3.y)*step(uv3.y,1.0);
-
-          float a1 = texture2D(uTex, uv1).a * m1;
-          float a2 = texture2D(uTex, uv2).a * m2;
-          float a3 = texture2D(uTex, uv3).a * m3;
-
-          vec4 base    = texture2D(uTex, uv2);
-          base.a      *= m2;
-          vec3 mainCol = vec3(0.098, 0.200, 0.702); // #1933B3
-
-          vec3 splitCol = mainCol * a2
-                        + col1 * max(a1 - a2, 0.0)
-                        + col3 * max(a3 - a2, 0.0);
-          float splitA  = max(a1, max(a2, a3));
-
-          gl_FragColor = vec4(mix(mainCol, splitCol, t), mix(base.a, splitA, t));
-        }
-      `,
-    });
-
-    // Plane covers the full padded canvas — distorted pixels render in the padding area
-    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(PW, PH), mat);
-    scene.add(mesh);
-
-    const mouse  = new THREE.Vector2(0.5, 0.5);
-    const lerped = new THREE.Vector2(0.5, 0.5);
-    let hoverTarget = 0;
-    let lastMoveTime = 0;
-    const IDLE_MS = 150; // fade out after this many ms without movement
-
-    document.addEventListener('mousemove', e => {
-      const r = canvas.getBoundingClientRect();
-      const inside = e.clientX >= r.left + PAD && e.clientX <= r.right  - PAD &&
-                     e.clientY >= r.top  + PAD && e.clientY <= r.bottom - PAD;
-      if (inside) {
-        hoverTarget = 1;
-        lastMoveTime = performance.now();
-        mouse.set(
-          (e.clientX - r.left - PAD) / W,
-          1 - (e.clientY - r.top - PAD) / H
-        );
-      } else {
-        hoverTarget = 0;
-      }
-    });
-
-    (function animate(t) {
-      requestAnimationFrame(animate);
-      // Fade out if mouse has stopped moving
-      if (hoverTarget === 1 && performance.now() - lastMoveTime > IDLE_MS) {
-        hoverTarget = 0;
-      }
-      lerped.lerp(mouse, 0.07);
-      mat.uniforms.uMouse.value.copy(lerped);
-      mat.uniforms.uHover.value += (hoverTarget - mat.uniforms.uHover.value) * 0.018;
-      mat.uniforms.uTime.value = t * 0.001;
-      renderer.render(scene, camera);
-    })(0);
-  };
-  svgImg.src = 'public/seaotters.svg';
-})();
-</script>
-
-<script type="module" src="src/scripts/script.js"></script>
 </body>
 </html>

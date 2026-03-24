@@ -26,7 +26,7 @@ gsap.ticker.lagSmoothing(0);
 
   const frames = Array.from({ length: frameCount }, (_, i) => {
     const img = new Image();
-    img.src = `public/sequence/Untitled_Artwork-${i + 1}.png`;
+    img.src = `/sequence/frame${i + 1}.png`;
     return img;
   });
 
