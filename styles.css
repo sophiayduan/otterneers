@@ -1,20 +1,56 @@
-:root{
-    --primary-colour: #478fca;
-    --body-text-font: atma;
+:root {
+    --primary-clr: #478fca;
+
+    --blue-clr: rgba(25, 51, 179, 100);
+    --neutral-clr: #FFFDF6;
+    
 }
 
-body{
-    background-color: var(--primary-colour); /* using the variable */
+.dark {
+    --primary-clr:#DC0000;
+    --neutral-clr: #18171A;
 }
 
-p {
-    font-family: var(--body-text-font, sans-serif); /* sans-serif is the fallback value */
+
+@font-face {
+    font-family: "Comico";
+    src: url('public/fonts/Comico-Regular.otf');
+}
+
+
+body {
+  font-family: 'Geist', sans-serif;
+  color:var(--blue-clr);
+  background-color:#DFFDFF;
+}
+
+#site-heading {
+    z-index:2;
+}
+
+#cta {
+    display:flex;
+    flex-direction:column; 
+    justify-content:center;
+    align-items:center;
+    width:400px;
+}
+
+h1 {
+    margin:0;
+    font-size:13rem;
+    padding:0;
+    line-height: 110%;
+}
+
+h3 {
+    margin:0;
 }
 
 
 
 /*Otter images*/
-.mascot-img{
+.mascot-img {
     display: flex;
     justify-content: center;
     align-items: center;

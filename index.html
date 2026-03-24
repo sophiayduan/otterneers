@@ -1,51 +1,841 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sea Otters</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sea Otters</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
 </head>
+<body class="overflow-x-hidden relative">
 
-<body>
-    <h1 id="site-heading">Protecting Otters, Preserving Nature.</h1>
-
-    <p>International Otter Day is the last Wednesday of May. This year, it is May 27th</p>
-
-    <p>A group of sea otters is called a raft.</p>
-
-    <p></p>
-
-    <section class="contact-us">
-        <h2>Contact Us</h2>
-        <form>
-            <input type="text" name="name" id="contact-us-name" placeholder="Name"/>
-            <input type="email" name="email" id="contact-us-email" placeholder="name@email.com"/>
-            <textarea name="message" id="contact-us-message" placeholder="Message"></textarea>
-            <button type="submit">Submit</button>
-        </form>
-      
-    </section>
-
-    <div class="rocks-container">
-        <div class="rocks-left">
-            <img src="./images/large-moss-rock-left.PNG">
-        </div>
-        <div class="rocks-middle">
-            <img src="./images/medium-moss-rock-middle.PNG">
-        </div>
-        <div class="rocks-right">
-        </div>
+  <div class="fixed h-screen w-screen z-100 p-4 flex flex-col">
+    <div class="ml-auto text-right space-y-1">
+      <ul class="flex gap-x-[6px]">
+        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+      </ul>
+      <span>3/7</span>
     </div>
+    <!-- <img src="" class="" > -->
+    <a href="" class="mt-auto ml-auto font-medium" onclick="event.preventDefault(); const c = document.getElementById('credits'); c.classList.toggle('hidden'); document.body.classList.toggle('overflow-hidden', !c.classList.contains('hidden'))">CREDITS</a>
 
-    <script src="easter-eggs.js" defer></script>
-    <script src="script.js" defer></script>
+  </div>
+
+  <section class="w-screen h-full flex flex-col items-start">
+    <div id="hero" class="relative w-screen min-h-[60vh] bg-[#DFFDFF] text-center flex flex-col items-center justify-end p-10">
+      <canvas id="hero-particles" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
+      <canvas id="title-shader" style="position:absolute;z-index:11;cursor:default;"></canvas>
+      <h1 id="hero-title" class="font-extrabold relative z-10" style="color:transparent;">OTTERS</h1>
+      <h3 class="tracking-[10%] font-semibold text-4xl relative z-10">Protecting Otters, Preserving Nature.</h3>
+      <p class="mt-8 text-sm tracking-widest uppercase opacity-60 relative z-10">Scroll to Discover</p>
+    </div>
+    <div id="rock-scene" class="relative bg-[#459DE5] w-full" style="min-height:100vh;padding-bottom:100vh;">
+      <!-- Three.js water canvas — fills the section -->
+      <canvas id="water-canvas" style="position:absolute;top:0;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
+      <!-- Screen-space underwater overlay -->
+      <canvas id="underwater-overlay" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:200;opacity:0;"></canvas>
+      <div class="parallax-layer" data-depth="0.2" style="position:absolute;inset:-5%;width:110%;height:110%;will-change:transform;pointer-events:none;">
+        <img draggable="false" class="absolute bottom-50 -right-1/6 w-[50%] select-none pointer-events-none" src="public/rocks/medium-moss.png" alt="">
+      </div>
+      <div class="parallax-layer" data-depth="0.35" style="position:absolute;inset:-5%;width:110%;height:110%;will-change:transform;pointer-events:none;">
+        <img draggable="false" class="absolute -top-40 -right-20 w-80 select-none pointer-events-none" src="public/rocks/1.png" alt="">
+      </div>
+      <div class="parallax-layer" data-depth="0.5" style="position:absolute;inset:-5%;width:110%;height:110%;will-change:transform;pointer-events:none;">
+        <img draggable="false" class="absolute -top-5 right-1/3 w-40 select-none pointer-events-none" src="public/rocks/2.png" alt="">
+      </div>
+      <div class="parallax-layer" data-depth="0.65" style="position:absolute;inset:-5%;width:110%;height:110%;will-change:transform;pointer-events:none;">
+        <img draggable="false" class="absolute -top-10 left-50 w-90 select-none pointer-events-none" src="public/rocks/3.png" alt="">
+      </div>
+      <div class="parallax-layer" data-depth="0.8" style="position:absolute;inset:-5%;width:110%;height:110%;will-change:transform;pointer-events:none;">
+        <img draggable="false" class="absolute -top-50 -left-1/4 w-screen object-contain select-none pointer-events-none" src="public/rocks/large-moss.png" alt="">
+      </div>
+    </div>
+  </section>
+  <section id="credits" class="hidden fixed top-0 left-0 bg-gray-300/70 w-screen h-screen flex flex-col items-center justify-center">
+    <span class="text-4xl font-extrabold">CREDITS</span>
+    <span>The Otterneers -  Naomi, Zoey, Sia, Sophia</span>
+    <span class="">&copy; OTTERNEERS 2026</span>
+  </section>
+  <!-- Scroll-scrubbed animation sequence -->
+  <div id="sequence-container" class="bg-[#459DE5]" style="height: 300vh;z-index:100">
+    <canvas id="frame-canvas" class="opacity-60" style="position: sticky; top: 0; width: 100%; height: 100vh; display: block; mix-blend-mode: soft-light;"></canvas>
+  </div>
+
+ <!-- Sunlight Shader Overlay -->
+<canvas id="sunShader" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('sunShader');
+  const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false });
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const vert = `
+    attribute vec2 a_pos;
+    void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
+  `;
+
+  const frag = `
+    precision highp float;
+    uniform vec2 u_res;
+    uniform float u_time;
+
+    float hash(vec2 p) {
+      return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+    }
+    float noise(vec2 p) {
+      vec2 i = floor(p); vec2 f = fract(p);
+      vec2 u = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);
+      return mix(mix(hash(i), hash(i+vec2(1,0)), u.x),
+                 mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), u.x), u.y);
+    }
+    float fbm(vec2 p) {
+      float v = 0.0, a = 0.5;
+      for(int i = 0; i < 6; i++) { v += a * noise(p); p *= 1.9; a *= 0.55; }
+      return v;
+    }
+    float softstep(float e0, float e1, float x) {
+      float t = clamp((x - e0) / (e1 - e0), 0.0, 1.0);
+      return t * t * t * (t * (t * 6.0 - 15.0) + 10.0);
+    }
+
+    void main() {
+      vec2 uv = gl_FragCoord.xy / u_res;
+      uv.y = 1.0 - uv.y;
+
+      vec2 src = vec2(1.08, -0.02);
+      vec2 center = vec2(0.42, 0.52);
+      vec2 toCenter = center - src;
+      float rayLen = length(toCenter);
+      vec2 rayDir = normalize(toCenter);
+
+      vec2 fromSrc = uv - src;
+      float along = dot(fromSrc, rayDir);
+      float perp = length(fromSrc - along * rayDir);
+
+      float alongFade = softstep(-0.05, 0.12, along) * softstep(rayLen * 1.5, rayLen * 0.55, along);
+
+      float spread = 0.38 + along * 0.48;
+      float perpNorm = clamp(perp / spread, 0.0, 1.0);
+      float beamFade = pow(1.0 - perpNorm, 2.2);
+
+      float t = u_time * 0.055;
+      vec2 streakUV = vec2(along * 1.1 - t * 0.9, perp * 2.0 + t * 0.15);
+      float streaks = mix(fbm(streakUV * 1.4), fbm(streakUV * 0.7 + vec2(3.7, 1.2)), 0.4);
+      streaks = streaks * streaks;
+
+      float shimmer = mix(0.6, 1.0, fbm(vec2(along * 1.8 - t * 0.6, perp * 3.0 + t * 0.2)));
+
+      float dist = length(fromSrc);
+      float distFade = softstep(0.0, 0.18, along) * softstep(1.6, 0.25, dist);
+
+      float base = beamFade * alongFade * distFade;
+      float lit  = base * (0.55 + 0.45 * streaks) * shimmer;
+
+      vec3 sunColor = vec3(1.0, 0.985, 0.93);
+      float alpha = clamp(lit * 0.18, 0.0, 0.14);
+      gl_FragColor = vec4(sunColor * alpha, alpha);
+    }
+  `;
+
+  function compile(type, src) {
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vert));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, frag));
+  gl.linkProgram(prog); gl.useProgram(prog);
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, 'a_pos');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+  const uRes = gl.getUniformLocation(prog, 'u_res');
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+  (function render(t) {
+    gl.clearColor(0,0,0,0); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.uniform1f(uTime, t * 0.001);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  })(0);
+})();
+</script>
+
+<script>
+(function () {
+  const frameCount = 47;
+  const canvas = document.getElementById('frame-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Preload all frames
+  const frames = Array.from({ length: frameCount }, (_, i) => {
+    const img = new Image();
+    img.src = `public/sequence/Untitled_Artwork-${i + 1}.png`;
+    return img;
+  });
+
+  function drawFrame(index) {
+    const img = frames[index];
+    if (!img.complete) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Center and cover the canvas
+    const scale = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
+    const w = img.naturalWidth * scale;
+    const h = img.naturalHeight * scale;
+    const x = (canvas.width - w) / 2;
+    const y = (canvas.height - h) / 2;
+    ctx.drawImage(img, x, y, w, h);
+  }
+
+  // Draw first frame once it loads
+  frames[0].onload = () => drawFrame(0);
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const state = { frame: 0 };
+
+  const scrollConfig = {
+    trigger: '#sequence-container',
+    start: 'top top',
+    end: 'bottom bottom',
+    scrub: 0.2,
+  };
+
+  gsap.to(state, {
+    frame: frameCount - 1,
+    ease: 'none',
+    scrollTrigger: scrollConfig,
+    onUpdate() {
+      drawFrame(Math.round(state.frame));
+    },
+  });
+
+  const tl = gsap.timeline({ scrollTrigger: scrollConfig });
+
+  // First half: start right + small, sweep left + grow
+  tl.fromTo(canvas,
+    { scale: 0.4, x: '25vw' },
+    { scale: 1,   x: '-25vw', ease: 'power2.inOut', duration: 0.3 }
+  )
+  // Second half: swing back right to center
+  .to(canvas,
+    { x: 0, ease: 'power2.out', duration: 0.5 }
+  );
+})();
+</script>
+
+<script>
+/* ── OTTERS title shader ─────────────────────────────────────────── */
+(function () {
+  const hero   = document.getElementById('hero');
+  const h1     = document.getElementById('hero-title');
+  const canvas = document.getElementById('title-shader');
+  const dpr    = Math.min(devicePixelRatio, 2);
+
+  const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false });
+
+  const vert = `
+    attribute vec2 a_pos;
+    void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
+  `;
+
+  const frag = `
+    precision mediump float;
+    uniform sampler2D u_text;
+    uniform float     u_time;
+    uniform float     u_hover;
+    uniform vec2      u_res;
+
+    float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
+    float noise(vec2 p) {
+      /* quintic interpolation — much smoother than cubic */
+      vec2 i=floor(p), f=fract(p);
+      vec2 u=f*f*f*(f*(f*6.0-15.0)+10.0);
+      return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),
+                 mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x), u.y);
+    }
+
+    void main() {
+      vec2 uv = gl_FragCoord.xy / u_res;
+      uv.y = 1.0 - uv.y;
+
+      /* slow, low-frequency wave for silky idle motion */
+      float t = u_time * 0.15;
+      vec2 wave = vec2(
+        noise(uv * 1.6 + vec2(t * 0.5, 0.1)),
+        noise(uv * 1.6 + vec2(0.2,     t * 0.4))
+      ) * 2.0 - 1.0;
+
+      float strength = 0.003 + u_hover * 0.02;
+      vec2 distUV = uv + wave * strength;
+
+      /* chromatic aberration grows on hover */
+      float ca = u_hover * 0.014;
+      float r  = texture2D(u_text, distUV + vec2(ca,  0.0)).a;
+      float g  = texture2D(u_text, distUV              ).a;
+      float b  = texture2D(u_text, distUV - vec2(ca,  0.0)).a;
+      float a  = max(r, max(g, b));
+
+      /* base: --blue-clr; hover: bleeds toward chromatic fringing */
+      vec3 base  = vec3(0.098, 0.200, 0.702);
+      vec3 color = mix(base, vec3(r, g, b), u_hover * 0.65);
+      gl_FragColor = vec4(color, a);
+    }
+  `;
+
+  function compile(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s); return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER,   vert));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, frag));
+  gl.linkProgram(prog); gl.useProgram(prog);
+
+  const quadBuf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const posLoc = gl.getAttribLocation(prog, 'a_pos');
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+  const uTime  = gl.getUniformLocation(prog, 'u_time');
+  const uHover = gl.getUniformLocation(prog, 'u_hover');
+  const uRes   = gl.getUniformLocation(prog, 'u_res');
+  const uText  = gl.getUniformLocation(prog, 'u_text');
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+  let tex = null;
+  function uploadTexture(offscreen) {
+    if (tex) gl.deleteTexture(tex);
+    tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, offscreen);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  }
+
+  function layout() {
+    const heroR = hero.getBoundingClientRect();
+    const h1R   = h1.getBoundingClientRect();
+
+    const left = h1R.left - heroR.left;
+    const top  = h1R.top  - heroR.top;
+
+    canvas.style.left   = left   + 'px';
+    canvas.style.top    = top    + 'px';
+    canvas.style.width  = h1R.width  + 'px';
+    canvas.style.height = h1R.height + 'px';
+
+    const w = Math.ceil(h1R.width  * dpr);
+    const h = Math.ceil(h1R.height * dpr);
+    canvas.width  = w;
+    canvas.height = h;
+    gl.viewport(0, 0, w, h);
+    gl.uniform2f(uRes, w, h);
+
+    /* render text into offscreen canvas */
+    const off = document.createElement('canvas');
+    off.width = w; off.height = h;
+    const ctx = off.getContext('2d');
+    ctx.scale(dpr, dpr);
+    const cs = getComputedStyle(h1);
+    ctx.font        = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    ctx.fillStyle   = 'white';
+    ctx.textAlign   = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('OTTERS', h1R.width / 2, h1R.height / 2);
+    uploadTexture(off);
+  }
+
+  let hoverVal = 0, hoverTarget = 0;
+  canvas.addEventListener('mouseenter', () => hoverTarget = 1);
+  canvas.addEventListener('mouseleave', () => hoverTarget = 0);
+
+  document.fonts.ready.then(() => {
+    layout();
+    window.addEventListener('resize', layout);
+
+    (function render(t) {
+      requestAnimationFrame(render);
+      hoverVal += (hoverTarget - hoverVal) * 0.06;
+
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.uniform1i(uText,  0);
+      gl.uniform1f(uTime,  t * 0.001);
+      gl.uniform1f(uHover, hoverVal);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    })(0);
+  });
+})();
+/* ─────────────────────────────────────────────────────────────────── */
+
+(function () {
+  const hero = document.getElementById('hero');
+  const canvas = document.getElementById('hero-particles');
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+  const group = new THREE.Group();
+  scene.add(group);
+
+  const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+  camera.position.z = 4;
+
+  // Build sprite textures for each shape
+  function makeSprite(drawFn) {
+    const c = document.createElement('canvas');
+    c.width = c.height = 64;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#FFFDF6';
+    drawFn(ctx);
+    return new THREE.CanvasTexture(c);
+  }
+
+  const sprites = [
+    // Circle
+    makeSprite(ctx => { ctx.beginPath(); ctx.arc(32,32,26,0,Math.PI*2); ctx.fill(); }),
+    // Triangle
+    makeSprite(ctx => { ctx.beginPath(); ctx.moveTo(32,6); ctx.lineTo(58,58); ctx.lineTo(6,58); ctx.closePath(); ctx.fill(); }),
+    // Diamond
+    makeSprite(ctx => { ctx.beginPath(); ctx.moveTo(32,5); ctx.lineTo(59,32); ctx.lineTo(32,59); ctx.lineTo(5,32); ctx.closePath(); ctx.fill(); }),
+    // Rotated square
+    makeSprite(ctx => { ctx.save(); ctx.translate(32,32); ctx.rotate(Math.PI/5); ctx.fillRect(-20,-20,40,40); ctx.restore(); }),
+  ];
+
+  const COUNT = 200;
+  const RANGE = 10;
+  const ZMIN = -9, ZMAX = -2;
+
+  const positions  = new Float32Array(COUNT * 3);
+  const velocities = new Float32Array(COUNT * 3);
+
+  for (let i = 0; i < COUNT; i++) {
+    positions[i*3]   = (Math.random()-0.5) * RANGE;
+    positions[i*3+1] = (Math.random()-0.5) * RANGE;
+    positions[i*3+2] = Math.random() * (ZMAX - ZMIN) + ZMIN;
+    velocities[i*3]   = (Math.random()-0.5) * 0.004;
+    velocities[i*3+1] = (Math.random()-0.5) * 0.004;
+    velocities[i*3+2] = (Math.random()-0.5) * 0.001;
+  }
+
+  // Split evenly across shape types
+  const perShape = Math.floor(COUNT / sprites.length);
+  const pointsObjects = sprites.map((sprite, si) => {
+    const start = si * perShape;
+    const end   = si === sprites.length - 1 ? COUNT : start + perShape;
+    const n = end - start;
+    const buf = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) {
+      buf[i*3]   = positions[(start+i)*3];
+      buf[i*3+1] = positions[(start+i)*3+1];
+      buf[i*3+2] = positions[(start+i)*3+2];
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(buf, 3));
+    const mat = new THREE.PointsMaterial({
+      size: 0.07, map: sprite, color: 0xFFFDF6,
+      transparent: true, opacity: 0.7,
+      sizeAttenuation: true, depthWrite: false,
+    });
+    const pts = new THREE.Points(geo, mat);
+    group.add(pts);
+    return { pts, start, end };
+  });
+
+  // Mouse
+  const mouse  = { x: 0, y: 0 };
+  const target = { x: 0, y: 0 };
+  window.addEventListener('mousemove', e => {
+    const rect = hero.getBoundingClientRect();
+    if (e.clientY > rect.bottom) return;
+    mouse.x =  ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
+    mouse.y = -((e.clientY - rect.top)  / rect.height - 0.5) * 2;
+  });
+
+  function resize() {
+    const w = hero.offsetWidth, h = hero.offsetHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    const half = RANGE / 2;
+    for (let i = 0; i < COUNT; i++) {
+      positions[i*3]   += velocities[i*3];
+      positions[i*3+1] += velocities[i*3+1];
+      positions[i*3+2] += velocities[i*3+2];
+      if (positions[i*3]   >  half) positions[i*3]   = -half;
+      if (positions[i*3]   < -half) positions[i*3]   =  half;
+      if (positions[i*3+1] >  half) positions[i*3+1] = -half;
+      if (positions[i*3+1] < -half) positions[i*3+1] =  half;
+      if (positions[i*3+2] > ZMAX)  positions[i*3+2] = ZMIN;
+      if (positions[i*3+2] < ZMIN)  positions[i*3+2] = ZMAX;
+    }
+
+    for (const { pts, start, end } of pointsObjects) {
+      const attr = pts.geometry.attributes.position;
+      const n = end - start;
+      for (let i = 0; i < n; i++) {
+        attr.array[i*3]   = positions[(start+i)*3];
+        attr.array[i*3+1] = positions[(start+i)*3+1];
+        attr.array[i*3+2] = positions[(start+i)*3+2];
+      }
+      attr.needsUpdate = true;
+    }
+
+    target.x += (mouse.x - target.x) * 0.04;
+    target.y += (mouse.y - target.y) * 0.04;
+    group.rotation.y = target.x * 0.45;
+    group.rotation.x = target.y * 0.25;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+</script>
+
+<script>
+/* ── Water system ────────────────────────────────────────────────── */
+(function () {
+  'use strict';
+
+  /* ── Three.js scene setup ── */
+  const canvas   = document.getElementById('water-canvas');
+  const rockScene = document.getElementById('rock-scene');
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 200);
+  camera.position.set(0, 2, 6);
+  camera.lookAt(0, 0, 0);
+
+  function resize() {
+    const w = rockScene.offsetWidth;
+    const h = rockScene.offsetHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  /* ────────────────────────────────────────────────
+     WATER SURFACE — vertex + fragment shader
+  ──────────────────────────────────────────────── */
+  const waterVert = /* glsl */`
+    uniform float uTime;
+    uniform float uTransition;
+
+    varying vec2  vUv;
+    varying vec3  vWorldPos;
+    varying vec3  vNormal;
+
+    // 2-octave value noise (fast, cheap)
+    vec2 hash2(vec2 p) {
+      p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+      return -1.0 + 2.0 * fract(sin(p) * 43758.5453);
+    }
+    float noise(vec2 p) {
+      vec2 i = floor(p), f = fract(p);
+      vec2 u = f*f*(3.0-2.0*f);
+      return mix(mix(dot(hash2(i),           f),
+                     dot(hash2(i+vec2(1,0)), f-vec2(1,0)), u.x),
+                 mix(dot(hash2(i+vec2(0,1)), f-vec2(0,1)),
+                     dot(hash2(i+vec2(1,1)), f-vec2(1,1)), u.x), u.y);
+    }
+
+    void main() {
+      vUv = uv;
+      vec3 pos = position;
+
+      // Gentle multi-frequency surface ripple
+      float t  = uTime * 0.5;
+      float n1 = noise(pos.xz * 1.2 + vec2(t * 0.6, t * 0.4));
+      float n2 = noise(pos.xz * 2.8 + vec2(-t * 0.3, t * 0.7)) * 0.4;
+      float n3 = noise(pos.xz * 5.5 + vec2(t * 0.9, -t * 0.5)) * 0.15;
+      pos.y += (n1 + n2 + n3) * 0.18;
+
+      // Approximate displaced normal for fresnel
+      float eps  = 0.05;
+      float nx   = noise((position.xz + vec2(eps, 0.0)) * 1.2 + vec2(t*0.6, t*0.4));
+      float nz   = noise((position.xz + vec2(0.0, eps)) * 1.2 + vec2(t*0.6, t*0.4));
+      vNormal = normalize(vec3(-(nx - n1) / eps * 0.18, 1.0, -(nz - n1) / eps * 0.18));
+
+      vWorldPos = pos;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+    }
+  `;
+
+  const waterFrag = /* glsl */`
+    uniform float uTime;
+    uniform float uTransition;
+
+    varying vec2  vUv;
+    varying vec3  vWorldPos;
+    varying vec3  vNormal;
+
+    vec2 hash2(vec2 p) {
+      p = vec2(dot(p, vec2(127.1,311.7)), dot(p, vec2(269.5,183.3)));
+      return -1.0 + 2.0 * fract(sin(p) * 43758.5453);
+    }
+    float noise(vec2 p) {
+      vec2 i=floor(p), f=fract(p), u=f*f*(3.0-2.0*f);
+      return mix(mix(dot(hash2(i),           f),
+                     dot(hash2(i+vec2(1,0)), f-vec2(1,0)), u.x),
+                 mix(dot(hash2(i+vec2(0,1)), f-vec2(0,1)),
+                     dot(hash2(i+vec2(1,1)), f-vec2(1,1)), u.x), u.y);
+    }
+
+    void main() {
+      vec3 viewDir = normalize(cameraPosition - vWorldPos);
+
+      // Fresnel — more opaque at grazing angles
+      float fresnel = pow(1.0 - max(dot(vNormal, viewDir), 0.0), 3.0);
+      fresnel = clamp(fresnel, 0.0, 1.0);
+
+      // Fake refraction — distort UVs by normal
+      vec2 refractUV = vUv + vNormal.xz * 0.04;
+      float t = uTime * 0.4;
+
+      // Sub-surface color bands (fake depth variation)
+      float depth = noise(refractUV * 2.5 + vec2(t * 0.3, t * 0.2));
+      vec3 deepColor    = vec3(0.02, 0.18, 0.35);
+      vec3 shallowColor = vec3(0.10, 0.55, 0.72);
+      vec3 waterColor   = mix(deepColor, shallowColor, depth * 0.5 + 0.5);
+
+      // Specular highlight along normal
+      vec3 lightDir  = normalize(vec3(0.6, 1.0, 0.4));
+      float spec     = pow(max(dot(reflect(-lightDir, vNormal), viewDir), 0.0), 64.0);
+      waterColor    += vec3(1.0, 0.98, 0.92) * spec * 0.6;
+
+      // Foam flecks near surface noise peaks
+      float foam = smoothstep(0.55, 0.75, noise(vUv * 8.0 + vec2(t * 0.5, 0.0)));
+      waterColor = mix(waterColor, vec3(0.85, 0.95, 1.0), foam * 0.3);
+
+      // Fresnel edge glow
+      waterColor += vec3(0.4, 0.75, 1.0) * fresnel * 0.5;
+
+      // Opacity: translucent in shallow, opaque at edges
+      float alpha = mix(0.55, 0.90, fresnel);
+
+      gl_FragColor = vec4(waterColor, alpha);
+    }
+  `;
+
+  const waterMat = new THREE.ShaderMaterial({
+    vertexShader:   waterVert,
+    fragmentShader: waterFrag,
+    uniforms: {
+      uTime:       { value: 0 },
+      uTransition: { value: 0 },
+    },
+    transparent: true,
+    side: THREE.DoubleSide,
+    depthWrite: false,
+  });
+
+  // Wide plane — covers the full scene footprint
+  const waterGeo  = new THREE.PlaneGeometry(40, 40, 80, 80);
+  const waterMesh = new THREE.Mesh(waterGeo, waterMat);
+  waterMesh.rotation.x = -Math.PI / 2;
+  waterMesh.position.y = 0;
+  scene.add(waterMesh);
+
+  /* ────────────────────────────────────────────────
+     UNDERWATER SCREEN OVERLAY — caustics + fog
+  ──────────────────────────────────────────────── */
+  const overlayCanvas = document.getElementById('underwater-overlay');
+  const olgl = overlayCanvas.getContext('webgl', { alpha: true, premultipliedAlpha: false });
+
+  function resizeOverlay() {
+    overlayCanvas.width  = window.innerWidth  * Math.min(devicePixelRatio, 2);
+    overlayCanvas.height = window.innerHeight * Math.min(devicePixelRatio, 2);
+    olgl.viewport(0, 0, overlayCanvas.width, overlayCanvas.height);
+  }
+  window.addEventListener('resize', resizeOverlay);
+  resizeOverlay();
+
+  const ovVert = `
+    attribute vec2 a_pos;
+    void main(){ gl_Position = vec4(a_pos, 0.0, 1.0); }
+  `;
+  const ovFrag = `
+    precision mediump float;
+    uniform float u_time;
+    uniform float u_transition;
+    uniform vec2  u_res;
+
+    float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+    float noise(vec2 p){
+      vec2 i=floor(p), f=fract(p), u=f*f*f*(f*(f*6.0-15.0)+10.0);
+      return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),
+                 mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);
+    }
+    float fbm(vec2 p){
+      float v=0.0,a=0.5;
+      for(int i=0;i<4;i++){ v+=a*noise(p); p*=2.1; a*=0.5; }
+      return v;
+    }
+
+    void main(){
+      if(u_transition < 0.001){ gl_FragColor=vec4(0.0); return; }
+
+      vec2 uv  = gl_FragCoord.xy / u_res;
+      float t  = u_time * 0.35;
+
+      // Wavy UV distortion — light bending underwater
+      vec2 warp = vec2(
+        noise(uv * 3.0 + vec2(t * 0.6, 0.1)) - 0.5,
+        noise(uv * 3.0 + vec2(0.2, t * 0.5)) - 0.5
+      ) * 0.012 * u_transition;
+      vec2 wuv = uv + warp;
+
+      // Caustics — two fbm layers moving in opposite directions
+      float c1 = fbm(wuv * 4.0 + vec2( t * 0.4,  t * 0.3));
+      float c2 = fbm(wuv * 4.0 + vec2(-t * 0.3,  t * 0.5) + 3.7);
+      float caustics = pow(abs(c1 - c2), 1.4) * 1.8;
+
+      // Depth fog — blue/green tint, darkens toward edges (vignette)
+      vec3 fogColor = vec3(0.02, 0.18, 0.42);
+      float vig = 1.0 - smoothstep(0.3, 1.1, length((uv - 0.5) * vec2(1.0, 1.3)));
+      float fog = mix(0.55, 0.80, 1.0 - vig) * u_transition;
+
+      // Caustic brightness flicker
+      vec3 causticTint = vec3(0.3, 0.75, 0.9) * caustics * 0.18 * u_transition;
+
+      // Compose: fog layer + caustic shimmer
+      vec3 color = fogColor * fog + causticTint;
+      float alpha = fog * 0.82;
+
+      gl_FragColor = vec4(color, alpha);
+    }
+  `;
+
+  function ovCompile(t, s) {
+    const sh = olgl.createShader(t);
+    olgl.shaderSource(sh, s); olgl.compileShader(sh); return sh;
+  }
+  const ovProg = olgl.createProgram();
+  olgl.attachShader(ovProg, ovCompile(olgl.VERTEX_SHADER,   ovVert));
+  olgl.attachShader(ovProg, ovCompile(olgl.FRAGMENT_SHADER, ovFrag));
+  olgl.linkProgram(ovProg); olgl.useProgram(ovProg);
+
+  const ovBuf = olgl.createBuffer();
+  olgl.bindBuffer(olgl.ARRAY_BUFFER, ovBuf);
+  olgl.bufferData(olgl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), olgl.STATIC_DRAW);
+  const ovPos = olgl.getAttribLocation(ovProg, 'a_pos');
+  olgl.enableVertexAttribArray(ovPos);
+  olgl.vertexAttribPointer(ovPos, 2, olgl.FLOAT, false, 0, 0);
+
+  const ovTime  = olgl.getUniformLocation(ovProg, 'u_time');
+  const ovTrans = olgl.getUniformLocation(ovProg, 'u_transition');
+  const ovRes   = olgl.getUniformLocation(ovProg, 'u_res');
+
+  olgl.enable(olgl.BLEND);
+  olgl.blendFunc(olgl.SRC_ALPHA, olgl.ONE_MINUS_SRC_ALPHA);
+
+  /* ────────────────────────────────────────────────
+     SCROLL → uTransition
+  ──────────────────────────────────────────────── */
+  let uTransition = 0;
+  let transTarget = 0;
+
+  function onScroll() {
+    const sceneTop    = rockScene.getBoundingClientRect().top + window.scrollY;
+    const sceneHeight = rockScene.offsetHeight;
+    const scrollY     = window.scrollY;
+
+    // Transition starts halfway through rock scene, completes near the bottom
+    const start = sceneTop + sceneHeight * 0.35;
+    const end   = sceneTop + sceneHeight * 0.75;
+    transTarget = Math.max(0, Math.min(1, (scrollY - start) / (end - start)));
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ────────────────────────────────────────────────
+     RENDER LOOP
+  ──────────────────────────────────────────────── */
+  (function render(t) {
+    requestAnimationFrame(render);
+    const time = t * 0.001;
+
+    // Smooth transition
+    uTransition += (transTarget - uTransition) * 0.04;
+
+    // Update water uniforms
+    waterMat.uniforms.uTime.value       = time;
+    waterMat.uniforms.uTransition.value = uTransition;
+
+    // Fade overlay canvas in/out via CSS opacity for a free smoothstep
+    overlayCanvas.style.opacity = uTransition;
+
+    // Render Three.js water
+    renderer.render(scene, camera);
+
+    // Render screen overlay
+    olgl.clearColor(0, 0, 0, 0); olgl.clear(olgl.COLOR_BUFFER_BIT);
+    olgl.uniform1f(ovTime,  time);
+    olgl.uniform1f(ovTrans, uTransition);
+    olgl.uniform2f(ovRes,   overlayCanvas.width, overlayCanvas.height);
+    olgl.drawArrays(olgl.TRIANGLE_STRIP, 0, 4);
+  })(0);
+})();
+/* ─────────────────────────────────────────────────────────────────── */
+</script>
 </body>
-
-<footer>
-    <h3>Credits</h3>
-    <p>Developers: Sophia, Sia, Naomi, Zoey</p>
-    <p>Mascots: Lutri Lutri (Lulu) and Bria</p>
-</footer>
 </html>
