@@ -12,9 +12,7 @@
 <body>
   <div class="fixed h-screen w-screen z-100 p-4 flex flex-col">
     <div class="ml-auto text-right space-y-1">
-      <ul class="flex gap-x-[6px]">
-        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
-        <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
+      <ul class="flex gap-x-[6px]" id="easter-egg-dots">
         <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
         <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
         <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
@@ -23,7 +21,7 @@
         <li class="w-4 h-full aspect-square rounded-full bg-white border border-blue"></li>
       </ul>
       <!-- Amount found out of total vv -->
-      <span>3/7</span>
+      <span id = "easter-eggs-counter">0/6</span>
       
     </div>
     <h1 id="site-heading">Protecting Otters, Preserving Nature.</h1>
