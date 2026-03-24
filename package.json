@@ -7,7 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build"
   },
   "repository": {
     "type": "git",
@@ -16,9 +17,18 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/sophiayduan/otterneers/issues"
   },
-  "homepage": "https://github.com/sophiayduan/otterneers#readme"
+  "homepage": "https://github.com/sophiayduan/otterneers#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.2.2",
+    "@tailwindcss/vite": "^4.2.2",
+    "gsap": "^3.14.2",
+    "lenis": "^1.3.20",
+    "tailwindcss": "^4.2.2",
+    "three": "^0.183.2",
+    "vite": "^8.0.2"
+  }
 }

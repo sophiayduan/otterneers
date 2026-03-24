@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@theme {
+  /* Primary */
+  --color-primary: #459DE5;
+
+  /* Secondary */
+  --color-cyan:    #1AE8E5;
+  --color-sage:    #89BD9E;
+  --color-tan:     #A89070;
+  --color-cobalt:  #314AC4;
+  --color-red:     #D81010;
+
+  /* Neutrals */
+  --color-dark:    #18171A;
+  --color-beige:   #FFFDF6;
+  --color-mauve:   #AF97BA;
+  --color-stone:   #6B6570;
+}
+
+:root {
+    --primary-clr: #478fca;
+
+    --blue-clr: rgba(25, 51, 179, 100);
+    --neutral-clr: #FFFDF6;
+    
+}
+
+.dark {
+    --primary-clr:#DC0000;
+    --neutral-clr: #18171A;
+}
+
+
+@font-face {
+    font-family: "Comico";
+    src: url('/fonts/Comico-Regular.otf');
+}
+
+@font-face {
+    font-family: "Heavitas";
+    src: url('/fonts/Heavitas.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body {
+  font-family: 'Geist', sans-serif;
+  color:#0E29AA;
+  background-color:#459DE5;
+}
+
+#site-heading {
+    z-index:2;
+}
+
+#cta {
+    display:flex;
+    flex-direction:column; 
+    justify-content:center;
+    align-items:center;
+    width:400px;
+}
+
+h1 {
+    margin:0;
+    font-size:13rem;
+    padding:0;
+    line-height: 110%;
+}
+
+h3 {
+    margin:0;
+}
+
+
+
+/*Fish*/
+#fish-area {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+#water {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fish {
+  position: absolute;
+  width: 40px;
+  height: auto;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+.fish img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/*Otter images*/
+.mascot-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    position: fixed;
+    pointer-events: none;
+    top: 50%;
+    left: 50%;
+}
