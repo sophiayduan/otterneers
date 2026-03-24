@@ -1,6 +1,6 @@
-console.log("JavaScript has loaded");
+console.log("Easter eggs has loaded");
 
-const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser"];
+const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out"];
 let foundEasterEggs: string[] = [];
 
 //give rocks functions
@@ -180,7 +180,7 @@ let isMascotImg: boolean = false;
 function displayMascotImg(imgSourceArray: readonly string[]){
     isMascotImg = true;
 
-    const imgSource: string = "/otters/" + imgSourceArray[Math.floor(Math.random() * imgSourceArray.length)];
+    const imgSource: string = "public/otters/" + imgSourceArray[Math.floor(Math.random() * imgSourceArray.length)];
 
     const img= document.createElement("img");
     img.src = imgSource;
