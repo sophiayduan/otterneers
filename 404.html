@@ -1,4 +1,4 @@
-<h1>404</h1>
+
 
 <script>
     const egg = "404-found";
@@ -10,6 +10,47 @@
         foundEasterEggs.push(egg);
         sessionStorage.setItem("easter-eggs", JSON.stringify(foundEasterEggs));
     }
+</script>
+
+<div class="center-this">
+    <h1 id="404-text">404 Not Found</h1>
+    <img src="./images/purple-cosmere-otter.png" alt="Purple Otter with Cosmere symbol" id="purple-otter">
+</div>
+
+<style>
+    .center-this {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #404-text {
+    }
+    #purple-otter {
+        border-radius: 50%;
+        width: 60%;
+    }
+</style>
+
+<script>
+    const purpleOtter = document.getElementById("purple-otter");
+
+    purpleOtter.addEventListener("click", () => {
+
+        const egg = "read-and-find-out";
+        foundEasterEggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
+
+        const alreadyHas = foundEasterEggs.indexOf(egg) !== -1;
+
+        if (!alreadyHas) {
+            foundEasterEggs.push(egg);
+            sessionStorage.setItem("easter-eggs", JSON.stringify(foundEasterEggs));
+        }
 
 
+        purpleOtter.src = "./images/rafo.jpg";
+        purpleOtter.alt = "read and find out"
+        purpleOtter.style.borderRadius = "0%";
+
+    })
 </script>
