@@ -1,19 +1,13 @@
 import * as THREE from 'three';
 
 (function () {
+  const hero   = document.getElementById('hero-section');
   const canvas = document.getElementById('light-rays');
-
-  const W = window.innerWidth;
-  const H = window.innerHeight;
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  renderer.setSize(W, H);
 
-  // gl_FragCoord is in *physical* pixels, so uResolution must match the
-  // drawing buffer (W × dpr, H × dpr), not the logical CSS size.
   const drawSize = new THREE.Vector2();
-  renderer.getDrawingBufferSize(drawSize);
 
   const scene  = new THREE.Scene();
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
@@ -23,7 +17,7 @@ import * as THREE from 'three';
     depthWrite:  false,
     uniforms: {
       uTime:       { value: 0.0 },
-      uResolution: { value: drawSize.clone() },
+      uResolution: { value: new THREE.Vector2(1, 1) },
     },
     vertexShader: /* glsl */`
       void main() {
@@ -41,52 +35,44 @@ import * as THREE from 'three';
       }
 
       void main() {
-        // Work in actual pixel coordinates — avoids all aspect-ratio angle distortion.
-        // (0,0) = top-left corner, matching CSS / SVG coordinate space.
+        // Physical pixel coords, (0,0) = top-left of canvas
         vec2 px = vec2(gl_FragCoord.x, uResolution.y - gl_FragCoord.y);
 
-        // Origin: top-right corner, nudged just outside the canvas
+        // Origin: slightly beyond the top-right corner of the hero section
         vec2 origin = vec2(uResolution.x * 1.02, uResolution.y * -0.02);
 
-        vec2 dir  = px - origin;
-        float dist = length(dir);
+        vec2 dir   = px - origin;
+        float dist  = length(dir);
         float angle = atan(dir.y, dir.x);
 
-        // Slow organic animation
         float t  = uTime * 0.22;
-        float w1 = sin(t)              * 0.018;
-        float w2 = sin(t * 1.4 + 1.1) * 0.012;
 
-        // Define each ray by where it aims on screen (matches the SVG polygon centres).
-        // Ray 1: first SVG polygon — fans toward lower-left edge (~9% x, ~71% y)
-        vec2 r1target = vec2(uResolution.x * 0.09, uResolution.y * 0.71);
-        float r1angle = atan(r1target.y - origin.y, r1target.x - origin.x);
-
-        // Ray 2: second SVG polygon — fans toward lower-centre (~34% x, ~87% y)
-        vec2 r2target = vec2(uResolution.x * 0.34, uResolution.y * 0.87);
-        float r2angle = atan(r2target.y - origin.y, r2target.x - origin.x);
-
-        // Sigma in radians — grows with distance so edges soften at the far end
+        // --- Ray A: steep, fans toward bottom-left corner ---
+        vec2 raTarget = vec2(uResolution.x * 0.05, uResolution.y * 0.90);
+        float raAngle = atan(raTarget.y - origin.y, raTarget.x - origin.x);
+        float wa      = sin(t)               * 0.020;
         float normDist = dist / length(uResolution);
-        float r1sigma  = 0.08 + normDist * 0.18 + sin(t * 0.7)       * 0.008;
-        float r2sigma  = 0.07 + normDist * 0.15 + sin(t * 0.9 + 0.5) * 0.008;
+        float raSigma  = 0.22 + normDist * 0.14 + sin(t * 0.7)        * 0.008;
+        float rA       = rayGaussian(angle, raAngle + wa, raSigma);
 
-        float r1 = rayGaussian(angle, r1angle + w1, r1sigma);
-        float r2 = rayGaussian(angle, r2angle + w2, r2sigma);
+        // --- Ray B: shallower, fans toward left-centre ---
+        vec2 rbTarget = vec2(uResolution.x * 0.30, uResolution.y * 0.42);
+        float rbAngle = atan(rbTarget.y - origin.y, rbTarget.x - origin.x);
+        float wb      = sin(t * 1.3 + 1.2) * 0.016;
+        float rbSigma  = 0.18 + normDist * 0.11 + sin(t * 0.9 + 0.5) * 0.008;
+        float rB       = rayGaussian(angle, rbAngle + wb, rbSigma);
 
-        float rays = r1 * 0.65 + r2 * 0.50;
+        float rays = rA * 0.70 + rB * 0.55;
 
-        // Radial fade from source outward
+        // Radial fade — bright near source, dissolves toward far ends
         float maxDist    = length(uResolution);
         float radialFade = smoothstep(maxDist, maxDist * 0.05, dist);
 
-        // Extra dissolve at the bottom-left termination zone
+        // Soften the bottom-left termination of Ray A
         vec2 uv    = px / uResolution;
         float blFade = 1.0 - smoothstep(0.45, 1.0, (1.0 - uv.x) * 0.55 + uv.y * 0.45);
 
-        // Subtle brightness pulse
         float pulse = 0.96 + 0.04 * sin(t * 1.1);
-
         float alpha = rays * radialFade * blFade * pulse * 0.22;
 
         vec3 col = vec3(1.0, 0.922, 0.678); // #FFEBAD
@@ -98,10 +84,17 @@ import * as THREE from 'three';
   const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat);
   scene.add(mesh);
 
-  window.addEventListener('resize', () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.getDrawingBufferSize(mat.uniforms.uResolution.value);
-  });
+  function resize() {
+    const W = hero.offsetWidth;
+    const H = hero.offsetHeight;
+    renderer.setSize(W, H);
+    renderer.getDrawingBufferSize(drawSize);
+    mat.uniforms.uResolution.value.copy(drawSize);
+  }
+
+  // Use ResizeObserver so we catch hero height changes too
+  new ResizeObserver(resize).observe(hero);
+  resize();
 
   (function animate(t) {
     requestAnimationFrame(animate);
