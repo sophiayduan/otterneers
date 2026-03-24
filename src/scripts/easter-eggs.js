@@ -1,5 +1,4 @@
-console.log("JavaScript has loaded");
-var activeCountColour = "f1cc13";
+console.log("Easter eggs has loaded");
 var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out"];
 var foundEasterEggs = [];
 var eggCounter = document.getElementById("easter-eggs-counter");
@@ -139,7 +138,7 @@ function konamiCode(event) {
 }
 document.addEventListener("click", function (event) {
     if (konamiCodeActive) {
-        console.log(konamiCodeActive);
+        //console.log(konamiCodeActive);
         var span = document.createElement('span');
         span.textContent = "❤️";
         span.className = 'emoji click-emoji';
@@ -187,7 +186,7 @@ document.addEventListener('mouseup', function () {
 var isMascotImg = false;
 function displayMascotImg(imgSourceArray) {
     isMascotImg = true;
-    var imgSource = "/otters/" + imgSourceArray[Math.floor(Math.random() * imgSourceArray.length)];
+    var imgSource = "public/otters/" + imgSourceArray[Math.floor(Math.random() * imgSourceArray.length)];
     var img = document.createElement("img");
     img.src = imgSource;
     img.classList.add("mascot-img");
