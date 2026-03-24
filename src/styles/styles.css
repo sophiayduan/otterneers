@@ -76,6 +76,39 @@ h3 {
 
 
 
+/*Fish*/
+#fish-area {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+#water {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fish {
+  position: absolute;
+  width: 40px;
+  height: auto;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+.fish img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /*Otter images*/
 .mascot-img {
     display: flex;

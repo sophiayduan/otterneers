@@ -139,15 +139,13 @@ function konamiCode(event: KeyboardEvent) {
 }
 
 //easter egg 2
-//triple-click on a thing
-// const bird: HTMLElement = document.getElementById("bird"); //notbaly a bird doesn't exist right now
-// bird.addEventListener("click", function (event: MouseEvent) {
-//     //console.log(`Click count: ${event.detail}`);
-//
-//     if (event.detail === 3) {
-//         giveRocks(2);
-//     }
-// })
+//triple-click on the bird
+const bird: HTMLElement = document.getElementById("bird");
+bird.addEventListener("click", function (event: MouseEvent) {
+    if (event.detail === 3) {
+        giveRocks(2);
+    }
+});
 
 //easter egg 3 is 404 not found
 
@@ -182,7 +180,7 @@ let isMascotImg: boolean = false;
 function displayMascotImg(imgSourceArray: readonly string[]){
     isMascotImg = true;
 
-    const imgSource: string = "./images/" + imgSourceArray[Math.floor(Math.random() * imgSourceArray.length)];
+    const imgSource: string = "/otters/" + imgSourceArray[Math.floor(Math.random() * imgSourceArray.length)];
 
     const img= document.createElement("img");
     img.src = imgSource;

@@ -120,15 +120,13 @@ function konamiCode(event) {
     }
 }
 //easter egg 2
-//triple-click on a thing
-// const bird: HTMLElement = document.getElementById("bird"); //notbaly a bird doesn't exist right now
-// bird.addEventListener("click", function (event: MouseEvent) {
-//     //console.log(`Click count: ${event.detail}`);
-//
-//     if (event.detail === 3) {
-//         giveRocks(2);
-//     }
-// })
+//triple-click on the bird
+var bird = document.getElementById("bird");
+bird.addEventListener("click", function (event) {
+    if (event.detail === 3) {
+        giveRocks(2);
+    }
+});
 //easter egg 3 is 404 not found
 //easter eggs 4 and 5
 //select text for a photo to pop up
@@ -159,7 +157,7 @@ document.addEventListener('mouseup', function () {
 var isMascotImg = false;
 function displayMascotImg(imgSourceArray) {
     isMascotImg = true;
-    var imgSource = "./images/" + imgSourceArray[Math.floor(Math.random() * imgSourceArray.length)];
+    var imgSource = "/otters/" + imgSourceArray[Math.floor(Math.random() * imgSourceArray.length)];
     var img = document.createElement("img");
     img.src = imgSource;
     img.classList.add("mascot-img");
