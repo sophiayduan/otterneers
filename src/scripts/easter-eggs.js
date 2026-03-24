@@ -1,9 +1,6 @@
 console.log("Easter eggs has loaded");
 var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out"];
 var foundEasterEggs = [];
-var eggCounter = document.getElementById("easter-eggs-counter");
-//need to set the counter
-displayCounter();
 //give rocks functions
 function giveRocks(easterEggNum) {
     var egg = easterEggs[easterEggNum];
@@ -17,18 +14,6 @@ function giveRocks(easterEggNum) {
     }
     foundEasterEggs.push(egg);
     sessionStorage.setItem("easter-eggs", JSON.stringify(foundEasterEggs));
-    displayCounter();
-}
-function displayCounter() {
-    foundEasterEggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
-    var numEasterEggs = foundEasterEggs.length;
-    eggCounter.textContent = numEasterEggs + "/6";
-    var easterEggDots = document.querySelectorAll("#easter-egg-dots li");
-    for (var i = 0; i < numEasterEggs; i++) {
-        var num = easterEggDots.length - 1 - i;
-        easterEggDots[num].classList.remove("bg-white");
-        easterEggDots[num].classList.add("bg-yellow-300");
-    }
 }
 var lutriText = "Companion — Each nonland card in your starting deck has a different name. (If this card is your chosen companion, you may put it into your hand from outside the game for {3} as a sorcery.)\nFlash\nWhen Lutri enters, if you cast it, copy target instant or sorcery spell you control. You may choose new targets for the copy.";
 //easter egg 1, otter heart ascii
@@ -118,17 +103,15 @@ document.addEventListener("keyup", function (event) {
 //konami code stuff
 var konamiCodeKeys = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
 var konamiCodeNum = 0;
-var konamiCodeActive = false;
 function konamiCode(event) {
     if (event.key === konamiCodeKeys[konamiCodeNum]) {
         if (event.key === konamiCodeKeys[konamiCodeKeys.length - 1]) {
-            //console.log("Konami Code test complete");
-            konamiCodeActive = true;
+            console.log("Konami Code test complete");
             konamiCodeNum = 0;
             giveRocks(1);
         }
         else {
-            //console.log("Konami Code test" + konamiCodeNum);
+            console.log("Konami Code test" + konamiCodeNum);
             konamiCodeNum++;
         }
     }
@@ -202,12 +185,6 @@ window.addEventListener("scroll", function () {
         var mascots = document.querySelectorAll(".mascot-img");
         mascots.forEach(function (img) {
             img.remove();
-        });
-    }
-    if (konamiCodeActive) {
-        var emojis = document.querySelectorAll(".mascot-emoji");
-        emojis.forEach(function (emoji) {
-            emoji.remove();
         });
     }
 });
