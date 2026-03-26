@@ -240,6 +240,14 @@ function displayMascotImg(imgSourceArray: readonly string[]){
     document.body.appendChild(img);
 }
 
+const mascots = document.getElementById("mascots");
+
+mascots.addEventListener("click", function () {
+    const briaArray: readonly string[] = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg"];
+    displayMascotImg(briaArray);
+    giveRocks(4);
+});
+
 window.addEventListener("click", () => {
     if (isMascotImg) {
         isMascotImg = false;

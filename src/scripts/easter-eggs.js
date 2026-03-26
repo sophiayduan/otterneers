@@ -1,9 +1,7 @@
 console.log("JavaScript has loaded");
-var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out"];
+var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser"];
 var foundEasterEggs = [];
 var eggCounter = document.getElementById("easter-eggs-counter");
-//need to set the counter
-displayCounter();
 //give rocks functions
 function giveRocks(easterEggNum) {
     var egg = easterEggs[easterEggNum];
@@ -22,13 +20,15 @@ function giveRocks(easterEggNum) {
 function displayCounter() {
     foundEasterEggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
     var numEasterEggs = foundEasterEggs.length;
-    if (eggCounter) eggCounter.textContent = numEasterEggs + "/6";
+    if (eggCounter)
+        eggCounter.textContent = numEasterEggs + "/6";
     var easterEggDots = document.querySelectorAll("#easter-egg-dots li");
     for (var i = 0; i < easterEggDots.length; i++) {
         if (i < numEasterEggs) {
             easterEggDots[i].classList.remove("bg-beige");
             easterEggDots[i].style.backgroundColor = "#89BD9E";
-        } else {
+        }
+        else {
             easterEggDots[i].style.backgroundColor = "";
             easterEggDots[i].classList.add("bg-beige");
         }
@@ -103,7 +103,7 @@ var otterHeartAscii = "-------------------------------=%@@*=--------------------
     "  \\____/  |_|     |_|  |______|_|  \\_\\______|_|     \\__,_|_| |_| |_|\\__,_/___|_|_| |_|\\__, (_)\n" +
     "                                                                                       __/ |  \n" +
     "                                                                                      |___/   \n";
-//console.log(otterHeartAscii);
+console.log(otterHeartAscii);
 var site_heading = document.getElementById("site-heading");
 site_heading.addEventListener("click", function () {
     console.log(otterHeartAscii);
@@ -132,7 +132,7 @@ function konamiCode(event) {
             giveRocks(1);
         }
         else {
-            //console.log("Konami Code test" + konamiCodeNum);
+            console.log("Konami Code test" + konamiCodeNum);
             konamiCodeNum++;
         }
     }
@@ -150,11 +150,18 @@ document.addEventListener("click", function (event) {
         span.style.position = 'fixed';
         document.body.appendChild(span);
     }
+    if (isMascotImg) {
+        isMascotImg = false;
+        var mascots_1 = document.querySelectorAll(".mascot-img");
+        mascots_1.forEach(function (img) {
+            img.remove();
+        });
+    }
 });
 //easter egg 2
 //triple-click on the bird
-// var bird = document.getElementById("bird");
-// bird.addEventListener("click", function (event) {
+// const bird: HTMLElement = document.getElementById("bird");
+// bird.addEventListener("click", function (event: MouseEvent) {
 //     if (event.detail === 3) {
 //         giveRocks(2);
 //     }
@@ -163,7 +170,7 @@ document.addEventListener("click", function (event) {
 //easter eggs 4 and 5
 //select text for a photo to pop up
 document.addEventListener('mouseup', function () {
-    console.log("fired");
+    //console.log("fired");
     var selection = document.getSelection();
     var selectedText = selection ? selection.toString() : null;
     //console.log(selectedText);
@@ -180,7 +187,7 @@ document.addEventListener('mouseup', function () {
         giveRocks(4);
     }
     else if (selectedText === "Lutri" || selectedText === "Lutri ") {
-        console.log("Lutri the spellchaser?");
+        //console.log("Lutri the spellchaser?");
         var lutriArray = ["lutri-the-spellchaser.webp", "lutri-the-spellchaser-alt.jpg"];
         displayMascotImg(lutriArray);
         giveRocks(5);
@@ -195,22 +202,22 @@ function displayMascotImg(imgSourceArray) {
     img.classList.add("mascot-img");
     //scale, random rotation, and random offset
     var rotation = Math.random() * 360;
-    img.style.width = "60%";
+    img.style.width = "40%";
     img.style.transform = "translate(-50%, -50%) rotate(".concat(rotation, "deg)");
     document.body.appendChild(img);
 }
-window.addEventListener("scroll", function () {
+var mascots = document.getElementById("mascots");
+mascots.addEventListener("click", function () {
+    var briaArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg"];
+    displayMascotImg(briaArray);
+    giveRocks(4);
+});
+window.addEventListener("click", function () {
     if (isMascotImg) {
         isMascotImg = false;
-        var mascots = document.querySelectorAll(".mascot-img");
-        mascots.forEach(function (img) {
+        var mascots_2 = document.querySelectorAll(".mascot-img");
+        mascots_2.forEach(function (img) {
             img.remove();
-        });
-    }
-    if (konamiCodeActive) {
-        var emojis = document.querySelectorAll(".mascot-emoji");
-        emojis.forEach(function (emoji) {
-            emoji.remove();
         });
     }
 });
