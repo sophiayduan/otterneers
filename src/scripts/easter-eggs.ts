@@ -1,9 +1,11 @@
 console.log("JavaScript has loaded");
 
-const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "read-and-find-out", "mascot-images", "lutri-the-spellchaser"];
+const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out"];
 let foundEasterEggs: string[] = [];
 
 const eggCounter:HTMLSpanElement = document.getElementById("easter-eggs-counter");
+
+displayCounter();
 
 //give rocks functions
 function giveRocks(easterEggNum: number) {
@@ -240,15 +242,16 @@ function displayMascotImg(imgSourceArray: readonly string[]){
     document.body.appendChild(img);
 }
 
-const mascots = document.getElementById("mascots");
+const mascots = document.getElementById("mascots-text");
 
 mascots.addEventListener("click", function () {
+    console.log("mascots");
     const briaArray: readonly string[] = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg"];
     displayMascotImg(briaArray);
     giveRocks(4);
 });
 
-window.addEventListener("click", () => {
+window.addEventListener("scroll", () => {
     if (isMascotImg) {
         isMascotImg = false;
         const mascots = document.querySelectorAll(".mascot-img");
@@ -257,6 +260,12 @@ window.addEventListener("click", () => {
             img.remove();
         });
     }
+
+    const emojis = document.querySelectorAll("click-emoji");
+
+    emojis.forEach(img => {
+        img.remove();
+    })
 
 
 });

@@ -1,7 +1,8 @@
 console.log("JavaScript has loaded");
-var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "read-and-find-out", "mascot-images", "lutri-the-spellchaser"];
+var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out"];
 var foundEasterEggs = [];
 var eggCounter = document.getElementById("easter-eggs-counter");
+displayCounter();
 //give rocks functions
 function giveRocks(easterEggNum) {
     var egg = easterEggs[easterEggNum];
@@ -206,13 +207,14 @@ function displayMascotImg(imgSourceArray) {
     img.style.transform = "translate(-50%, -50%) rotate(".concat(rotation, "deg)");
     document.body.appendChild(img);
 }
-var mascots = document.getElementById("mascots");
+var mascots = document.getElementById("mascots-text");
 mascots.addEventListener("click", function () {
+    console.log("mascots");
     var briaArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg"];
     displayMascotImg(briaArray);
     giveRocks(4);
 });
-window.addEventListener("click", function () {
+window.addEventListener("scroll", function () {
     if (isMascotImg) {
         isMascotImg = false;
         var mascots_2 = document.querySelectorAll(".mascot-img");
@@ -220,4 +222,8 @@ window.addEventListener("click", function () {
             img.remove();
         });
     }
+    var emojis = document.querySelectorAll("click-emoji");
+    emojis.forEach(function (img) {
+        img.remove();
+    });
 });
