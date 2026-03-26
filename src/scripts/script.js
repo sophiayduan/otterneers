@@ -52,7 +52,7 @@ document.querySelectorAll('.words-up').forEach(el => {
 })();
 
 (function () {
-  const frameCount = 47;
+  const frameCount = 51;
   const canvas = document.getElementById('frame-canvas');
   const ctx = canvas.getContext('2d');
 
