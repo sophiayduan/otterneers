@@ -8,6 +8,155 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 new TextHoverEffect(document.querySelector('#site-heading'));
 
+// RAFT list item hover — slide up effect
+(function () {
+  const items = document.querySelectorAll('.raft-item');
+  if (!items.length) return;
+
+  const dur  = 0.5;
+  const ease = 'power2.inOut';
+
+  items.forEach(item => {
+    const h2    = item.querySelector('.raft-h2');
+    const clone = item.querySelector('.raft-h2-clone');
+    const p     = item.querySelector('.raft-p');
+
+    // Clone starts directly below the real H2 — both travel as a single column
+    gsap.set(clone, { yPercent: 100 });
+    gsap.set(p,     { y: 16, opacity: 0 });
+
+    item.addEventListener('mouseenter', () => {
+      gsap.killTweensOf([h2, clone, p]);
+      gsap.to(h2,    { yPercent: -100, duration: dur, ease });
+      gsap.to(clone, { yPercent: 0,    duration: dur, ease });
+      gsap.to(p,     { y: 0, opacity: 1, duration: dur, ease: 'power2.out', delay: dur * 0.2 });
+    });
+
+    item.addEventListener('mouseleave', () => {
+      gsap.killTweensOf([h2, clone, p]);
+      gsap.to(h2,    { yPercent: 0,   duration: dur, ease });
+      gsap.to(clone, { yPercent: 100, duration: dur, ease });
+      gsap.to(p,     { y: 16, opacity: 0, duration: dur * 0.8, ease: 'power2.in' });
+    });
+  });
+})();
+
+// Corner hover frame for facts list items
+(function () {
+  const ul = document.querySelector('#facts-inner ul');
+  if (!ul) return;
+
+  const frame = document.createElement('div');
+  frame.id = 'hover-frame';
+  frame.innerHTML =
+    '<span class="corner tl"></span>' +
+    '<span class="corner tr"></span>' +
+    '<span class="corner bl"></span>' +
+    '<span class="corner br"></span>';
+  document.body.appendChild(frame);
+
+  gsap.set(frame, { opacity: 0 });
+
+  // quickTo gives buttery continuous updates without spawning new tweens
+  const qx = gsap.quickTo(frame, 'x',      { duration: 0.5, ease: 'power3.out' });
+  const qy = gsap.quickTo(frame, 'y',      { duration: 0.5, ease: 'power3.out' });
+  const qw = gsap.quickTo(frame, 'width',  { duration: 0.5, ease: 'power3.out' });
+  const qh = gsap.quickTo(frame, 'height', { duration: 0.5, ease: 'power3.out' });
+
+  const MAGNET = 0.18; // fraction of half-size the frame drifts toward cursor
+  let visible = false;
+  let activeItem = null;
+
+  function snapTo(el) {
+    const r = el.getBoundingClientRect();
+    if (!visible) {
+      gsap.set(frame, { x: r.left, y: r.top, width: r.width, height: r.height });
+      gsap.to(frame, { opacity: 1, duration: 0.18, ease: 'power2.out' });
+      visible = true;
+    } else {
+      qx(r.left); qy(r.top); qw(r.width); qh(r.height);
+    }
+    activeItem = el;
+  }
+
+  function applyMagnet(e) {
+    if (!activeItem) return;
+    const r = activeItem.getBoundingClientRect();
+    const dx = (e.clientX - (r.left + r.width  / 2)) * MAGNET;
+    const dy = (e.clientY - (r.top  + r.height / 2)) * MAGNET;
+    qx(r.left + dx);
+    qy(r.top  + dy);
+  }
+
+  ul.querySelectorAll('.raft-item').forEach(item => {
+    item.addEventListener('mouseenter', () => snapTo(item));
+    item.addEventListener('mousemove',  applyMagnet);
+  });
+
+  ul.addEventListener('mouseleave', () => {
+    // Spring back to last item center before fading
+    if (activeItem) {
+      const r = activeItem.getBoundingClientRect();
+      qx(r.left); qy(r.top);
+    }
+    gsap.to(frame, { opacity: 0, duration: 0.22, ease: 'power2.in' });
+    visible = false;
+    activeItem = null;
+  });
+})();
+
+// "SCROLL TO DISCOVER" cursor label — mouse follow + fade out on scroll
+(function () {
+  const label = document.getElementById('cursor-label');
+  if (!label) return;
+
+  document.addEventListener('mousemove', e => {
+    gsap.set(label, { x: e.clientX, y: e.clientY });
+  });
+
+  ScrollTrigger.create({
+    trigger: '#otter-unique-section',
+    start: 'top 80%',
+    onEnter: () => gsap.to(label, { opacity: 0, duration: 0.4, ease: 'power2.out', pointerEvents: 'none' }),
+    onLeaveBack: () => gsap.to(label, { opacity: 1, duration: 0.4, ease: 'power2.out' }),
+  });
+})();
+
+// Facts section — padding + border-radius collapse on scroll
+(function () {
+  const section = document.getElementById('facts-section');
+  const inner   = document.getElementById('facts-inner');
+  if (!section || !inner) return;
+
+  gsap.fromTo(section,
+    { padding: '6rem' },
+    {
+      padding: '0rem',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 80%',
+        end:   'top 20%',
+        scrub: 1.2,
+      },
+    }
+  );
+
+  gsap.fromTo(inner,
+    { borderRadius: '0.25rem' },
+    {
+      borderRadius: '0rem',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 80%',
+        end:   'top 20%',
+        scrub: 1.2,
+      },
+    }
+  );
+})();
+
 // Initialize Lenis
 const lenis = new Lenis();
 
@@ -32,24 +181,6 @@ document.querySelectorAll('.words-up').forEach(el => {
 });
 
 
-// Soft snap to hero top TODO:fix this
-(function () {
-  const THRESHOLD = 400; // px within hero top to trigger snap
-  let snapTimer;
-
-  lenis.on('scroll', ({ scroll }) => {
-    clearTimeout(snapTimer);
-    snapTimer = setTimeout(() => {
-      const hero = document.getElementById('hero-section');
-      if (!hero) return;
-      const heroTop = hero.offsetTop;
-      const dist = Math.abs(scroll - heroTop);
-      if (dist < THRESHOLD && dist > 4) {
-        lenis.scrollTo(heroTop, { duration: 1.2, easing: t => 1 - Math.pow(1 - t, 4) });
-      }
-    }, 180);
-  });
-})();
 
 (function () {
   const frameCount = 47;
@@ -73,22 +204,15 @@ document.querySelectorAll('.words-up').forEach(el => {
     const img = frames[index];
     if (!img.complete) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const scale = Math.min(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight) * 1.4;
+    const scale = Math.min(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
     const w = img.naturalWidth  * scale;
     const h = img.naturalHeight * scale;
     ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
   }
 
-  frames[0].onload = () => drawFrame(0);
-
-  // Scroll to hero (midpoint of sequence-container) so animation is already 50% in
-  // Use 'load' to ensure layout is settled before reading offsetTop
-  window.addEventListener('load', () => {
-    const hero = document.getElementById('hero-section');
-    if (hero) requestAnimationFrame(() => lenis.scrollTo(hero.offsetTop, { immediate: true }));
-  });
-
-  const state = { frame: 0 };
+  const state = { frame: 4 };
+  if (frames[4].complete) drawFrame(4);
+  else frames[4].onload = () => drawFrame(4);
   let freezeFrame = false;
   const scrollConfig = {
     trigger: '#sequence-container',
@@ -105,17 +229,14 @@ document.querySelectorAll('.words-up').forEach(el => {
   });
 
   const tl = gsap.timeline({ scrollTrigger: scrollConfig });
-  gsap.to(canvas, {
-    x: '30vw',
-    y: '20vh',
-    scale: 0.6,
-    scrollTrigger: {
-      trigger: '#sequence-container',
-      start: 'top top',
-      end: '20% top',
-      scrub: 0.5,
-    }
-  });
+  gsap.set(canvas, { x: '20vw', scale: 1.2 });
+
+  // Gentle sine-wave bob on y, independent of scroll
+  const bobCenter = window.innerHeight * 0.10;
+  gsap.fromTo(canvas,
+    { y: bobCenter - 18 },
+    { y: bobCenter + 18, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' }
+  );
 
   gsap.to(canvas, {
     x: 0,

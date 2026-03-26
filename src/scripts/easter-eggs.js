@@ -23,15 +23,17 @@ function giveRocks(easterEggNum) {
 function displayCounter() {
     foundEasterEggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
     var numEasterEggs = foundEasterEggs.length;
-    if (eggCounter) eggCounter.textContent = numEasterEggs + "/6";
+    if (eggCounter) eggCounter.textContent = numEasterEggs + "/8";
     var easterEggDots = document.querySelectorAll("#easter-egg-dots li");
     for (var i = 0; i < easterEggDots.length; i++) {
+        var path = easterEggDots[i].querySelector("path");
         if (i < numEasterEggs) {
-            easterEggDots[i].classList.remove("bg-beige");
-            easterEggDots[i].style.backgroundColor = "#89BD9E";
+            easterEggDots[i].style.backgroundColor = "white";
+            easterEggDots[i].style.borderColor = "#2034ab";
+            // if (path) path.style.stroke = "#FFFFFF";
         } else {
             easterEggDots[i].style.backgroundColor = "";
-            easterEggDots[i].classList.add("bg-beige");
+            easterEggDots[i].style.borderColor = "#2034ab";
         }
     }
 }
@@ -106,11 +108,12 @@ var otterHeartAscii = "-------------------------------=%@@*=--------------------
     "                                                                                      |___/   \n";
 //console.log(otterHeartAscii);
 var site_heading = document.getElementById("site-heading");
-site_heading.addEventListener("click", function () {
-    console.log(otterHeartAscii);
-    //give player rocks!
-    giveRocks(0);
-});
+if (site_heading) {
+    site_heading.addEventListener("click", function () {
+        console.log(otterHeartAscii);
+        giveRocks(0);
+    });
+}
 document.addEventListener("keyup", function (event) {
     //console.log("stuff and things, key up, etc.");
     if (event.defaultPrevented) {
@@ -121,27 +124,66 @@ document.addEventListener("keyup", function (event) {
     }
 });
 //konami code stuff
-var konamiCodeKeys = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+var konamiCodeKeys = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight"];
 var konamiCodeNum = 0;
 var konamiCodeActive = false;
+function lightKonamiDot(index) {
+    var dots = document.querySelectorAll("#easter-egg-dots li");
+    if (dots[index]) {
+        dots[index].style.setProperty("border-color", "white", "important");
+        var path = dots[index].querySelector("path");
+        if (path) path.style.setProperty("stroke", "white", "important");
+    }
+}
+function resetKonamiDots() {
+    document.querySelectorAll("#easter-egg-dots li").forEach(function(dot) {
+        dot.style.removeProperty("border-color");
+        dot.style.removeProperty("background-color");
+        var path = dot.querySelector("path");
+        if (path) path.style.removeProperty("stroke");
+    });
+}
+function setAllDotsWhite() {
+    document.querySelectorAll("#easter-egg-dots li").forEach(function(dot) {
+        dot.style.setProperty("border-color", "white", "important");
+        dot.style.setProperty("background-color", "white", "important");
+        var path = dot.querySelector("path");
+        if (path) path.style.setProperty("stroke", "white", "important");
+    });
+}
+function flashKonamiDots(flashes, interval, onDone) {
+    var count = 0;
+    var total = flashes * 2;
+    var id = setInterval(function() {
+        if (count % 2 === 0) setAllDotsWhite();
+        else resetKonamiDots();
+        count++;
+        if (count >= total) {
+            clearInterval(id);
+            resetKonamiDots();
+            if (onDone) onDone();
+        }
+    }, interval);
+}
 function konamiCode(event) {
     if (event.key === konamiCodeKeys[konamiCodeNum]) {
-        if (event.key === konamiCodeKeys[konamiCodeKeys.length - 1]) {
-            //console.log("Konami Code test complete");
+        lightKonamiDot(konamiCodeNum);
+        if (konamiCodeNum === konamiCodeKeys.length - 1) {
             konamiCodeActive = true;
             konamiCodeNum = 0;
             giveRocks(1);
-        }
-        else {
-            //console.log("Konami Code test" + konamiCodeNum);
+            flashKonamiDots(4, 120, resetKonamiDots);
+        } else {
             konamiCodeNum++;
         }
-    }
-    else {
+    } else {
         konamiCodeNum = 0;
+        resetKonamiDots();
     }
 }
 document.addEventListener("click", function (event) {
+    konamiCodeNum = 0;
+    resetKonamiDots();
     if (konamiCodeActive) {
         var span = document.createElement('span');
         span.textContent = "❤️";

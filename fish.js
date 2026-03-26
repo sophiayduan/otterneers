@@ -1,133 +1,137 @@
-const water = document.getElementById("water")
 const container = document.getElementById("fish-area")
 
-let mouse = {x:0, y:0}
+const FISH_COUNT = 80
+const NUM_GROUPS = 8
+const MAX_SPEED = 1.5
 
-document.addEventListener("mousemove", e=>{
-  const rect = container.getBoundingClientRect()
+let mouse = { x: -9999, y: -9999 }
 
-  mouse.x = e.clientX - rect.left
-  mouse.y = e.clientY - rect.top
+document.addEventListener("mousemove", e => {
+  mouse.x = e.clientX
+  mouse.y = e.clientY + window.scrollY
 })
+
+// Clear existing fish from HTML and generate dynamically
+const water = document.getElementById("water")
+water.innerHTML = ""
+for (let i = 0; i < FISH_COUNT; i++) {
+  const div = document.createElement("div")
+  div.className = "fish"
+  const img = document.createElement("img")
+  img.src = i % 2 === 0 ? "/fishy.png" : "/fishy2.png"
+  div.appendChild(img)
+  water.appendChild(div)
+}
 
 const fishElements = document.querySelectorAll(".fish")
-
 let fish = []
 
-const containerRect = container.getBoundingClientRect()
+function pageWidth()  { return document.documentElement.scrollWidth }
+function pageHeight() { return document.documentElement.scrollHeight }
 
-fishElements.forEach(el => {
+window.addEventListener("load", () => {
+  const pw = pageWidth()
+  const ph = pageHeight()
 
-  fish.push({
-    el,
-    x: Math.random()*containerRect.width,
-    y: Math.random()*containerRect.height,
-    vx: (Math.random()-0.5)*2,
-    vy: (Math.random()-0.5)*2,
-    group: Math.random() > 0.5 ? 0 : 1,
-    scared:false,
-    calmTimer:0
+  fishElements.forEach((el, i) => {
+    fish.push({
+      el,
+      x: Math.random() * pw,
+      y: Math.random() * ph,
+      vx: (Math.random() - 0.5) * 2,
+      vy: (Math.random() - 0.5) * 2,
+      group: Math.floor(i / (FISH_COUNT / NUM_GROUPS)),
+      scared: false,
+      calmTimer: 0
+    })
   })
+
+  animate()
 })
 
-function animate(){
+function clamp(val, min, max) {
+  return Math.max(min, Math.min(max, val))
+}
+
+function animate() {
+  const pw = pageWidth()
+  const ph = pageHeight()
 
   fish.forEach(f => {
+    // Mouse scare
+    const dx = f.x - mouse.x
+    const dy = f.y - mouse.y
+    const distance = Math.sqrt(dx * dx + dy * dy)
 
-    let dx = f.x - mouse.x
-    let dy = f.y - mouse.y
-    let distance = Math.sqrt(dx*dx + dy*dy)
-
-    //fish panic and scatter
-    if(distance < 120){
-
-      let angle = Math.atan2(dy,dx)
-
-      f.vx = Math.cos(angle)*2
-      f.vy = Math.sin(angle)*2
-
+    if (distance < 120) {
+      const angle = Math.atan2(dy, dx)
+      f.vx = Math.cos(angle) * MAX_SPEED
+      f.vy = Math.sin(angle) * MAX_SPEED
       f.scared = true
       f.calmTimer = 90
     }
 
-    if(f.scared){
+    if (f.scared) {
       f.calmTimer--
-      if(f.calmTimer <= 0){
-        f.scared = false
-      }
+      if (f.calmTimer <= 0) f.scared = false
     }
 
-    //keep fish together in groups
-    if(!f.scared){
-
-      let centerX = 0
-      let centerY = 0
-      let count = 0
-
-      let avgVX = 0
-      let avgVY = 0
-      let neighbors = 0
+    // Local flocking — only care about nearby fish in the same group
+    if (!f.scared) {
+      let avgVX = 0, avgVY = 0, neighbors = 0
+      let sepX = 0, sepY = 0
 
       fish.forEach(other => {
+        if (other === f || other.group !== f.group) return
+        const ddx = other.x - f.x
+        const ddy = other.y - f.y
+        const dist = Math.sqrt(ddx * ddx + ddy * ddy)
 
-        if(other.group === f.group){
-
-          centerX += other.x
-          centerY += other.y
-          count++
-
-          let dx = other.x - f.x
-          let dy = other.y - f.y
-          let dist = Math.sqrt(dx*dx + dy*dy)
-
-          if(dist < 80){
-            avgVX += other.vx
-            avgVY += other.vy
-            neighbors++
-          }
-
-          if(other !== f && dist < 20){
-            f.vx += (f.x - other.x) * 0.01
-            f.vy += (f.y - other.y) * 0.01
-          }
-
+        if (dist < 150) {
+          // Alignment
+          avgVX += other.vx
+          avgVY += other.vy
+          neighbors++
         }
-
+        if (dist < 25) {
+          // Separation
+          sepX += (f.x - other.x)
+          sepY += (f.y - other.y)
+        }
       })
 
-      centerX /= count
-      centerY /= count
-
-      f.vx += (centerX - f.x) * 0.00005
-      f.vy += (centerY - f.y) * 0.00005
-
-      //all fish move in same direction
-      if(neighbors > 0){
-        avgVX /= neighbors
-        avgVY /= neighbors
-
-        f.vx += (avgVX - f.vx) * 0.05
-        f.vy += (avgVY - f.vy) * 0.05
+      if (neighbors > 0) {
+        f.vx += ((avgVX / neighbors) - f.vx) * 0.04
+        f.vy += ((avgVY / neighbors) - f.vy) * 0.04
       }
 
-      f.vx += (Math.random()-0.5)*0.02
-      f.vy += (Math.random()-0.5)*0.02
+      f.vx += sepX * 0.008
+      f.vy += sepY * 0.008
+
+      // Random drift
+      f.vx += (Math.random() - 0.5) * 0.05
+      f.vy += (Math.random() - 0.5) * 0.05
+    }
+
+    // Cap speed
+    const speed = Math.sqrt(f.vx * f.vx + f.vy * f.vy)
+    if (speed > MAX_SPEED) {
+      f.vx = (f.vx / speed) * MAX_SPEED
+      f.vy = (f.vy / speed) * MAX_SPEED
     }
 
     f.x += f.vx
     f.y += f.vy
 
-    if(f.x < 0 || f.x > containerRect.width) f.vx *= -1
-    if(f.y < 0 || f.y > containerRect.height) f.vy *= -1
+    // Bounce off page edges
+    if (f.x < 0)  { f.x = 0;  f.vx = Math.abs(f.vx) }
+    if (f.x > pw) { f.x = pw; f.vx = -Math.abs(f.vx) }
+    if (f.y < 0)  { f.y = 0;  f.vy = Math.abs(f.vy) }
+    if (f.y > ph) { f.y = ph; f.vy = -Math.abs(f.vy) }
 
-    let angle = Math.atan2(f.vy, f.vx)
-
-    f.el.style.transform =
-      `translate(${f.x}px, ${f.y}px) rotate(${angle}rad)`
-
+    const angle = Math.atan2(f.vy, f.vx)
+    f.el.style.transform = `translate(${f.x}px, ${f.y}px) rotate(${angle}rad)`
   })
 
   requestAnimationFrame(animate)
 }
-
-animate()

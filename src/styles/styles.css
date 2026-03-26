@@ -2,6 +2,7 @@
 
 @theme {
   --font-sans: "Switzer", sans-serif;
+  --font-heavitas: "Heavitas", sans-serif;
 
   /* Primary */
   --color-primary: #459DE5;
@@ -13,6 +14,7 @@
   --color-blue: #2034ab;
   --color-red: #D81010;
   --color-orange: #EF9300;
+  --color-yellow: #FFEBAD;
 
   /* Neutrals */
   --color-dark: #040B11;
@@ -28,6 +30,26 @@
     --neutral-clr: #FFFDF6;
     
 }
+
+/* Hover corner frame for facts list */
+#hover-frame {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+#hover-frame .corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: white;
+  border-style: solid;
+}
+#hover-frame .corner.tl { top: 0;    left: 0;  border-width: 2px 0 0 2px; }
+#hover-frame .corner.tr { top: 0;    right: 0; border-width: 2px 2px 0 0; }
+#hover-frame .corner.bl { bottom: 0; left: 0;  border-width: 0 0 2px 2px; }
+#hover-frame .corner.br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
 
 .dark {
     --primary-clr:#DC0000;
@@ -80,13 +102,19 @@ h1 {
 h3 {
     margin:0;
 }
+p {
+    font-family: 'Switzer', sans-serif;
 
+}
 
 
 /*Fish*/
 #fish-area {
   position: absolute;
-  inset: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   pointer-events: none;
   z-index: 2;
@@ -126,4 +154,8 @@ h3 {
     pointer-events: none;
     top: 50%;
     left: 50%;
+}
+
+#easter-egg-dots li.lit path {
+    stroke: white !important;
 }
