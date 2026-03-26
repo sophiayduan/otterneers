@@ -28,7 +28,7 @@ function displayCounter() {
     for (var i = 0; i < easterEggDots.length; i++) {
         if (i < numEasterEggs) {
             easterEggDots[i].classList.remove("bg-beige");
-            easterEggDots[i].style.backgroundColor = "#FFEBAD";
+            easterEggDots[i].style.backgroundColor = "#89BD9E";
         } else {
             easterEggDots[i].style.backgroundColor = "";
             easterEggDots[i].classList.add("bg-beige");
@@ -154,12 +154,12 @@ document.addEventListener("click", function (event) {
 });
 //easter egg 2
 //triple-click on the bird
-var bird = document.getElementById("bird");
-bird.addEventListener("click", function (event) {
-    if (event.detail === 3) {
-        giveRocks(2);
-    }
-});
+// var bird = document.getElementById("bird");
+// bird.addEventListener("click", function (event) {
+//     if (event.detail === 3) {
+//         giveRocks(2);
+//     }
+// });
 //easter egg 3 is 404 not found
 //easter eggs 4 and 5
 //select text for a photo to pop up

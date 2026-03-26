@@ -51,7 +51,7 @@ function jitter() { return (Math.random() - 0.5) * 0.6; }
     ctx.quadraticCurveTo(points[i].x, points[i].y, mx, my);
 
     // Slight width wobble for hand-drawn texture
-    ctx.lineWidth   = t * 2.2 + jitter() * 0.25;
+    ctx.lineWidth   = t * 4.5 + jitter() * 0.4;
     ctx.strokeStyle = `rgba(137, 189, 158, ${t * 0.75})`;
     ctx.stroke();
   }

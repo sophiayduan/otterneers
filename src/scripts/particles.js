@@ -87,8 +87,8 @@ import * as THREE from 'three';
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.BufferAttribute(buf, 3));
     const mat = new THREE.PointsMaterial({
-      size: 0.05, map: sprite, color: 0xFFFDF6, // attributes
-      transparent: true, opacity: 0.56,
+      size: 0.07, map: sprite, color: 0xFFFDF6, // attributes
+      transparent: true, opacity: 0.3,
       sizeAttenuation: true, depthWrite: false,
     });
     const pts = new THREE.Points(geo, mat);
@@ -114,8 +114,14 @@ import * as THREE from 'three';
   window.addEventListener('resize', resize);
   resize();
 
+  let heroVisible = true;
+  new IntersectionObserver(entries => {
+    heroVisible = entries[0].isIntersecting;
+  }, { rootMargin: '200px' }).observe(hero);
+
   (function animate() {
     requestAnimationFrame(animate);
+    if (!heroVisible) return;
     const half = RANGE / 2;
     for (let i = 0; i < COUNT; i++) {
       positions[i*3]   += velocities[i*3];

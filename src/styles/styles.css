@@ -1,21 +1,24 @@
 @import "tailwindcss";
 
 @theme {
+  --font-sans: "Switzer", sans-serif;
+
   /* Primary */
   --color-primary: #459DE5;
 
   /* Secondary */
-  --color-cyan:    #1AE8E5;
-  --color-sage:    #89BD9E;
-  --color-tan:     #A89070;
-  --color-cobalt:  #314AC4;
-  --color-red:     #D81010;
+  --color-cyan: #1AE8E5;
+  --color-green: #89BD9E;
+  --color-tan: #A89070;
+  --color-blue: #2034ab;
+  --color-red: #D81010;
+  --color-orange: #EF9300;
 
   /* Neutrals */
-  --color-dark:    #18171A;
-  --color-beige:   #FFFDF6;
-  --color-mauve:   #AF97BA;
-  --color-stone:   #6B6570;
+  --color-dark: #040B11;
+  --color-beige: #FFFDF6;
+  --color-mauve: #AF97BA;
+  --color-stone: #6B6570;
 }
 
 :root {
@@ -33,6 +36,14 @@
 
 
 @font-face {
+    font-family: "Switzer";
+    src: url('/fonts/Switzer-Variable.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
     font-family: "Comico";
     src: url('/fonts/Comico-Regular.otf');
 }
@@ -46,13 +57,9 @@
 
 
 body {
-  font-family: 'Geist', sans-serif;
+  font-family: 'Switzer', sans-serif;
   color:#0E29AA;
   background-color:#459DE5;
-}
-
-#site-heading {
-    z-index:2;
 }
 
 #cta {

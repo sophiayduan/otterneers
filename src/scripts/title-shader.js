@@ -10,17 +10,19 @@ import * as THREE from 'three';
     const PW = W + PAD * 2;
     const PH = H + PAD * 2;
 
-    // Pull canvas back by PAD so it stays visually aligned
-    canvas.style.margin = `-${PAD}px`;
-
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    renderer.setSize(PW, PH);
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-PW/2, PW/2, PH/2, -PH/2, -1, 1);
 
-    const texture = new THREE.Texture(svgImg);
+    const texCanvas = document.createElement('canvas');
+    const texCtx = texCanvas.getContext('2d');
+    texCanvas.width = W;
+    texCanvas.height = H;
+    texCtx.drawImage(svgImg, 0, 0, W, H);
+    const texture = new THREE.Texture(texCanvas);
     texture.needsUpdate = true;
 
     // UV offsets so texture is mapped only to the central W×H area of the PW×PH plane
@@ -106,6 +108,36 @@ import * as THREE from 'three';
     const mesh = new THREE.Mesh(new THREE.PlaneGeometry(PW, PH), mat);
     scene.add(mesh);
 
+    let currentScale = 1;
+
+    function resize() {
+      currentScale = canvas.parentElement.clientWidth / W;
+      const DPR = Math.min(window.devicePixelRatio, 2);
+      const texW = Math.round(W * currentScale * DPR);
+      const texH = Math.round(H * currentScale * DPR);
+      if (texCanvas.width !== texW || texCanvas.height !== texH) {
+        texCanvas.width = texW;
+        texCanvas.height = texH;
+        texCtx.drawImage(svgImg, 0, 0, texW, texH);
+        texture.needsUpdate = true;
+      }
+      const sPW = Math.round(PW * currentScale);
+      const sPH = Math.round(PH * currentScale);
+      canvas.style.margin = `-${PAD * currentScale}px`;
+      renderer.setSize(sPW, sPH);
+      camera.left   = -sPW / 2;
+      camera.right  =  sPW / 2;
+      camera.top    =  sPH / 2;
+      camera.bottom = -sPH / 2;
+      camera.updateProjectionMatrix();
+      mesh.geometry.dispose();
+      mesh.geometry = new THREE.PlaneGeometry(sPW, sPH);
+    }
+
+    new ResizeObserver(resize).observe(canvas.parentElement);
+    window.addEventListener('resize', resize);
+    resize();
+
     const mouse  = new THREE.Vector2(0.5, 0.5);
     const lerped = new THREE.Vector2(0.5, 0.5);
     let hoverTarget = 0;
@@ -115,8 +147,9 @@ import * as THREE from 'three';
 
     document.addEventListener('mousemove', e => {
       const r = canvas.getBoundingClientRect();
-      const l = r.left + PAD, ri = r.right  - PAD;
-      const t = r.top  + PAD, b  = r.bottom - PAD;
+      const sPAD = PAD * currentScale;
+      const l = r.left + sPAD, ri = r.right  - sPAD;
+      const t = r.top  + sPAD, b  = r.bottom - sPAD;
 
       const dx   = Math.max(l - e.clientX, 0, e.clientX - ri);
       const dy   = Math.max(t - e.clientY, 0, e.clientY - b);
@@ -131,8 +164,8 @@ import * as THREE from 'three';
 
       // Always update mouse UV — clamp to content bounds so direction is valid
       mouse.set(
-        (Math.max(l, Math.min(ri, e.clientX)) - l) / W,
-        1 - (Math.max(t, Math.min(b, e.clientY)) - t) / H
+        (Math.max(l, Math.min(ri, e.clientX)) - l) / (W * currentScale),
+        1 - (Math.max(t, Math.min(b, e.clientY)) - t) / (H * currentScale)
       );
     });
 
