@@ -31,17 +31,6 @@ document.querySelectorAll('.words-up').forEach(el => {
   });
 });
 
-// Loop: when scroll reaches the end, jump back to the top
-(function () {
-  let looping = false;
-  lenis.on('scroll', ({ scroll, limit }) => {
-    if (!looping && scroll >= limit - 1) {
-      looping = true;
-      lenis.scrollTo(0, { immediate: true });
-      setTimeout(() => { looping = false; }, 100);
-    }
-  });
-})();
 
 // Soft snap to hero top TODO:fix this
 (function () {
@@ -115,24 +104,16 @@ document.querySelectorAll('.words-up').forEach(el => {
     onUpdate() { if (!freezeFrame) drawFrame(Math.round(state.frame)); },
   });
 
-  // Freeze the frame while the horizontal scroll section is active
-  ScrollTrigger.create({
-    trigger: '#h-scroll-outer',
-    start: 'top top',
-    end: () => `+=${(document.querySelectorAll('#h-scroll-inner > section').length - 1) * window.innerWidth}`,
-    onToggle: self => { freezeFrame = self.isActive; },
-  });
-
   const tl = gsap.timeline({ scrollTrigger: scrollConfig });
-    gsap.to(canvas, {
+  gsap.to(canvas, {
     x: '30vw',
     y: '20vh',
     scale: 0.6,
     scrollTrigger: {
       trigger: '#sequence-container',
       start: 'top top',
-      end: '20% top',   // ← only covers first 25% of the container
-      scrub: 0.5,       // ← fast response
+      end: '20% top',
+      scrub: 0.5,
     }
   });
 
@@ -143,33 +124,12 @@ document.querySelectorAll('.words-up').forEach(el => {
       trigger: '#sequence-container',
       start: '25% top',
       end: '75% top',
-      scrub: 2,         // ← sluggish, dreamy feel
+      scrub: 2,
     }
   });
 
-
 })();
 
-// Horizontal scroll section
-(function () {
-  const inner = document.getElementById('h-scroll-inner');
-  if (!inner) return;
-  const panels = inner.querySelectorAll(':scope > section');
-  const totalWidth = (panels.length - 1) * window.innerWidth;
-
-  gsap.to(inner, {
-    x: -totalWidth,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '#h-scroll-outer',
-      pin: true,
-      start: 'top top',
-      end: () => `+=${totalWidth}`,
-      scrub: 1,
-      invalidateOnRefresh: true,
-    },
-  });
-})();
 
 // (function () {
 //   const star = document.getElementById('hero-star');
