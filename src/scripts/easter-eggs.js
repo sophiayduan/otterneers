@@ -1,5 +1,5 @@
 console.log("JavaScript has loaded");
-var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser"];
+var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "read-and-find-out", "mascot-images", "lutri-the-spellchaser"];
 var foundEasterEggs = [];
 var eggCounter = document.getElementById("easter-eggs-counter");
 //give rocks functions

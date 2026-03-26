@@ -1,6 +1,6 @@
 console.log("JavaScript has loaded");
 
-const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser"];
+const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "read-and-find-out", "mascot-images", "lutri-the-spellchaser"];
 let foundEasterEggs: string[] = [];
 
 const eggCounter:HTMLSpanElement = document.getElementById("easter-eggs-counter");
