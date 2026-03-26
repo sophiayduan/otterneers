@@ -3,6 +3,8 @@ console.log("JavaScript has loaded");
 const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser"];
 let foundEasterEggs: string[] = [];
 
+const eggCounter:HTMLSpanElement = document.getElementById("easter-eggs-counter");
+
 //give rocks functions
 function giveRocks(easterEggNum: number) {
     const egg = easterEggs[easterEggNum];
@@ -20,6 +22,25 @@ function giveRocks(easterEggNum: number) {
 
     foundEasterEggs.push(egg);
     sessionStorage.setItem("easter-eggs", JSON.stringify(foundEasterEggs));
+
+    displayCounter();
+}
+
+function displayCounter() {
+    foundEasterEggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
+    const numEasterEggs = foundEasterEggs.length;
+    if (eggCounter) eggCounter.textContent = numEasterEggs + "/6";
+
+    const easterEggDots:NodeListOf<HTMLLIElement> = document.querySelectorAll("#easter-egg-dots li");
+    for (var i = 0; i < easterEggDots.length; i++) {
+        if (i < numEasterEggs) {
+            easterEggDots[i].classList.remove("bg-beige");
+            easterEggDots[i].style.backgroundColor = "#89BD9E";
+        } else {
+            easterEggDots[i].style.backgroundColor = "";
+            easterEggDots[i].classList.add("bg-beige");
+        }
+    }
 }
 
 const lutriText: string = "Companion — Each nonland card in your starting deck has a different name. (If this card is your chosen companion, you may put it into your hand from outside the game for {3} as a sorcery.)\nFlash\nWhen Lutri enters, if you cast it, copy target instant or sorcery spell you control. You may choose new targets for the copy.";
@@ -94,7 +115,7 @@ const otterHeartAscii: string =
     "                                                                                       __/ |  \n" +
     "                                                                                      |___/   \n";
 
-//console.log(otterHeartAscii);
+console.log(otterHeartAscii);
 
 const site_heading: HTMLElement = document.getElementById("site-heading");
 
@@ -122,11 +143,13 @@ document.addEventListener("keyup", function (event) {
 //konami code stuff
 const konamiCodeKeys: readonly string[] = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
 let konamiCodeNum: number = 0;
+let konamiCodeActive:boolean = false;
 
 function konamiCode(event: KeyboardEvent) {
     if (event.key === konamiCodeKeys[konamiCodeNum]) {
         if (event.key === konamiCodeKeys[konamiCodeKeys.length - 1]) {
-            console.log("Konami Code test complete");
+            //console.log("Konami Code test complete");
+            konamiCodeActive = true;
             konamiCodeNum = 0;
             giveRocks(1);
         } else {
@@ -138,21 +161,42 @@ function konamiCode(event: KeyboardEvent) {
     }
 }
 
-//easter egg 2
-//triple-click on the bird
-const bird: HTMLElement = document.getElementById("bird");
-bird.addEventListener("click", function (event: MouseEvent) {
-    if (event.detail === 3) {
-        giveRocks(2);
+document.addEventListener("click", function (event) {
+    if (konamiCodeActive) {
+        var span = document.createElement('span');
+        span.textContent = "❤️";
+        span.className = 'emoji click-emoji';
+        span.style.left = event.clientX + 'px';
+        span.style.top = event.clientY + 'px';
+        span.style.position = 'fixed';
+        document.body.appendChild(span);
+    }
+
+    if (isMascotImg) {
+        isMascotImg = false;
+        const mascots = document.querySelectorAll(".mascot-img");
+
+        mascots.forEach(img => {
+            img.remove();
+        });
     }
 });
+
+//easter egg 2
+//triple-click on the bird
+// const bird: HTMLElement = document.getElementById("bird");
+// bird.addEventListener("click", function (event: MouseEvent) {
+//     if (event.detail === 3) {
+//         giveRocks(2);
+//     }
+// });
 
 //easter egg 3 is 404 not found
 
 //easter eggs 4 and 5
 //select text for a photo to pop up
 document.addEventListener('mouseup', function() {
-    console.log("fired");
+    //console.log("fired");
     const selection = document.getSelection();
     const selectedText = selection ? selection.toString() : null;
 
@@ -168,7 +212,7 @@ document.addEventListener('mouseup', function() {
         displayMascotImg(briaArray);
         giveRocks(4);
     } else if (selectedText==="Lutri" || selectedText==="Lutri ") {
-        console.log("Lutri the spellchaser?");
+        //console.log("Lutri the spellchaser?");
         const lutriArray: readonly string[] = ["lutri-the-spellchaser.webp", "lutri-the-spellchaser-alt.jpg"];
         displayMascotImg(lutriArray);
         giveRocks(5);
@@ -190,13 +234,13 @@ function displayMascotImg(imgSourceArray: readonly string[]){
     //scale, random rotation, and random offset
     const rotation: number = Math.random() * 360;
 
-    img.style.width = "60%";
+    img.style.width = "40%";
     img.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
 
     document.body.appendChild(img);
 }
 
-window.addEventListener("scroll", () => {
+window.addEventListener("click", () => {
     if (isMascotImg) {
         isMascotImg = false;
         const mascots = document.querySelectorAll(".mascot-img");

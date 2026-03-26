@@ -1,5 +1,4 @@
 console.log("JavaScript has loaded");
-var activeCountColour = "f1cc13";
 var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out"];
 var foundEasterEggs = [];
 var eggCounter = document.getElementById("easter-eggs-counter");
