@@ -157,6 +157,55 @@ new TextHoverEffect(document.querySelector('#site-heading'));
   );
 })();
 
+
+// Fact cards — proximity-based push on hover
+(function () {
+  const container = document.getElementById('fact-cards');
+  if (!container) return;
+  const cards = Array.from(container.querySelectorAll('.fact-card'));
+
+  const BASE = 170; // px adjacent card is pushed
+
+  cards.forEach((card, i) => {
+    card.addEventListener('mouseenter', () => {
+      cards.forEach((other, j) => {
+        if (j === i) {
+          gsap.to(other, { x: 0, y: -22, scale: 1.22, duration: 0.5, ease: 'power3.out', zIndex: 20 });
+        } else {
+          const dir  = j < i ? -1 : 1;
+          const dist = BASE / Math.abs(j - i); // adjacent = BASE, further = BASE/2, BASE/3…
+          gsap.to(other, { x: dir * dist, y: 0, scale: 1, duration: 0.5, ease: 'power3.out', zIndex: +other.style.zIndex || 1 });
+        }
+      });
+    });
+  });
+
+  // Reset only when leaving the whole container, so card-to-card is seamless
+  container.addEventListener('mouseleave', () => {
+    cards.forEach(other => {
+      gsap.to(other, { x: 0, y: 0, scale: 1, duration: 0.55, ease: 'power3.inOut', zIndex: +other.style.zIndex || 1 });
+    });
+  });
+})();
+
+// Facts section background colour transition on scroll
+(function () {
+  const section = document.getElementById('facts-section');
+  const trigger = document.getElementById('facts-second');
+  if (!section || !trigger) return;
+
+  gsap.to(section, {
+    backgroundColor: '#459DE5',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: trigger,
+      start: 'top 80%',
+      end:   'top 20%',
+      scrub: 1.5,
+    },
+  });
+})();
+
 // Initialize Lenis
 const lenis = new Lenis();
 
@@ -164,6 +213,61 @@ const lenis = new Lenis();
 lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
+
+// Infinite scroll loop — fade to black, teleport, fade back in
+(function () {
+  function maxScroll() {
+    return document.documentElement.scrollHeight - window.innerHeight;
+  }
+
+  // Full-screen transition overlay
+  const overlay = document.createElement('div');
+  overlay.style.cssText = [
+    'position:fixed', 'inset:0', 'background:#040B11',
+    'z-index:99998', 'opacity:0', 'pointer-events:none',
+    'transition:opacity 0.35s ease',
+  ].join(';');
+  document.body.appendChild(overlay);
+
+  const FADE = 350;  // ms fade duration (must match transition above)
+  const BUFFER = 60; // px from edge to trigger
+  let jumping = false;
+
+  function jump(target) {
+    if (jumping) return;
+    jumping = true;
+
+    overlay.style.opacity = '1';
+
+    setTimeout(() => {
+      lenis.scrollTo(target, { immediate: true });
+      ScrollTrigger.update();
+
+      // Small pause at black so the new position settles
+      setTimeout(() => {
+        overlay.style.opacity = '0';
+        setTimeout(() => { jumping = false; }, FADE);
+      }, 80);
+    }, FADE);
+  }
+
+  // Forward: end → start
+  lenis.on('scroll', ({ scroll, direction }) => {
+    if (direction > 0 && scroll >= maxScroll() - BUFFER) jump(0);
+  });
+
+  // Backward: start → end
+  window.addEventListener('wheel', (e) => {
+    if (e.deltaY < 0 && lenis.scroll <= BUFFER) jump(maxScroll());
+  }, { passive: true });
+
+  // Touch backward
+  let touchY = 0;
+  window.addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { passive: true });
+  window.addEventListener('touchend', (e) => {
+    if ((touchY - e.changedTouches[0].clientY) < -40 && lenis.scroll <= BUFFER) jump(maxScroll());
+  }, { passive: true });
+})();
 
 // .words-up — split into words, fade up on scroll into view
 document.querySelectorAll('.words-up').forEach(el => {
@@ -210,9 +314,9 @@ document.querySelectorAll('.words-up').forEach(el => {
     ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
   }
 
-  const state = { frame: 4 };
-  if (frames[4].complete) drawFrame(4);
-  else frames[4].onload = () => drawFrame(4);
+  const state = { frame: 0 };
+  if (frames[0].complete) drawFrame(0);
+  else frames[0].onload = () => drawFrame(0);
   let freezeFrame = false;
   const scrollConfig = {
     trigger: '#sequence-container',
@@ -229,7 +333,8 @@ document.querySelectorAll('.words-up').forEach(el => {
   });
 
   const tl = gsap.timeline({ scrollTrigger: scrollConfig });
-  gsap.set(canvas, { x: '20vw', scale: 1.2 });
+  // Canvas starts and ends centered so the loop is seamless
+  gsap.set(canvas, { x: 0, scale: 1 });
 
   // Gentle sine-wave bob on y, independent of scroll
   const bobCenter = window.innerHeight * 0.10;
@@ -237,17 +342,6 @@ document.querySelectorAll('.words-up').forEach(el => {
     { y: bobCenter - 18 },
     { y: bobCenter + 18, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' }
   );
-
-  gsap.to(canvas, {
-    x: 0,
-    scale: 1,
-    scrollTrigger: {
-      trigger: '#sequence-container',
-      start: '25% top',
-      end: '75% top',
-      scrub: 2,
-    }
-  });
 
 })();
 

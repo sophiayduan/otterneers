@@ -336,7 +336,7 @@ function konamiCode(event) {
 }
 document.addEventListener("click", function (event) {
     konamiCodeNum = 0;
-    resetKonamiDots();
+    if (!konamiCodeActive) resetKonamiDots();
     if (konamiCodeActive) {
         var span = document.createElement('span');
         span.textContent = "❤️";
