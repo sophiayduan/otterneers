@@ -116,9 +116,9 @@ new TextHoverEffect(document.querySelector('#site-heading'));
 
   ScrollTrigger.create({
     trigger: '#otter-unique-section',
-    start: 'top 80%',
+    start: 'top bottom',
+    once: true,
     onEnter: () => gsap.to(label, { opacity: 0, duration: 0.4, ease: 'power2.out', pointerEvents: 'none' }),
-    onLeaveBack: () => gsap.to(label, { opacity: 1, duration: 0.4, ease: 'power2.out' }),
   });
 })();
 
