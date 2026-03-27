@@ -1,6 +1,6 @@
 console.log("JavaScript has loaded");
 
-const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser"];
+const easterEggs: readonly string[] = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out", "shaking-rock"];
 let foundEasterEggs: string[] = [];
 
 //give rocks functions
@@ -126,11 +126,11 @@ let konamiCodeNum: number = 0;
 function konamiCode(event: KeyboardEvent) {
     if (event.key === konamiCodeKeys[konamiCodeNum]) {
         if (event.key === konamiCodeKeys[konamiCodeKeys.length - 1]) {
-            console.log("Konami Code test complete");
+            //console.log("Konami Code test complete");
             konamiCodeNum = 0;
             giveRocks(1);
         } else {
-            console.log("Konami Code test" + konamiCodeNum);
+            //console.log("Konami Code test" + konamiCodeNum);
             konamiCodeNum++;
         }
     } else {
@@ -152,7 +152,7 @@ function konamiCode(event: KeyboardEvent) {
 //easter eggs 4 and 5
 //select text for a photo to pop up
 document.addEventListener('mouseup', function() {
-    console.log("fired");
+    //console.log("fired");
     const selection = document.getSelection();
     const selectedText = selection ? selection.toString() : null;
 
@@ -168,7 +168,7 @@ document.addEventListener('mouseup', function() {
         displayMascotImg(briaArray);
         giveRocks(4);
     } else if (selectedText==="Lutri" || selectedText==="Lutri ") {
-        console.log("Lutri the spellchaser?");
+        //console.log("Lutri the spellchaser?");
         const lutriArray: readonly string[] = ["lutri-the-spellchaser.webp", "lutri-the-spellchaser-alt.jpg"];
         displayMascotImg(lutriArray);
         giveRocks(5);
@@ -213,10 +213,10 @@ window.addEventListener("scroll", () => {
 //easter egg 7, triple click a shaking rock
 const shakingRock:HTMLElement = document.getElementById("shaking-rock");
 shakingRock.addEventListener("click", function (event:MouseEvent) {
-    console.log("clicked");
+    //console.log("clicked");
 
     if (event.detail === 3) {
-        console.log("shakingRock");
+        //console.log("shakingRock");
         shakingRock.classList.toggle('paused');
         giveRocks(7);
 
@@ -227,5 +227,8 @@ shakingRock.addEventListener("click", function (event:MouseEvent) {
         container.classList.add('apply-shake');
     }
 });
+
+//easter egg 8 move something for dark mode
+
 
 // tsc src/scripts/easter-eggs.ts
