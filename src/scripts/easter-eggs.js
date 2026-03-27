@@ -1,13 +1,21 @@
 console.log("JavaScript has loaded");
 var activeCountColour = "f1cc13";
-var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out", "shaking-rock"];
+var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out", "shaking-rock", "opened-site"];
 var foundEasterEggs = [];
 var eggCounter = document.getElementById("easter-eggs-counter");
 
+//everyone gets one by default (sorry Naomi's lolipop stash)
+openSite()
+
+function openSite() {
+    giveRocks(8);
+    console.log(otterHeartAscii);
+}
+
 // Confetti from bottom corners on egg found
-var CONFETTI_COLORS = ['#459DE5','#1AE8E5','#89BD9E','#A89070','#2034ab','#EF9300','#FFFDF6','#AF97BA'];
+var CONFETTI_COLORS = ['#459DE5', '#1AE8E5', '#89BD9E', '#A89070', '#2034ab', '#EF9300', '#FFFDF6', '#AF97BA'];
 var REPULSE_RADIUS = 90;
-var REPULSE_FORCE  = 6;
+var REPULSE_FORCE = 6;
 
 function applyRepulsion(p, mx, my) {
     var dx = p.x - mx;
@@ -23,7 +31,7 @@ function applyRepulsion(p, mx, my) {
 function makeConfettiCanvas() {
     var canvas = document.createElement('canvas');
     canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:9999;cursor:none;';
-    canvas.width  = window.innerWidth;
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     document.body.appendChild(canvas);
     return canvas;
@@ -32,9 +40,15 @@ function makeConfettiCanvas() {
 function celebrateEgg() {
     var canvas = makeConfettiCanvas();
     var ctx = canvas.getContext('2d');
-    var mouse = { x: -999, y: -999 };
-    canvas.addEventListener('mousemove', function(e) { mouse.x = e.clientX; mouse.y = e.clientY; });
-    canvas.addEventListener('mouseleave', function() { mouse.x = -999; mouse.y = -999; });
+    var mouse = {x: -999, y: -999};
+    canvas.addEventListener('mousemove', function (e) {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    });
+    canvas.addEventListener('mouseleave', function () {
+        mouse.x = -999;
+        mouse.y = -999;
+    });
 
     var particles = [];
     var COUNT = 120;
@@ -63,10 +77,11 @@ function celebrateEgg() {
 
     var frame = 0;
     var GRAVITY = 0.45;
+
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         var alive = false;
-        particles.forEach(function(p) {
+        particles.forEach(function (p) {
             if (p.opacity <= 0) return;
             alive = true;
             applyRepulsion(p, mouse.x, mouse.y);
@@ -88,6 +103,7 @@ function celebrateEgg() {
         if (alive) requestAnimationFrame(animate);
         else canvas.remove();
     }
+
     requestAnimationFrame(animate);
 }
 
@@ -95,9 +111,15 @@ function celebrateEgg() {
 function rainConfetti() {
     var canvas = makeConfettiCanvas();
     var ctx = canvas.getContext('2d');
-    var mouse = { x: -999, y: -999 };
-    canvas.addEventListener('mousemove', function(e) { mouse.x = e.clientX; mouse.y = e.clientY; });
-    canvas.addEventListener('mouseleave', function() { mouse.x = -999; mouse.y = -999; });
+    var mouse = {x: -999, y: -999};
+    canvas.addEventListener('mousemove', function (e) {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    });
+    canvas.addEventListener('mouseleave', function () {
+        mouse.x = -999;
+        mouse.y = -999;
+    });
 
     var particles = [];
     var spawnFrames = 180;
@@ -126,7 +148,7 @@ function rainConfetti() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         if (frame < spawnFrames) spawnBatch();
         var alive = false;
-        particles.forEach(function(p) {
+        particles.forEach(function (p) {
             if (p.opacity <= 0) return;
             alive = true;
             applyRepulsion(p, mouse.x, mouse.y);
@@ -147,11 +169,13 @@ function rainConfetti() {
         if (alive || frame < spawnFrames) requestAnimationFrame(animate);
         else canvas.remove();
     }
+
     requestAnimationFrame(animate);
 }
 
 //need to set the counter
 displayCounter();
+
 //give rocks functions
 function giveRocks(easterEggNum) {
     var egg = easterEggs[easterEggNum];
@@ -172,9 +196,11 @@ function giveRocks(easterEggNum) {
         celebrateEgg();
     }
 }
+
 function displayCounter() {
     foundEasterEggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
     var numEasterEggs = foundEasterEggs.length;
+    console.log(numEasterEggs);
     if (eggCounter) eggCounter.textContent = numEasterEggs + "/8";
     var easterEggDots = document.querySelectorAll("#easter-egg-dots li");
     for (var i = 0; i < easterEggDots.length; i++) {
@@ -189,6 +215,7 @@ function displayCounter() {
         }
     }
 }
+
 var lutriText = "Companion — Each nonland card in your starting deck has a different name. (If this card is your chosen companion, you may put it into your hand from outside the game for {3} as a sorcery.)\nFlash\nWhen Lutri enters, if you cast it, copy target instant or sorcery spell you control. You may choose new targets for the copy.";
 //easter egg 1, otter heart ascii
 var otterHeartAscii = "-------------------------------=%@@*=---------------------------------------------------------------\n" +
@@ -258,14 +285,13 @@ var otterHeartAscii = "-------------------------------=%@@*=--------------------
     "  \\____/  |_|     |_|  |______|_|  \\_\\______|_|     \\__,_|_| |_| |_|\\__,_/___|_|_| |_|\\__, (_)\n" +
     "                                                                                       __/ |  \n" +
     "                                                                                      |___/   \n";
-console.log(otterHeartAscii);
 var site_heading = document.getElementById("site-heading");
-if (site_heading) {
-    site_heading.addEventListener("click", function () {
-        console.log(otterHeartAscii);
-        giveRocks(0);
-    });
-}
+
+site_heading.addEventListener("click", function () {
+    console.log(otterHeartAscii);
+    giveRocks(0);
+});
+
 
 document.addEventListener("keyup", function (event) {
     //console.log("stuff and things, key up, etc.");
@@ -280,6 +306,7 @@ document.addEventListener("keyup", function (event) {
 var konamiCodeKeys = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight"];
 var konamiCodeNum = 0;
 var konamiCodeActive = false;
+
 function lightKonamiDot(index) {
     var dots = document.querySelectorAll("#easter-egg-dots li");
     if (dots[index]) {
@@ -288,26 +315,29 @@ function lightKonamiDot(index) {
         if (path) path.style.setProperty("stroke", "white", "important");
     }
 }
+
 function resetKonamiDots() {
-    document.querySelectorAll("#easter-egg-dots li").forEach(function(dot) {
+    document.querySelectorAll("#easter-egg-dots li").forEach(function (dot) {
         dot.style.removeProperty("border-color");
         dot.style.removeProperty("background-color");
         var path = dot.querySelector("path");
         if (path) path.style.removeProperty("stroke");
     });
 }
+
 function setAllDotsWhite() {
-    document.querySelectorAll("#easter-egg-dots li").forEach(function(dot) {
+    document.querySelectorAll("#easter-egg-dots li").forEach(function (dot) {
         dot.style.setProperty("border-color", "white", "important");
         dot.style.setProperty("background-color", "white", "important");
         var path = dot.querySelector("path");
         if (path) path.style.setProperty("stroke", "white", "important");
     });
 }
+
 function flashKonamiDots(flashes, interval, onDone) {
     var count = 0;
     var total = flashes * 2;
-    var id = setInterval(function() {
+    var id = setInterval(function () {
         if (count % 2 === 0) setAllDotsWhite();
         else resetKonamiDots();
         count++;
@@ -318,6 +348,7 @@ function flashKonamiDots(flashes, interval, onDone) {
         }
     }, interval);
 }
+
 function konamiCode(event) {
     if (event.key === konamiCodeKeys[konamiCodeNum]) {
         lightKonamiDot(konamiCodeNum);
@@ -334,6 +365,7 @@ function konamiCode(event) {
         resetKonamiDots();
     }
 }
+
 var mascotPostClick = 0;
 document.addEventListener("click", function (event) {
     if (konamiCodeActive) {
@@ -370,6 +402,7 @@ document.addEventListener("click", function (event) {
 //select text for a photo to pop up
 
 var isMascotImg = false;
+
 function displayMascotImg(imgSourceArray) {
     isMascotImg = true;
     var imgSource = "/otters/" + imgSourceArray[Math.floor(Math.random() * imgSourceArray.length)];
@@ -382,6 +415,7 @@ function displayMascotImg(imgSourceArray) {
     img.style.transform = "translate(-50%, -50%) rotate(".concat(rotation, "deg)");
     document.body.appendChild(img);
 }
+
 window.addEventListener("scroll", function () {
     if (isMascotImg) {
         isMascotImg = false;
@@ -418,13 +452,11 @@ document.addEventListener('mouseup', function () {
         var luluArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg", "Lulu-sit.jpg"];
         displayMascotImg(luluArray);
         giveRocks(4);
-    }
-    else if (selectedText === "Bria") {
+    } else if (selectedText === "Bria") {
         var briaArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg"];
         displayMascotImg(briaArray);
         giveRocks(4);
-    }
-    else if (selectedText === "Lutri" || selectedText === "Lutri ") {
+    } else if (selectedText === "Lutri" || selectedText === "Lutri ") {
         //console.log("Lutri the spellchaser?");
         var lutriArray = ["lutri-the-spellchaser.webp", "lutri-the-spellchaser-alt.jpg"];
         displayMascotImg(lutriArray);
