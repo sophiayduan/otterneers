@@ -448,11 +448,23 @@ if (mascotsText) {
 
     // Alternate text definitions
     var raftAlts = [
-        { h2: 'WEAPONS',      clone: 'WEAPONS',      p: 'Each otter selects its weapon at birth. It never lets go.' },
-        { h2: 'LETTING GO',   clone: 'HOLDING ON',   p: "An otter's grip can crush stone. What chance do you have?" },
-        { h2: 'NIGHT FEAST',  clone: 'NIGHT FEAST',  p: 'They eat 25% of their body weight daily. The hunger never stops.' },
-        { h2: 'IMPENETRABLE', clone: 'IMPENETRABLE', p: '1 million hairs per square inch. Nothing gets in. Nothing gets out.' },
-        { h2: 'THEY RAFT',    clone: 'THEY RAFT',    p: 'A raft of otters holds hands so none can escape. They call it comfort.' },
+        {h2: 'FUR', clone: 'HUNTED', p: 'Sea otters were over hunted for their fur, leading to their population falling from over 150 000 to at most 2 000'},
+        {h2: 'TOOLS', clone: 'PLASTICS', p: "Human tools, especially those made from plastic, build up in the water and harm ocean animals"},
+        {
+            h2: 'ROCKS',
+            clone: 'OIL',
+            p: 'Oil comes from rocks and one of the biggest threats to sea otters are oil spills that pollute their habitats'
+        },
+        {
+            h2: 'DIET',
+            clone: 'DISTRIBUTION',
+            p: 'The distribution of prey is changing with climate change, leading to rapidly shifiting habitable ranges'
+        },
+        {
+            h2: 'KEYSTONE',
+            clone: 'DYING KELP',
+            p: 'Climate change warms up oceans which leads to kelp forests dying due to overheat'
+        },
     ];
 
     // Build swap list lazily on first click (after SplitText has already run)
