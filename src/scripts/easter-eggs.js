@@ -368,30 +368,7 @@ document.addEventListener("click", function (event) {
 //easter egg 3 is 404 not found
 //easter eggs 4 and 5
 //select text for a photo to pop up
-document.addEventListener('mouseup', function () {
-    //console.log("fired");
-    var selection = document.getSelection();
-    var selectedText = selection ? selection.toString() : null;
-    //console.log(selectedText);
-    if ((selectedText) === "Lulu" || selectedText === "Lutri Lutri") {
-        // Add if you selected my name
-        //mainIntro.appendChild(profileImage);
-        var luluArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg", "Lulu-sit.jpg"];
-        displayMascotImg(luluArray);
-        giveRocks(4);
-    }
-    else if (selectedText === "Bria") {
-        var briaArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg"];
-        displayMascotImg(briaArray);
-        giveRocks(4);
-    }
-    else if (selectedText === "Lutri" || selectedText === "Lutri ") {
-        //console.log("Lutri the spellchaser?");
-        var lutriArray = ["lutri-the-spellchaser.webp", "lutri-the-spellchaser-alt.jpg"];
-        displayMascotImg(lutriArray);
-        giveRocks(5);
-    }
-});
+
 var isMascotImg = false;
 function displayMascotImg(imgSourceArray) {
     isMascotImg = true;
@@ -429,6 +406,32 @@ if (mascotsText) {
         giveRocks(4);
     });
 }
+
+document.addEventListener('mouseup', function () {
+    //console.log("fired");
+    var selection = document.getSelection();
+    var selectedText = selection ? selection.toString() : null;
+    //console.log(selectedText);
+    if ((selectedText) === "Lulu" || selectedText === "Lutri Lutri") {
+        // Add if you selected my name
+        //mainIntro.appendChild(profileImage);
+        var luluArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg", "Lulu-sit.jpg"];
+        displayMascotImg(luluArray);
+        giveRocks(4);
+    }
+    else if (selectedText === "Bria") {
+        var briaArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg"];
+        displayMascotImg(briaArray);
+        giveRocks(4);
+    }
+    else if (selectedText === "Lutri" || selectedText === "Lutri ") {
+        //console.log("Lutri the spellchaser?");
+        var lutriArray = ["lutri-the-spellchaser.webp", "lutri-the-spellchaser-alt.jpg"];
+        displayMascotImg(lutriArray);
+        giveRocks(5);
+    }
+});
+
 // Easter egg 7 — triple-click the shaking rock
 var shakingRock = document.getElementById("shaking-rock");
 if (shakingRock) {
