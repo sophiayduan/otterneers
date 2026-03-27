@@ -1,6 +1,6 @@
 console.log("JavaScript has loaded");
 var activeCountColour = "f1cc13";
-var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out"];
+var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out", "shaking-rock"];
 var foundEasterEggs = [];
 var eggCounter = document.getElementById("easter-eggs-counter");
 
@@ -410,3 +410,26 @@ window.addEventListener("scroll", function () {
         });
     }
 });
+// Easter egg 4 — click the mascots credit text
+var mascotsText = document.getElementById("mascots-text");
+if (mascotsText) {
+    mascotsText.addEventListener("click", function () {
+        var briaArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg"];
+        displayMascotImg(briaArray);
+        giveRocks(4);
+    });
+}
+// Easter egg 7 — triple-click the shaking rock
+var shakingRock = document.getElementById("shaking-rock");
+if (shakingRock) {
+    shakingRock.addEventListener("click", function (event) {
+        if (event.detail === 3) {
+            shakingRock.classList.toggle('paused');
+            giveRocks(7);
+            var container = document.body;
+            container.classList.remove('apply-shake');
+            void container.offsetWidth; // force reflow to restart animation
+            container.classList.add('apply-shake');
+        }
+    });
+}
