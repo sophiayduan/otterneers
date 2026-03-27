@@ -1,4 +1,3 @@
-console.log("JavaScript has loaded");
 var activeCountColour = "f1cc13";
 var easterEggs = ["otter-heart-ascii", "konami-code", /* "bird-egg", */ "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out", "shaking-rock", "dark-mode"];
 var foundEasterEggs = [];
@@ -152,6 +151,17 @@ function rainConfetti() {
 
 //need to set the counter
 displayCounter();
+
+// On load — console easter egg
+console.log("This is a...");
+console.log(
+" ____   __   ____  ____  ____  ____        ____  ___   ___ \n" +
+"(  __) / _\\ / ___)(_  _)(  __)(  _ \\      (  __)/ __) / __)\n" +
+" ) _) /    \\\\___ \\  )(   ) _)  )   /       ) _)( (_ \\( (_ \\\n" +
+"(____)\\_/\\_/(____/ (__) (____)(__\\_)      (____)\\___/ \\___/"
+);
+giveRocks(0);
+
 //give rocks functions
 function giveRocks(easterEggNum) {
     var egg = easterEggs[easterEggNum];
@@ -295,6 +305,8 @@ function resetKonamiDots() {
         var path = dot.querySelector("path");
         if (path) path.style.removeProperty("stroke");
     });
+    // Always re-apply found egg state so filled dots are never lost
+    displayCounter();
 }
 function setAllDotsWhite() {
     document.querySelectorAll("#easter-egg-dots li").forEach(function(dot) {
@@ -336,7 +348,11 @@ function konamiCode(event) {
 }
 document.addEventListener("click", function (event) {
     konamiCodeNum = 0;
-    if (!konamiCodeActive) resetKonamiDots();
+    resetKonamiDots();
+    if (isMascotImg && !event.target.closest('.mascot-img') && !event.target.closest('#mascots-text')) {
+        document.querySelectorAll('.mascot-img').forEach(function (img) { img.remove(); });
+        isMascotImg = false;
+    }
     if (konamiCodeActive) {
         var span = document.createElement('span');
         span.textContent = "❤️";
@@ -359,7 +375,6 @@ document.addEventListener("click", function (event) {
 //easter eggs 4 and 5
 //select text for a photo to pop up
 document.addEventListener('mouseup', function () {
-    console.log("fired");
     var selection = document.getSelection();
     var selectedText = selection ? selection.toString() : null;
     //console.log(selectedText);
@@ -391,8 +406,13 @@ function displayMascotImg(imgSourceArray) {
     img.classList.add("mascot-img");
     //scale, random rotation, and random offset
     var rotation = Math.random() * 360;
-    img.style.width = "60%";
+    img.style.width = "35%";
     img.style.transform = "translate(-50%, -50%) rotate(".concat(rotation, "deg)");
+    img.addEventListener('click', function () {
+        img.remove();
+        var remaining = document.querySelectorAll(".mascot-img");
+        if (remaining.length === 0) isMascotImg = false;
+    });
     document.body.appendChild(img);
 }
 window.addEventListener("scroll", function () {
@@ -404,7 +424,7 @@ window.addEventListener("scroll", function () {
         });
     }
     if (konamiCodeActive) {
-        var emojis = document.querySelectorAll(".mascot-emoji");
+        var emojis = document.querySelectorAll(".click-emoji");
         emojis.forEach(function (emoji) {
             emoji.remove();
         });
@@ -485,10 +505,6 @@ if (shakingRock) {
         if (event.detail === 3) {
             shakingRock.classList.toggle('paused');
             giveRocks(6);
-            var container = document.body;
-            container.classList.remove('apply-shake');
-            void container.offsetWidth; // force reflow to restart animation
-            container.classList.add('apply-shake');
         }
     });
 }

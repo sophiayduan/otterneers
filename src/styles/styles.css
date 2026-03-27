@@ -152,9 +152,13 @@ p {
     align-items: center;
     z-index: 9999;
     position: fixed;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
     top: 50%;
     left: 50%;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: hidden;
 }
 
 
@@ -219,8 +223,4 @@ body.dark-easter #dark-mode-btn           { border-color: #FFEBAD !important; co
 
 .paused {
     animation-play-state: paused !important;
-}
-
-.apply-shake {
-    animation: shake 0.5s ease 3;
 }

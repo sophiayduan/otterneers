@@ -7,8 +7,6 @@ import { TextHoverEffect } from './text-hover.js';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Draggable);
 
-new TextHoverEffect(document.querySelector('#site-heading'));
-
 // RAFT list item hover — slide up effect
 (function () {
   const items = document.querySelectorAll('.raft-item');
