@@ -13,13 +13,21 @@
 </head>
 <body class="relative">
 
-  <div id="cursor-label" class="bg-yellow px-2 py-1 text-blue rounded-xs" style="
+  <div id="cursor-label" class="bg-yellow px-2 py-1 text-blue rounded-xs hidden md:block" style="
     position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
     font-family:'Geist',sans-serif; font-size:0.7rem; font-weight:600;
     letter-spacing:0.2em;
     white-space:nowrap; transition:opacity 0.2s ease;
     transform:translate(14px,-100%);
   ">SCROLL TO DISCOVER</div>
+
+  <div id="drag-label" class="bg-yellow px-2 py-1 text-blue rounded-xs hidden md:block" style="
+    position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
+    font-family:'Geist',sans-serif; font-size:0.7rem; font-weight:600;
+    letter-spacing:0.2em;
+    white-space:nowrap; opacity:0; transition:opacity 0.2s ease;
+    transform:translate(14px,-100%);
+  ">DRAG ME</div>
 
   <div id="sequence-container" class="" style="height:556.5vh; position:relative; overflow:visible;">
     <canvas id="frame-canvas" style="position: sticky; top: 0; width: 100%; height: 100vh; display: block; pointer-events: none; mix-blend-mode: soft-light;"></canvas>
@@ -81,60 +89,69 @@
     </section>
   </section>
 
-  <section id="otter-unique-section" class="bg-dark w-full h-[140vh] p-4 lg:p-10 lg:pb-20 lg:px-20 flex flex-col">
-    <div class="text-white pb-30 space-y-8">
+  <section id="otter-unique-section" class="bg-dark w-full h-auto lg:h-[140vh] p-4 lg:p-10 lg:pb-20 lg:px-20 flex flex-col pb-10">
+    <div class="text-white pb-10 lg:pb-30 space-y-8">
     <h2 class="words-up text-xl lg:text-6xl max-w-6xl">What makes a sea otter unique? Well, these otterly incredible animals can boast of many ways they are different even from their close relative, the river otter.</h2>
     <p class="max-w-md">Culpa quaerat quis aspernatur deserunt nobis, et repellendus corrupti animi fuga maiores eum omnis molestiae ea minima.</p>
     </div>
 
-    <div class="flex w-full justify-end gap-4 items-end">
-      <div class="h-80 w-80 rounded-xs overflow-hidden bg-blue">
-        <img src="/group-otters2.jpg" class="w-full h-full object-contain object-cover opacity-80" alt="group of otters">
+    <div class="flex flex-col sm:flex-row w-full justify-end gap-4 items-end">
+      <div class="relative h-52 w-full sm:h-80 sm:w-80 shrink-0" id="drag-reveal-wrapper">
+        <!-- Button revealed when card is dragged away -->
+        <div class="absolute inset-0 flex items-center justify-center rounded-xs">
+          <a href="#" id="dark-mode-btn" class="font-heavitas text-white text-base uppercase tracking-widest px-5 py-3 border-2 border-white rounded-xs">
+            EASTER EGG →
+          </a>
+        </div>
+        <!-- Draggable card (sits on top) -->
+        <div id="drag-card" class="absolute inset-0 rounded-xs overflow-hidden bg-blue touch-none cursor-grab">
+          <img src="/group-otters2.jpg" class="w-full h-full object-cover opacity-80 pointer-events-none select-none" alt="group of otters">
+        </div>
       </div>
-      <div class="h-110 w-[40%] rounded-xs overflow-hidden bg-blue">
+      <div class="h-64 w-full sm:h-110 sm:w-[40%] rounded-xs overflow-hidden bg-blue">
         <img src="/group-otters.jpg" class="w-full h-full object-contain object-cover opacity-80" alt="group of otters">
       </div>
     </div>
     </section>
 
     <section id="facts-section" class="bg-[#0E29AA] h-screen ">
-    <div id="facts-inner" class="w-full h-full rounded-sm p-20 flex items-center justify-center">
+    <div id="facts-inner" class="w-full h-full rounded-sm p-4 lg:p-20 flex items-center justify-center">
     <!-- <a href="" target="_self" class="">View Gallery</a> -->
     <ul class="w-full space-y-1 flex flex-col items-center">
-      <li class="raft-item w-fit px-14 text-white flex flex-col items-center justify-center text-center cursor-pointer ">
+      <li class="raft-item w-fit px-4 lg:px-14 text-white flex flex-col items-center justify-center text-center cursor-pointer ">
         <div class="raft-slot" style="position:relative;overflow:hidden;">
           <h2 class="raft-h2-clone text-4xl lg:text-6xl font-heavitas" aria-hidden="true" style="position:absolute;top:0;left:0;width:100%;text-align:center;">TOOLS</h2>
           <h2 class="raft-h2 text-4xl lg:text-6xl font-heavitas">TOOLS</h2>
         </div>
-        <p class="raft-p text-xl" style="opacity:0;">Sea otters protect kelp forests by eating sea urchins</p>
+        <p class="raft-p text-sm lg:text-xl" style="opacity:0;">Sea otters protect kelp forests by eating sea urchins</p>
       </li>
-      <li class="raft-item w-fit px-14 text-white flex flex-col items-center justify-center text-center cursor-pointer ">
+      <li class="raft-item w-fit px-4 lg:px-14 text-white flex flex-col items-center justify-center text-center cursor-pointer ">
         <div class="raft-slot" style="position:relative;overflow:hidden;">
           <h2 class="raft-h2-clone text-4xl lg:text-6xl font-heavitas" aria-hidden="true" style="position:absolute;top:0;left:0;width:100%;text-align:center;">ROCK</h2>
           <h2 class="raft-h2 text-4xl lg:text-6xl font-heavitas">HOLDING ON </h2>
         </div>
-        <p class="raft-p text-xl" style="opacity:0;">Sea otters keep their favorite rock with them at all times as a tool</p>
+        <p class="raft-p text-sm lg:text-xl" style="opacity:0;">Sea otters keep their favorite rock with them at all times as a tool</p>
       </li>
-      <li class="raft-item w-fit px-14 text-white flex flex-col items-center justify-center text-center cursor-pointer ">
+      <li class="raft-item w-fit px-4 lg:px-14 text-white flex flex-col items-center justify-center text-center cursor-pointer ">
         <div class="raft-slot" style="position:relative;overflow:hidden;">
           <h2 class="raft-h2-clone text-4xl lg:text-6xl font-heavitas" aria-hidden="true" style="position:absolute;top:0;left:0;width:100%;text-align:center;">PAWS</h2>
           <h2 class="raft-h2 text-4xl lg:text-6xl font-heavitas">Daily Fuel</h2>
         </div>
-        <p class="raft-p text-xl" style="opacity:0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+        <p class="raft-p text-sm lg:text-xl" style="opacity:0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
       </li>
-      <li class="raft-item w-fit px-14 text-white flex flex-col items-center justify-center text-center cursor-pointer ">
+      <li class="raft-item w-fit px-4 lg:px-14 text-white flex flex-col items-center justify-center text-center cursor-pointer ">
         <div class="raft-slot" style="position:relative;overflow:hidden;">
           <h2 class="raft-h2-clone text-4xl lg:text-6xl font-heavitas" aria-hidden="true" style="position:absolute;top:0;left:0;width:100%;text-align:center;">DENSE FUR</h2>
           <h2 class="raft-h2 text-4xl lg:text-6xl font-heavitas">DENSE FUR</h2>
         </div>
-        <p class="raft-p text-xl" style="opacity:0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+        <p class="raft-p text-sm lg:text-xl" style="opacity:0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
       </li>
-      <li class="raft-item w-fit px-14 text-white flex flex-col items-center justify-center text-center cursor-pointer ">
+      <li class="raft-item w-fit px-4 lg:px-14 text-white flex flex-col items-center justify-center text-center cursor-pointer ">
         <div class="raft-slot" style="position:relative;overflow:hidden;">
           <h2 class="raft-h2-clone text-4xl lg:text-6xl font-heavitas" aria-hidden="true" style="position:absolute;top:0;left:0;width:100%;text-align:center;">OCEAN FOREST</h2>
           <h2 class="raft-h2 text-4xl lg:text-6xl font-heavitas">OCEAN FOREST</h2>
         </div>
-        <p class="raft-p text-xl" style="opacity:0;">A group of sea otters is called a raft</p>
+        <p class="raft-p text-sm lg:text-xl" style="opacity:0;">A group of sea otters is called a raft</p>
       </li>
 
       <!-- <li class="w-fit px-14 py-4 text-white flex flex-col items-center justify-center group transition-all text-center cursor-pointer hover:bg-white"><h2 class="text-4xl lg:text-6xl font-heavitas">URCHIN</h2> <p class="hidden text-xl group-hover:block">A group of sea otters is called a raft</p></li>
@@ -144,14 +161,14 @@
       <li class="w-fit px-14 py-4 text-white flex flex-col items-center justify-center group transition-all text-center cursor-pointer hover:bg-white"><h2 class="text-4xl lg:text-6xl font-heavitas">RAFT</h2> <p class="hidden text-xl group-hover:block">A group of sea otters is called a raft</p></li> -->
     </ul>
     </div>
-    <div id="facts-second" class="w-full h-200 flex items-center justify-center">
-      <div id="fact-cards" class="flex items-end justify-center">
-        <img class="fact-card w-56 lg:w-72 object-cover rounded-sm shrink-0 border-3 border-blue shadow-md" src="/otters/otter-facts/hand-hold.png"    style="rotate:-7deg; margin-right:-3.5rem; z-index:2;">
-        <img class="fact-card w-56 lg:w-72 object-cover rounded-sm shrink-0 border-3 border-blue shadow-md" src="/otters/otter-facts/hold-rock.png"    style="rotate:4deg;  margin-right:-3.5rem; z-index:4;">
-        <img class="fact-card w-56 lg:w-72 object-cover rounded-sm shrink-0 border-3 border-blue shadow-md" src="/otters/otter-facts/otter-eating.png" style="rotate:-3deg; margin-right:-3.5rem; z-index:6;">
-        <img class="fact-card w-56 lg:w-72 object-cover rounded-sm shrink-0 border-3 border-blue shadow-md" src="/otters/otter-facts/otter-hair.png"   style="rotate:6deg;  margin-right:-3.5rem; z-index:5;">
-        <img class="fact-card w-56 lg:w-72 object-cover rounded-sm shrink-0 border-3 border-blue shadow-md" src="/otters/otter-facts/otter-kelp.png"   style="rotate:-5deg; margin-right:-3.5rem; z-index:3;">
-        <img class="fact-card w-56 lg:w-72 object-cover rounded-sm shrink-0 border-3 border-blue shadow-md" src="/otters/otter-facts/raft.png"         style="rotate:3deg;  z-index:2;">
+    <div id="facts-second" class="w-full h-auto lg:h-200 py-16 lg:py-0 flex items-center justify-center overflow-x-auto">
+      <div id="fact-cards" class="flex items-end justify-center shrink-0 px-4">
+        <img class="fact-card w-40 sm:w-56 lg:w-72 object-cover rounded-sm shrink-0 border-3 border-blue shadow-md" src="/otters/otter-facts/hand-hold.png"    style="rotate:-7deg; margin-right:-3.5rem; z-index:2;">
+        <img class="fact-card w-40 sm:w-56 lg:w-72 object-cover rounded-sm shrink-0 border-3 border-blue shadow-md" src="/otters/otter-facts/hold-rock.png"    style="rotate:4deg;  margin-right:-3.5rem; z-index:4;">
+        <img class="fact-card w-40 sm:w-56 lg:w-72 object-cover rounded-sm shrink-0 border-3 border-blue shadow-md" src="/otters/otter-facts/otter-eating.png" style="rotate:-3deg; margin-right:-3.5rem; z-index:6;">
+        <img class="fact-card w-40 sm:w-56 lg:w-72 object-cover rounded-sm shrink-0 border-3 border-blue shadow-md" src="/otters/otter-facts/otter-hair.png"   style="rotate:6deg;  margin-right:-3.5rem; z-index:5;">
+        <img class="fact-card w-40 sm:w-56 lg:w-72 object-cover rounded-sm shrink-0 border-3 border-blue shadow-md" src="/otters/otter-facts/otter-kelp.png"   style="rotate:-5deg; margin-right:-3.5rem; z-index:3;">
+        <img class="fact-card w-40 sm:w-56 lg:w-72 object-cover rounded-sm shrink-0 border-3 border-blue shadow-md" src="/otters/otter-facts/raft.png"         style="rotate:3deg;  z-index:2;">
       </div>
     </div>
   </section>
@@ -168,44 +185,49 @@
     <div class="mt-auto flex justify-between items-end">
       <div class="w-fit">
         <span id="easter-eggs-counter" class="text-beige text-xl"></span>
-        <ul id="easter-egg-dots" class="flex gap-x-[6px] w-fit mt-2 h-8">
+        <ul id="easter-egg-dots" class="flex gap-x-[4px] lg:gap-x-[6px] w-fit mt-2 h-5 lg:h-8">
           <li class="border-2 border-blue aspect-square w-full h-full rounded-full flex items-center justify-center shadow-md">
-            <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-3 h-3 lg:w-[29px] lg:h-[29px]" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.4993 22.9587V6.04199M14.4993 6.04199L6.04102 14.5003M14.4993 6.04199L22.9577 14.5003" stroke="#0E29AA" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </li>
           <li class="border-2 border-blue aspect-square w-full h-full rounded-full flex items-center justify-center shadow-md">
-            <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-3 h-3 lg:w-[29px] lg:h-[29px]" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.4993 22.9587V6.04199M14.4993 6.04199L6.04102 14.5003M14.4993 6.04199L22.9577 14.5003" stroke="#0E29AA" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </li>
           <li class="border-2 border-blue aspect-square w-full h-full rounded-full flex items-center justify-center rotate-180 shadow-md">
-            <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-3 h-3 lg:w-[29px] lg:h-[29px]" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.4993 22.9587V6.04199M14.4993 6.04199L6.04102 14.5003M14.4993 6.04199L22.9577 14.5003" stroke="#0E29AA" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </li>
           <li class="border-2 border-blue aspect-square w-full h-full rounded-full flex items-center justify-center rotate-180 shadow-md">
-            <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-3 h-3 lg:w-[29px] lg:h-[29px]" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.4993 22.9587V6.04199M14.4993 6.04199L6.04102 14.5003M14.4993 6.04199L22.9577 14.5003" stroke="#0E29AA" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </li>
           <li class="border-2 border-blue aspect-square w-full h-full rounded-full flex items-center justify-center -rotate-90 shadow-md">
-            <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-3 h-3 lg:w-[29px] lg:h-[29px]" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.4993 22.9587V6.04199M14.4993 6.04199L6.04102 14.5003M14.4993 6.04199L22.9577 14.5003" stroke="#0E29AA" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </li>
           <li class="border-2 border-blue aspect-square w-full h-full rounded-full flex items-center justify-center rotate-90 shadow-md">
-            <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-3 h-3 lg:w-[29px] lg:h-[29px]" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.4993 22.9587V6.04199M14.4993 6.04199L6.04102 14.5003M14.4993 6.04199L22.9577 14.5003" stroke="#0E29AA" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </li>
           <li class="border-2 border-blue aspect-square w-full h-full rounded-full flex items-center justify-center -rotate-90 shadow-md">
-            <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-3 h-3 lg:w-[29px] lg:h-[29px]" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.4993 22.9587V6.04199M14.4993 6.04199L6.04102 14.5003M14.4993 6.04199L22.9577 14.5003" stroke="#0E29AA" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </li>
           <li class="border-2 border-blue aspect-square w-full h-full rounded-full flex items-center justify-center rotate-90 shadow-md">
-            <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-3 h-3 lg:w-[29px] lg:h-[29px]" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14.4993 22.9587V6.04199M14.4993 6.04199L6.04102 14.5003M14.4993 6.04199L22.9577 14.5003" stroke="#0E29AA" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </li>
+          <li class="border-2 border-blue aspect-square w-full h-full rounded-full flex items-center justify-center shadow-md">
+            <svg class="w-3 h-3 lg:w-[29px] lg:h-[29px]" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.4993 22.9587V6.04199M14.4993 6.04199L6.04102 14.5003M14.4993 6.04199L22.9577 14.5003" stroke="#0E29AA" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </li>

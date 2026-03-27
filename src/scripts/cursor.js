@@ -1,3 +1,6 @@
+// Skip cursor trail on touch devices
+if (window.matchMedia('(pointer: fine)').matches) {
+
 const canvas = document.createElement('canvas');
 canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;';
 document.body.appendChild(canvas);
@@ -56,3 +59,5 @@ function jitter() { return (Math.random() - 0.5) * 0.6; }
     ctx.stroke();
   }
 })();
+
+} // end pointer: fine guard

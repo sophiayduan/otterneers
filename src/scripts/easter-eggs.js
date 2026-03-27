@@ -1,6 +1,6 @@
 console.log("JavaScript has loaded");
 var activeCountColour = "f1cc13";
-var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out", "shaking-rock"];
+var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out", "shaking-rock", "dark-mode"];
 var foundEasterEggs = [];
 var eggCounter = document.getElementById("easter-eggs-counter");
 
@@ -166,7 +166,7 @@ function giveRocks(easterEggNum) {
     foundEasterEggs.push(egg);
     sessionStorage.setItem("easter-eggs", JSON.stringify(foundEasterEggs));
     displayCounter();
-    if (foundEasterEggs.length >= 8) {
+    if (foundEasterEggs.length >= 9) {
         rainConfetti();
     } else {
         celebrateEgg();
@@ -175,7 +175,7 @@ function giveRocks(easterEggNum) {
 function displayCounter() {
     foundEasterEggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
     var numEasterEggs = foundEasterEggs.length;
-    if (eggCounter) eggCounter.textContent = numEasterEggs + "/8";
+    if (eggCounter) eggCounter.textContent = numEasterEggs + "/9";
     var easterEggDots = document.querySelectorAll("#easter-egg-dots li");
     for (var i = 0; i < easterEggDots.length; i++) {
         var path = easterEggDots[i].querySelector("path");
@@ -419,6 +419,65 @@ if (mascotsText) {
         giveRocks(4);
     });
 }
+// Dark mode easter egg — drag card button toggles the whole site
+(function () {
+    var btn = document.getElementById('dark-mode-btn');
+    if (!btn) return;
+
+    var darkMode = false;
+
+    // Alternate text definitions
+    var raftAlts = [
+        { h2: 'WEAPONS',      clone: 'WEAPONS',      p: 'Each otter selects its weapon at birth. It never lets go.' },
+        { h2: 'LETTING GO',   clone: 'HOLDING ON',   p: "An otter's grip can crush stone. What chance do you have?" },
+        { h2: 'NIGHT FEAST',  clone: 'NIGHT FEAST',  p: 'They eat 25% of their body weight daily. The hunger never stops.' },
+        { h2: 'IMPENETRABLE', clone: 'IMPENETRABLE', p: '1 million hairs per square inch. Nothing gets in. Nothing gets out.' },
+        { h2: 'THEY RAFT',    clone: 'THEY RAFT',    p: 'A raft of otters holds hands so none can escape. They call it comfort.' },
+    ];
+
+    // Build swap list lazily on first click (after SplitText has already run)
+    var swaps = null;
+    function buildSwaps() {
+        swaps = [];
+        var h2 = document.querySelector('#otter-unique-section h2.words-up');
+        var p  = document.querySelector('#otter-unique-section p.max-w-md');
+        if (h2) swaps.push({ el: h2, orig: h2.textContent.trim(), alt: 'What makes a sea otter dangerous? These ruthless predators have been waging psychological warfare on the ocean floor since before recorded time.' });
+        if (p)  swaps.push({ el: p,  orig: p.textContent.trim(),  alt: "They're watching. They've always been watching. The rocks aren't just tools — they're keeping score." });
+
+        document.querySelectorAll('.raft-item').forEach(function (item, i) {
+            var a = raftAlts[i];
+            if (!a) return;
+            var h2El    = item.querySelector('.raft-h2');
+            var cloneEl = item.querySelector('.raft-h2-clone');
+            var pEl     = item.querySelector('.raft-p');
+            if (h2El)    swaps.push({ el: h2El,    orig: h2El.textContent.trim(),    alt: a.h2 });
+            if (cloneEl) swaps.push({ el: cloneEl, orig: cloneEl.textContent.trim(), alt: a.clone });
+            if (pEl)     swaps.push({ el: pEl,     orig: pEl.textContent.trim(),     alt: a.p });
+        });
+    }
+
+    var eggGiven = false;
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (!swaps) buildSwaps();
+        darkMode = !darkMode;
+
+        // Count as easter egg on first ever press
+        if (!eggGiven) { eggGiven = true; giveRocks(8); }
+
+        // Enable transition briefly on GSAP-animated elements
+        document.body.classList.add('dark-transitioning');
+        document.body.classList.toggle('dark-easter', darkMode);
+        btn.textContent = darkMode ? 'RETURN →' : 'EASTER EGG →';
+        swaps.forEach(function (s) {
+            s.el.textContent = darkMode ? s.alt : s.orig;
+        });
+        setTimeout(function () {
+            document.body.classList.remove('dark-transitioning');
+        }, 700);
+    });
+})();
+
 // Easter egg 7 — triple-click the shaking rock
 var shakingRock = document.getElementById("shaking-rock");
 if (shakingRock) {

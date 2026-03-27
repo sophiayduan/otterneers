@@ -157,18 +157,46 @@ p {
     left: 50%;
 }
 
-/* Cursor */
-body {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='none'/%3E%3C!-- rock base --%3E%3Crect x='4' y='7' width='8' height='5' fill='%23777777'/%3E%3Crect x='5' y='6' width='6' height='2' fill='%23888888'/%3E%3Crect x='6' y='5' width='4' height='1' fill='%23999999'/%3E%3C!-- shading --%3E%3Crect x='4' y='9' width='2' height='3' fill='%23666666'/%3E%3Crect x='10' y='9' width='2' height='3' fill='%23555555'/%3E%3C!-- highlight --%3E%3Crect x='6' y='7' width='2' height='1' fill='%23bbbbbb'/%3E%3C/svg%3E") 8 14, pointer;
-}
-
-*[onclick] {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='none'/%3E%3Crect x='4' y='8' width='8' height='4' fill='%23f2c6a0'/%3E%3Crect x='5' y='7' width='6' height='2' fill='%23f7d7b5'/%3E%3Crect x='6' y='6' width='4' height='1' fill='%23fbe4c8'/%3E%3Crect x='5' y='8' width='1' height='4' fill='%23e0a889'/%3E%3Crect x='7' y='8' width='1' height='4' fill='%23e0a889'/%3E%3Crect x='9' y='8' width='1' height='4' fill='%23e0a889'/%3E%3C/svg%3E") 8 16, pointer;
-}
 
 #easter-egg-dots li.lit path {
     stroke: white !important;
 }
+
+/* ── Dark mode transitions ───────────────────────────────────── */
+/* Always-on for elements GSAP doesn't scrub bg-color on */
+body,
+#otter-unique-section,
+#facts-inner                  { transition: background-color 0.6s ease; }
+.raft-h2, .raft-h2-clone,
+.raft-p,
+#otter-unique-section h2,
+#otter-unique-section p       { transition: color 0.5s ease; }
+.fact-card                    { transition: border-color 0.5s ease, transform 0.5s ease; }
+#easter-egg-dots li           { transition: border-color 0.5s ease, background-color 0.3s ease; }
+#cursor-label, #drag-label    { transition: background-color 0.5s ease, color 0.4s ease, opacity 0.2s ease; }
+#dark-mode-btn                { transition: border-color 0.5s ease, color 0.5s ease; }
+/* #facts-section bg is GSAP-scrubbed — only enable transition during the toggle */
+body.dark-transitioning #facts-section { transition: background-color 0.6s ease; }
+
+/* ── Dark Easter Egg Mode ─────────────────────────────────────── */
+body.dark-easter,
+body.dark-easter #otter-unique-section,
+body.dark-easter #facts-section,
+body.dark-easter #facts-inner {
+    background-color: #040B11 !important;
+}
+body.dark-easter #otter-unique-section h2 { color: #D81010 !important; }
+body.dark-easter #otter-unique-section p  { color: #FFFFFF !important; }
+body.dark-easter .raft-h2,
+body.dark-easter .raft-h2-clone           { color: #FFEBAD !important; }
+body.dark-easter .raft-p                  { color: #FFFFFF !important; }
+body.dark-easter .fact-card               { border-color: #FFEBAD !important; }
+body.dark-easter #hover-frame .corner     { border-color: #FFEBAD !important; }
+body.dark-easter #easter-egg-dots li      { border-color: #D81010 !important; }
+body.dark-easter #scroll-bar-fill         { background-color: #FFEBAD !important; }
+body.dark-easter #cursor-label,
+body.dark-easter #drag-label              { background-color: #D81010 !important; color: #FFFFFF !important; }
+body.dark-easter #dark-mode-btn           { border-color: #FFEBAD !important; color: #FFEBAD !important; }
 
 #shaking-rock {
     animation: shake 3s;
