@@ -206,5 +206,9 @@ window.addEventListener("scroll", () => {
         });
     }
 
+    const emojis = document.querySelectorAll("click-emoji");
 
+    emojis.forEach(img => {
+        img.remove();
+    })
 });
