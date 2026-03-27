@@ -178,7 +178,7 @@
     <span class="text-4xl font-extrabold py-4" style="font-family: Heavitas">CREDITS</span>
     <span class="tracking-[4%] text-xl">The Otterneers - Naomi, Zoey, Sia, Sophia</span>
     <p id="mascots-text">Mascots: Lutri Lutri (Lulu) and Bria</p>
-    <span class="tracking-[4%] text-xl">&copy; 2026</span>
+    <span class="tracking-[4%] text-xl">&copy; 2026 <span class="text-white/20 text-base">Click 'Our Mascots!' </span>
   </section>
 
   <div class="fixed inset-0 p-6 lg:pt-10 flex flex-col pointer-events-none z-40">
@@ -244,7 +244,7 @@
             <path d="M11 2V11H2" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <div class="text-beige w-fit h-fit font-medium pointer-events-auto text-xl"
+        <div class="text-beige w-fit h-fit font-medium pointer-events-auto text-xl cursor-pointer"
           onclick="event.preventDefault(); const c = document.getElementById('credits'); c.classList.toggle('hidden'); document.body.classList.toggle('overflow-hidden', !c.classList.contains('hidden')); this.textContent = c.classList.contains('hidden') ? 'CREDITS' : 'CLOSE';">CREDITS</div>
       </div>
     </div>
