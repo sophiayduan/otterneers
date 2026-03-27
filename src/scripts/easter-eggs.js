@@ -258,7 +258,7 @@ var otterHeartAscii = "-------------------------------=%@@*=--------------------
     "  \\____/  |_|     |_|  |______|_|  \\_\\______|_|     \\__,_|_| |_| |_|\\__,_/___|_|_| |_|\\__, (_)\n" +
     "                                                                                       __/ |  \n" +
     "                                                                                      |___/   \n";
-//console.log(otterHeartAscii);
+console.log(otterHeartAscii);
 var site_heading = document.getElementById("site-heading");
 if (site_heading) {
     site_heading.addEventListener("click", function () {
@@ -334,9 +334,8 @@ function konamiCode(event) {
         resetKonamiDots();
     }
 }
+var mascotPostClick = 0;
 document.addEventListener("click", function (event) {
-    konamiCodeNum = 0;
-    if (!konamiCodeActive) resetKonamiDots();
     if (konamiCodeActive) {
         var span = document.createElement('span');
         span.textContent = "❤️";
@@ -345,6 +344,17 @@ document.addEventListener("click", function (event) {
         span.style.top = event.clientY + 'px';
         span.style.position = 'fixed';
         document.body.appendChild(span);
+    }
+    if (isMascotImg) {
+        mascotPostClick++;
+        if (mascotPostClick > 1) {
+            isMascotImg = false;
+            var mascots_1 = document.querySelectorAll(".mascot-img");
+            mascots_1.forEach(function (img) {
+                img.remove();
+            });
+            mascotPostClick = 0;
+        }
     }
 });
 //easter egg 2
@@ -359,7 +369,7 @@ document.addEventListener("click", function (event) {
 //easter eggs 4 and 5
 //select text for a photo to pop up
 document.addEventListener('mouseup', function () {
-    console.log("fired");
+    //console.log("fired");
     var selection = document.getSelection();
     var selectedText = selection ? selection.toString() : null;
     //console.log(selectedText);
@@ -376,7 +386,7 @@ document.addEventListener('mouseup', function () {
         giveRocks(4);
     }
     else if (selectedText === "Lutri" || selectedText === "Lutri ") {
-        console.log("Lutri the spellchaser?");
+        //console.log("Lutri the spellchaser?");
         var lutriArray = ["lutri-the-spellchaser.webp", "lutri-the-spellchaser-alt.jpg"];
         displayMascotImg(lutriArray);
         giveRocks(5);
