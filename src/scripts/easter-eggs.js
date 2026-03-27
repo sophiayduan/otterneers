@@ -1,6 +1,6 @@
 console.log("JavaScript has loaded");
 var activeCountColour = "f1cc13";
-var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out", "shaking-rock", "dark-mode"];
+var easterEggs = ["otter-heart-ascii", "konami-code", /* "bird-egg", */ "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out", "shaking-rock", "dark-mode"];
 var foundEasterEggs = [];
 var eggCounter = document.getElementById("easter-eggs-counter");
 
@@ -166,7 +166,7 @@ function giveRocks(easterEggNum) {
     foundEasterEggs.push(egg);
     sessionStorage.setItem("easter-eggs", JSON.stringify(foundEasterEggs));
     displayCounter();
-    if (foundEasterEggs.length >= 9) {
+    if (foundEasterEggs.length >= 8) {
         rainConfetti();
     } else {
         celebrateEgg();
@@ -175,7 +175,7 @@ function giveRocks(easterEggNum) {
 function displayCounter() {
     foundEasterEggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
     var numEasterEggs = foundEasterEggs.length;
-    if (eggCounter) eggCounter.textContent = numEasterEggs + "/9";
+    if (eggCounter) eggCounter.textContent = numEasterEggs + "/8";
     var easterEggDots = document.querySelectorAll("#easter-egg-dots li");
     for (var i = 0; i < easterEggDots.length; i++) {
         var path = easterEggDots[i].querySelector("path");
@@ -368,18 +368,18 @@ document.addEventListener('mouseup', function () {
         //mainIntro.appendChild(profileImage);
         var luluArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg", "Lulu-sit.jpg"];
         displayMascotImg(luluArray);
-        giveRocks(4);
+        giveRocks(3);
     }
     else if (selectedText === "Bria") {
         var briaArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg"];
         displayMascotImg(briaArray);
-        giveRocks(4);
+        giveRocks(3);
     }
     else if (selectedText === "Lutri" || selectedText === "Lutri ") {
         console.log("Lutri the spellchaser?");
         var lutriArray = ["lutri-the-spellchaser.webp", "lutri-the-spellchaser-alt.jpg"];
         displayMascotImg(lutriArray);
-        giveRocks(5);
+        giveRocks(4);
     }
 });
 var isMascotImg = false;
@@ -416,7 +416,7 @@ if (mascotsText) {
     mascotsText.addEventListener("click", function () {
         var briaArray = ["Lulu-Bria-hug.jpg", "Lulu-Bria-table.jpg"];
         displayMascotImg(briaArray);
-        giveRocks(4);
+        giveRocks(3);
     });
 }
 // Dark mode easter egg — drag card button toggles the whole site
@@ -463,7 +463,7 @@ if (mascotsText) {
         darkMode = !darkMode;
 
         // Count as easter egg on first ever press
-        if (!eggGiven) { eggGiven = true; giveRocks(8); }
+        if (!eggGiven) { eggGiven = true; giveRocks(7); }
 
         // Enable transition briefly on GSAP-animated elements
         document.body.classList.add('dark-transitioning');
@@ -484,7 +484,7 @@ if (shakingRock) {
     shakingRock.addEventListener("click", function (event) {
         if (event.detail === 3) {
             shakingRock.classList.toggle('paused');
-            giveRocks(7);
+            giveRocks(6);
             var container = document.body;
             container.classList.remove('apply-shake');
             void container.offsetWidth; // force reflow to restart animation
