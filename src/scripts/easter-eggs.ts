@@ -96,14 +96,14 @@ const otterHeartAscii: string =
 
 //console.log(otterHeartAscii);
 
-const site_heading: HTMLElement = document.getElementById("site-heading");
-
-site_heading.addEventListener("click", function () {
-    console.log(otterHeartAscii);
-
-    //give player rocks!
-    giveRocks(0);
-});
+// const site_heading: HTMLElement = document.getElementById("site-heading");
+//
+// site_heading.addEventListener("click", function () {
+//     console.log(otterHeartAscii);
+//
+//     //give player rocks!
+//     giveRocks(0);
+// });
 
 document.addEventListener("keyup", function (event) {
     //console.log("stuff and things, key up, etc.");
@@ -140,12 +140,12 @@ function konamiCode(event: KeyboardEvent) {
 
 //easter egg 2
 //triple-click on the bird
-const bird: HTMLElement = document.getElementById("bird");
-bird.addEventListener("click", function (event: MouseEvent) {
-    if (event.detail === 3) {
-        giveRocks(2);
-    }
-});
+// const bird: HTMLElement = document.getElementById("bird");
+// bird.addEventListener("click", function (event: MouseEvent) {
+//     if (event.detail === 3) {
+//         giveRocks(2);
+//     }
+// });
 
 //easter egg 3 is 404 not found
 
@@ -208,3 +208,24 @@ window.addEventListener("scroll", () => {
 
 
 });
+
+
+//easter egg 7, triple click a shaking rock
+const shakingRock:HTMLElement = document.getElementById("shaking-rock");
+shakingRock.addEventListener("click", function (event:MouseEvent) {
+    console.log("clicked");
+
+    if (event.detail === 3) {
+        console.log("shakingRock");
+        shakingRock.classList.toggle('paused');
+        giveRocks(7);
+
+        const container = document.body;
+
+        container.classList.remove('apply-shake');
+        void container.offsetWidth; // force reflow to restart animation
+        container.classList.add('apply-shake');
+    }
+});
+
+// tsc src/scripts/easter-eggs.ts

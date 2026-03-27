@@ -1,10 +1,6 @@
 console.log("JavaScript has loaded");
-var activeCountColour = "f1cc13";
-var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser", "read-and-find-out"];
+var easterEggs = ["otter-heart-ascii", "konami-code", "bird-egg", "404-found", "mascot-images", "lutri-the-spellchaser"];
 var foundEasterEggs = [];
-var eggCounter = document.getElementById("easter-eggs-counter");
-//need to set the counter
-displayCounter();
 //give rocks functions
 function giveRocks(easterEggNum) {
     var egg = easterEggs[easterEggNum];
@@ -18,24 +14,6 @@ function giveRocks(easterEggNum) {
     }
     foundEasterEggs.push(egg);
     sessionStorage.setItem("easter-eggs", JSON.stringify(foundEasterEggs));
-    displayCounter();
-}
-function displayCounter() {
-    foundEasterEggs = JSON.parse(sessionStorage.getItem("easter-eggs")) || [];
-    var numEasterEggs = foundEasterEggs.length;
-    if (eggCounter) eggCounter.textContent = numEasterEggs + "/8";
-    var easterEggDots = document.querySelectorAll("#easter-egg-dots li");
-    for (var i = 0; i < easterEggDots.length; i++) {
-        var path = easterEggDots[i].querySelector("path");
-        if (i < numEasterEggs) {
-            easterEggDots[i].style.backgroundColor = "white";
-            easterEggDots[i].style.borderColor = "#2034ab";
-            // if (path) path.style.stroke = "#FFFFFF";
-        } else {
-            easterEggDots[i].style.backgroundColor = "";
-            easterEggDots[i].style.borderColor = "#2034ab";
-        }
-    }
 }
 var lutriText = "Companion — Each nonland card in your starting deck has a different name. (If this card is your chosen companion, you may put it into your hand from outside the game for {3} as a sorcery.)\nFlash\nWhen Lutri enters, if you cast it, copy target instant or sorcery spell you control. You may choose new targets for the copy.";
 //easter egg 1, otter heart ascii
@@ -107,13 +85,14 @@ var otterHeartAscii = "-------------------------------=%@@*=--------------------
     "                                                                                       __/ |  \n" +
     "                                                                                      |___/   \n";
 //console.log(otterHeartAscii);
-var site_heading = document.getElementById("site-heading");
-if (site_heading) {
-    site_heading.addEventListener("click", function () {
-        console.log(otterHeartAscii);
-        giveRocks(0);
-    });
-}
+// const site_heading: HTMLElement = document.getElementById("site-heading");
+//
+// site_heading.addEventListener("click", function () {
+//     console.log(otterHeartAscii);
+//
+//     //give player rocks!
+//     giveRocks(0);
+// });
 document.addEventListener("keyup", function (event) {
     //console.log("stuff and things, key up, etc.");
     if (event.defaultPrevented) {
@@ -124,80 +103,28 @@ document.addEventListener("keyup", function (event) {
     }
 });
 //konami code stuff
-var konamiCodeKeys = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight"];
+var konamiCodeKeys = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
 var konamiCodeNum = 0;
-var konamiCodeActive = false;
-function lightKonamiDot(index) {
-    var dots = document.querySelectorAll("#easter-egg-dots li");
-    if (dots[index]) {
-        dots[index].style.setProperty("border-color", "white", "important");
-        var path = dots[index].querySelector("path");
-        if (path) path.style.setProperty("stroke", "white", "important");
-    }
-}
-function resetKonamiDots() {
-    document.querySelectorAll("#easter-egg-dots li").forEach(function(dot) {
-        dot.style.removeProperty("border-color");
-        dot.style.removeProperty("background-color");
-        var path = dot.querySelector("path");
-        if (path) path.style.removeProperty("stroke");
-    });
-}
-function setAllDotsWhite() {
-    document.querySelectorAll("#easter-egg-dots li").forEach(function(dot) {
-        dot.style.setProperty("border-color", "white", "important");
-        dot.style.setProperty("background-color", "white", "important");
-        var path = dot.querySelector("path");
-        if (path) path.style.setProperty("stroke", "white", "important");
-    });
-}
-function flashKonamiDots(flashes, interval, onDone) {
-    var count = 0;
-    var total = flashes * 2;
-    var id = setInterval(function() {
-        if (count % 2 === 0) setAllDotsWhite();
-        else resetKonamiDots();
-        count++;
-        if (count >= total) {
-            clearInterval(id);
-            resetKonamiDots();
-            if (onDone) onDone();
-        }
-    }, interval);
-}
 function konamiCode(event) {
     if (event.key === konamiCodeKeys[konamiCodeNum]) {
-        lightKonamiDot(konamiCodeNum);
-        if (konamiCodeNum === konamiCodeKeys.length - 1) {
-            konamiCodeActive = true;
+        if (event.key === konamiCodeKeys[konamiCodeKeys.length - 1]) {
+            console.log("Konami Code test complete");
             konamiCodeNum = 0;
             giveRocks(1);
-            flashKonamiDots(4, 120, resetKonamiDots);
-        } else {
+        }
+        else {
+            console.log("Konami Code test" + konamiCodeNum);
             konamiCodeNum++;
         }
-    } else {
+    }
+    else {
         konamiCodeNum = 0;
-        resetKonamiDots();
     }
 }
-document.addEventListener("click", function (event) {
-    konamiCodeNum = 0;
-    resetKonamiDots();
-    if (konamiCodeActive) {
-        var span = document.createElement('span');
-        span.textContent = "❤️";
-        span.className = 'emoji click-emoji';
-        span.style.left = event.clientX + 'px';
-        span.style.top = event.clientY + 'px';
-        span.style.position = 'fixed';
-        document.body.appendChild(span);
-    }
-});
 //easter egg 2
 //triple-click on the bird
-// var bird = document.getElementById("bird");
-// bird.addEventListener("click", function (event) {
+// const bird: HTMLElement = document.getElementById("bird");
+// bird.addEventListener("click", function (event: MouseEvent) {
 //     if (event.detail === 3) {
 //         giveRocks(2);
 //     }
@@ -250,10 +177,19 @@ window.addEventListener("scroll", function () {
             img.remove();
         });
     }
-    if (konamiCodeActive) {
-        var emojis = document.querySelectorAll(".mascot-emoji");
-        emojis.forEach(function (emoji) {
-            emoji.remove();
-        });
+});
+//easter egg 7, triple click a shaking rock
+var shakingRock = document.getElementById("shaking-rock");
+shakingRock.addEventListener("click", function (event) {
+    console.log("clicked");
+    if (event.detail === 3) {
+        console.log("shakingRock");
+        shakingRock.classList.toggle('paused');
+        giveRocks(7);
+        var container = document.body;
+        container.classList.remove('apply-shake');
+        void container.offsetWidth; // force reflow to restart animation
+        container.classList.add('apply-shake');
     }
 });
+// tsc src/scripts/easter-eggs.ts
