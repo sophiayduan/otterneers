@@ -1,7 +1,5 @@
 {
   "routes": [
-    { "src": "/(.*)", "dest": "/", "status": 200 },
-    { "handle": "error" },
     { "src": "/(.*)", "status": 404, "dest": "/404.html" }
   ]
 }
